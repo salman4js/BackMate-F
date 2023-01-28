@@ -1,0 +1,26 @@
+/* Style the header with a grey background and some padding */
+.pagination {
+    overflow: hidden;
+    background-color: #f1f1f1;
+    padding: 1px 10px;
+}
+
+/* Style the header links */
+.pagination a {
+    float: left;
+    text-align: center;
+    padding: 2px;
+    text-decoration: none;
+    line-height: 25px;
+    border-radius: 4px;
+}
+
+.brew-pagination-title {
+    font-size: 14px;
+    margin-right: 55px;
+    color : dodgerblue
+}
+
+.brew-pagination-title:hover{
+    color: black;
+}

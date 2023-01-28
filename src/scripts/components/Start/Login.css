@@ -1,0 +1,14 @@
+.heading-top {
+    position: relative;
+    top: 150px;
+}
+
+.branding-logo{
+    font-weight: bold;
+}
+
+.loginSection {
+    padding: 9px;
+    position: relative;
+    top: 150px;
+}
