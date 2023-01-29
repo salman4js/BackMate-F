@@ -1,14 +1,24 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
+import { headerLang } from './lang';
 import {Link, useNavigate} from "react-router-dom";
 import './Header.css'
 
-const Header = () => {
+const Header = (props) => {
+
+    // Height calculation handler for the element!
+    const headerRef = useRef(null);
+
+    // Constructor!
+    useEffect(() => {
+        props.header(headerRef.current.offsetHeight);
+    }, [])
+
     return (
-        <div class="header">
+        <div class="header" ref = {headerRef}>
             <div class="header-left">
-                <Link to = {'/'} className = "brew-header-title">Home</Link>
-                <Link to = {"/"} className = "brew-header-title">WorkSpace</Link>
-                <Link to = {'/'} className = "brew-header-title">Collections</Link>
+                <Link to = {'/'} className = "brew-header-title">{headerLang.home}</Link>
+                <Link to = {"/"} className = "brew-header-title">{headerLang.workspace}</Link>
+                <Link to = {'/'} className = "brew-header-title">{headerLang.collection}</Link>
             </div>
         </div>
     )
