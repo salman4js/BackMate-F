@@ -10,8 +10,8 @@
     float: left;
     text-align: center;
     padding: 2px;
-    text-decoration: none;
     line-height: 25px;
+    cursor: pointer;
     border-radius: 4px;
 }
 
