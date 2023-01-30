@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import '../NavCrumbs/Crumbs.css'
+import { crumbsLang } from '../NavCrumbs/lang';
 import CodeMirror from '@uiw/react-codemirror';
 import { sublime } from '@uiw/codemirror-theme-sublime';
 import { dracula } from '@uiw/codemirror-theme-dracula';
@@ -27,8 +29,8 @@ const Editor = (props) => {
         )
     } else {
         return (
-            <div className="text-center">
-                Creating your code editor, Just a sec...
+            <div className="text-center bottom-40">
+                {crumbsLang.loader}
             </div>
         )
     }
