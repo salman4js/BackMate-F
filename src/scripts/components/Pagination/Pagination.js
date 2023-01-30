@@ -1,9 +1,10 @@
 import React, {useRef, useEffect} from 'react';
+import { paginationLang } from './lang';
 import './Pagination.css'
 
 const Pagination = (props) => {
 
-    const options = ['Headers', 'Authorization', 'Params', 'Body'] // Import it from the server later!
+    const options = paginationLang;// Import it from the server later!
 
     // Height of the element calculation!
     const paginationRef = useRef(null);

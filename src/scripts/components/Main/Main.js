@@ -1,15 +1,13 @@
 import React, {useState, useEffect, useRef} from 'react';
+import { mainLang } from './lang';
 import Header from '../Header/Header';
 import Request from '../Requests/Request';
-import Editor from '../CodeEditor/Editor';
+import Crumbs from '../NavCrumbs/Crumbs';
 import Responses from '../Response/Response';
 import Pagination from '../Pagination/Pagination';
 import { Handler } from '../../Functions/Functions';
 
 const Main = () => {
-
-    // Request options!
-    const options = ['GET', 'POST', 'PUT', 'DELETE']; // Import it from the server later!
 
     // Loader handler!
     const [loader, setLoader] = useState(false);
@@ -36,8 +34,10 @@ const Main = () => {
     const [response, setResponse] = useState("");
 
     // Pagination Child container catch handler!
+    const defaultCrumb = "Body";
+    const [crumbs, setCrumbs] = useState(defaultCrumb)
     const handleCatch = (val) => {
-        console.log(val)
+        setCrumbs(val);
     }
 
     // Request handler!
@@ -76,9 +76,10 @@ const Main = () => {
     return (
         <div ref = {mainRef}>
             <Header  header = {setHeader} />
-            <Request request = {setRequest} handleRequest = {(url, mode, body) => handleRequest(url, mode, body)} options = {options} data = {data} />
+            <Request request = {setRequest} handleRequest = {(url, mode, body) => handleRequest(url, mode, body)} options = {mainLang.options} data = {data} />
             <Pagination pagination = {setPagination} catch = {(item) => handleCatch(item)}/>
-            <Editor height = {height} data = {setData} />
+            {/* <Editor height = {height} data = {setData} /> */}
+            <Crumbs value = {crumbs} height = {height} data = {setData}/>
             <Responses footer = {setFooter} result = {response} loader = {loader} />
         </div>
     )
