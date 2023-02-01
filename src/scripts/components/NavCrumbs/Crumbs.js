@@ -16,7 +16,7 @@ const Crumbs = (props) => {
         )
     } else if(props.value === paginationOptions.params){
         return(
-            <ParamsEditor height = {props.height} />
+            <ParamsEditor height = {props.height} keys = {props.keys} values = {props.values} />
         )
     }
 }
