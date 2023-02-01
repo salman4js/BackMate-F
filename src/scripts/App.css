@@ -7,3 +7,8 @@
 .test {
     border: 1px solid red;
 }
+
+.brew-label{
+    font-weight: bold;
+}
+
