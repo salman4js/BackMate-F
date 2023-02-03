@@ -6,12 +6,20 @@ import './Params.css'
 
 const ParamsEditor = (props) => {
 
-  function handleKeyValue(data){
-    props.values(data);
+  function handleDataValue(data){
+    if(data.length === 0){
+      props.values("");
+    } else {
+      props.values("="+data);
+    }
   }
 
-  function handleKeyData(data){
-    props.keys(data);
+  function handleDataKey(data){
+    if(data.length === 0){
+      props.keys("");
+    } else {
+      props.keys("?"+data);
+    }
   }
 
 
@@ -34,7 +42,7 @@ const ParamsEditor = (props) => {
               {crumbsLang.value}
             </div>
         </div>
-        <ParamsBuilder keys = {(data) => handleKeyData(data)} value = {(data) => handleKeyValue(data)} />
+        <ParamsBuilder keys = {(data) => handleDataKey(data)} value = {(data) => handleDataValue(data)} />
       </div>
     )
   }

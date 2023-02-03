@@ -1,4 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
+import { mainLang } from '../Main/lang';
 import '../../App.css';
 
 const Request = (props) => {
@@ -24,9 +25,9 @@ const Request = (props) => {
                 }
             </select>
             <input type="text" class="form-control" id="exampleInputEmail1" 
-            aria-describedby="emailHelp" placeholder="Enter your request url" onChange = {(e) => props.url(e.target.value)} />
+            aria-describedby="emailHelp" placeholder="Enter your request url" value = {props.valueUrl} onChange = {(e) => props.url(e.target.value)}/>
             <button className="btn btn-success" style = {{width: '120px'}} onClick = {() => props.getFunction()}>
-                Send
+                {mainLang.send}
             </button>
         </div>
     )

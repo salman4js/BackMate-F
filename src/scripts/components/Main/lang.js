@@ -6,5 +6,7 @@ export const mainLang = {
         'DELETE'
     ],
     body: "Body",
-    params: "Params"
+    params: "Params",
+    send: "Send",
+    crumb : "Crumbs"
 };

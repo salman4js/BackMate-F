@@ -20,18 +20,17 @@ const Main = () => {
 
     // Data handler for the params container!
     // Input handler for the params container!
-    const [key, setKey] = useState();
-    const [values, setValues] = useState();
+    const [key, setKey] = useState("");
+    const [values, setValues] = useState("");
 
     // Data handler for body container!
     // Input handler for the body container!
-    const [url, setUrl] = useState();
+    const [url, setUrl] = useState("");
     const [mode, setMode] = useState();
     const [body, setBody] = useState("");
 
     // Height of the main parent container!
     const mainRef = useRef(null);
-    const [main, setMain] = useState();
 
     // Set the editor height!
     const [height, setHeight] = useState();
@@ -40,10 +39,11 @@ const Main = () => {
     const [response, setResponse] = useState("");
 
     // Pagination Child container catch handler!
-    const defaultCrumb = "Body";
-    const [crumbs, setCrumbs] = useState(defaultCrumb)
+    //const defaultCrumb = "Body";
+    const crumbsView = localStorage.getItem(mainLang.crumb);
+    const [crumbs, setCrumbs] = useState(crumbsView);
     const handleCatch = (val) => {
-        localStorage.setItem("Crumbs", val);
+        localStorage.setItem(mainLang.crumb, val);
         setCrumbs(val);
     }
 
@@ -77,24 +77,25 @@ const Main = () => {
 
     // Get Function!
     function getFunction(){
-        const storage = localStorage.getItem("Crumbs");
-        if(storage === mainLang.body){
-            handleRequest(url, mode, body);
-        } else if(storage === mainLang.params){
-            console.log(key, values)
-        }
+        const storage = localStorage.getItem(mainLang.crumb);
+        if(storage === mainLang.body || storage === mainLang.params){
+            handleRequest(url+key+values, mode, body);
+        } 
     }
 
     // Constructor!
     useEffect(() => {
-        localStorage.setItem("Crumbs", mainLang.body);
+        if(localStorage.getItem(mainLang.crumb) === null){
+            localStorage.setItem(mainLang.crumb, mainLang.body);
+        }
         updateHeight();
     }, [footer])
 
     return (
         <div ref={mainRef}>
             <Header header={setHeader} />
-            <Request request={setRequest} url = {setUrl} mode = {setMode} options={mainLang.options} getFunction = {() => getFunction()}/>
+            <Request request={setRequest} url = {setUrl} mode = {setMode}
+            options={mainLang.options} getFunction = {() => getFunction()} params = {key} valueUrl = {url + key + values} valueParams = {values}/>
             <Pagination pagination={setPagination} catch={(item) => handleCatch(item)} />
             {/* <Editor height = {height} data = {setData} /> */}
             <Crumbs value={crumbs} height={height} data={setBody} keys = {setKey} values = {setValues} />
