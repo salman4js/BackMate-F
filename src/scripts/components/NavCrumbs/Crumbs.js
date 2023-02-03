@@ -9,6 +9,7 @@ const Crumbs = (props) => {
     const handleEditorData = (data) => {
         props.data(data);
     }
+    
   
     if(props.value === paginationOptions.body){
         return(
