@@ -21,7 +21,7 @@ const ParamsEditor = (props) => {
     }
   }
 
-  function handleDataKey(data,node) {
+  function handleDataKey(data, node) {
     if (data.length === 0) {
       setStorage(`params-key${node}`, data);
       props.keys("");
@@ -39,11 +39,11 @@ const ParamsEditor = (props) => {
     setStorage("params-options", JSON.stringify(options));
   }
 
-  function handleShowLess(){
-    if(options.length === 1){
+  function handleShowLess() {
+    if (options.length === 1) {
       return;
     } else {
-      setOptions((value) => value.slice(0,-1));
+      setOptions(options.slice(0, -1));
       setStorage("params-options", JSON.stringify(options));
     }
   }
@@ -61,7 +61,7 @@ const ParamsEditor = (props) => {
     return (
       <div className="overFlow-Paramseditor">
         <div className="body-container" style={{ height: props.height + "px" }}>
-          <div className = "container">
+          <div className="container">
             <div className="bottom-down">
               <div className="btn btn-success side-align-right" onClick={() => handleShowMore()}>
                 {crumbsLang.showMore}
@@ -80,8 +80,8 @@ const ParamsEditor = (props) => {
             </div>
             {
               options.map((item, key) => {
-                return(
-                  <ParamsBuilder keys={(data, node) => handleDataKey(data, node)} value={(data, node) => handleDataValue(data, node)} options = {item} />
+                return (
+                  <ParamsBuilder keys={(data, node) => handleDataKey(data, node)} value={(data, node) => handleDataValue(data, node)} options={item} />
                 )
               })
             }
