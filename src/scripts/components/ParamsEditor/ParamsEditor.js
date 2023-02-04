@@ -34,17 +34,24 @@ const ParamsEditor = (props) => {
 
   // Handle options!
   function handleShowMore() {
-    setOptions([...options, options.length + 1]);
-    // Handling local memory for page persistant
-    setStorage("params-options", JSON.stringify(options));
+    // Calling the setStorage method synchronizingly to keep the updaion stable
+    setOptions(options => {
+      const updatedOptions = [...options, options.length + 1];
+      setStorage("params-options", JSON.stringify(updatedOptions));
+      return updatedOptions;
+    })
   }
 
   function handleShowLess() {
     if (options.length === 1) {
       return;
     } else {
-      setOptions(options.slice(0, -1));
-      setStorage("params-options", JSON.stringify(options));
+      // Calling the setStorage method synchronizingly to keep the updaion stable
+      setOptions(options => {
+        const updatedOptions = options.slice(0, -1);
+        setStorage("params-options", JSON.stringify(updatedOptions));
+        return updatedOptions;
+      })
     }
   }
 
