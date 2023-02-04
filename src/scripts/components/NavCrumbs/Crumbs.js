@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { paginationOptions } from '../Pagination/lang';
 import Editor from '../CodeEditor/Editor';
+import Auth from '../Authorization/Auth';
 import ParamsEditor from '../ParamsEditor/ParamsEditor';
 
 const Crumbs = (props) => {
@@ -18,6 +19,10 @@ const Crumbs = (props) => {
     } else if(props.value === paginationOptions.params){
         return(
             <ParamsEditor height = {props.height} keys = {props.keys} values = {props.values} />
+        )
+    } else if(props.value === paginationOptions.authorization){
+        return(
+            <Auth height = {props.height} username = {props.username} password = {props.password} />
         )
     }
 }

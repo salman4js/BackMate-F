@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { setStorage, getStorage } from '../../Storage/Storage';
 import '../NavCrumbs/Crumbs.css'
 import { crumbsLang } from '../NavCrumbs/lang';
 import CodeMirror from '@uiw/react-codemirror';
@@ -10,7 +11,7 @@ import { javascript } from '@codemirror/lang-javascript';
 const Editor = (props) => {
 
     // Editor instance!
-    const [code, setCode] = useState();
+    const [code, setCode] = useState(getStorage("body-code"));
 
     if (props.height !== undefined) {
 
@@ -22,6 +23,7 @@ const Editor = (props) => {
                     theme={dracula}
                     extensions= {[javascript()]}
                     onChange={(editor, change) => {
+                        setStorage("body-code", editor);
                         props.data(JSON.parse(editor))
                     }}
                 />

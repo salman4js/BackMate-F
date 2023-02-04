@@ -1,8 +1,19 @@
 const axios = require("axios");
 
 async function Get(params){
-    const result = await axios.get(`${params.url}`);
+   try{
+    const result = await axios.get(`${params.url}`, {
+        auth: {
+            username: params.username,
+            password: params.password
+        } 
+    });
     return result;
+   } catch(err){
+        if(err.response && err.response.status){
+            return err.response
+        }
+   }
 }
 
 async function Post(params){

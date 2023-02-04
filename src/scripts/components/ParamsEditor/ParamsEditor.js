@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { setStorage, getStorage } from '../../Storage/Storage';
 import ParamsBuilder from './ParamsBuilder';
 import { crumbsLang } from '../NavCrumbs/lang';
 import '../NavCrumbs/Crumbs.css';
@@ -8,16 +9,22 @@ const ParamsEditor = (props) => {
 
   function handleDataValue(data){
     if(data.length === 0){
+      setStorage("params-value", data);
       props.values("");
     } else {
+      // handling memory storage!
+      setStorage("params-value", data);
       props.values("="+data);
     }
   }
 
   function handleDataKey(data){
     if(data.length === 0){
+      setStorage("params-key", data);
       props.keys("");
     } else {
+      // Handling memory storage!
+      setStorage("params-key", data);
       props.keys("?"+data);
     }
   }
