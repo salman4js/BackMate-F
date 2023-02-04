@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import {mainLang} from '../Main/lang';
+import { setStorage } from '../../Storage/Storage';
 import Toast from '../Toast/Toast';
 import {Link, useNavigate} from 'react-router-dom';
 import { loginUser } from '../../Controller/authController';
@@ -29,6 +31,11 @@ const Login = () => {
         if(result.success){
             setEmail("");
             setPassword("");
+            // Handling important local memory for page persistant!
+            setStorage(mainLang.bodyCode, ""); // Setting this as a empty string for the code editor!
+            setStorage(mainLang.crumb, mainLang.body); // Seeting the body editor as the default value for the landing page!
+            const options = [1];
+            setStorage(mainLang.paramsOptions, JSON.stringify(options)); // Setting this array as the one for the params container!
             // Navigate to the next page!
             navigate("/core", {replace:  true})
         } else {

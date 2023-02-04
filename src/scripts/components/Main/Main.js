@@ -92,9 +92,6 @@ const Main = () => {
 
     // Constructor!
     useEffect(() => {
-        if(localStorage.getItem(mainLang.crumb) === null){
-            localStorage.setItem(mainLang.crumb, mainLang.body);
-        }
         updateHeight();
     }, [footer])
 

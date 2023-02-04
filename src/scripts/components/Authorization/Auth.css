@@ -1,10 +1,10 @@
-.body-container{
+.body-container {
     padding: 30px;
     background-color: rgba(0, 0, 0, 0.535);
     overflow: auto;
 }
 
-.auth-section{
+.auth-section {
     position: relative;
     top: 30px;
 }
@@ -13,7 +13,7 @@
     border-radius: 20px;
 }
 
-.brew-sm-title{
+.brew-sm-title {
     font-weight: bold;
     font-size: 20px;
 }
@@ -21,5 +21,8 @@
 .center {
     display: flex;
     justify-content: center;
-  }
-  
+}
+
+.side-align{
+    margin-left: 15px;
+}
