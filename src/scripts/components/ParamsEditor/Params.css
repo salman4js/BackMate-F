@@ -6,3 +6,15 @@
     padding: 30px;
     background-color: rgba(0, 0, 0, 0.535);
 }
+
+.side-align-right{
+    margin-right: 10px;
+}
+
+.bottom-down{
+    margin-bottom: 20px;
+}
+
+.overFlow-Paramseditor{
+    overflow: auto;
+}

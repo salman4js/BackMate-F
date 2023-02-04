@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { setStorage, getStorage } from '../../Storage/Storage';
 import ParamsBuilder from './ParamsBuilder';
 import { crumbsLang } from '../NavCrumbs/lang';
@@ -7,25 +7,44 @@ import './Params.css'
 
 const ParamsEditor = (props) => {
 
-  function handleDataValue(data){
-    if(data.length === 0){
-      setStorage("params-value", data);
+  // Number of query params!
+  const [options, setOptions] = useState(JSON.parse(getStorage("params-options")))
+
+  function handleDataValue(data, node) {
+    if (data.length === 0) {
+      setStorage(`params-value${node}`, data);
       props.values("");
     } else {
       // handling memory storage!
-      setStorage("params-value", data);
-      props.values("="+data);
+      setStorage(`params-value${node}`, data);
+      props.values("=" + data);
     }
   }
 
-  function handleDataKey(data){
-    if(data.length === 0){
-      setStorage("params-key", data);
+  function handleDataKey(data,node) {
+    if (data.length === 0) {
+      setStorage(`params-key${node}`, data);
       props.keys("");
     } else {
       // Handling memory storage!
-      setStorage("params-key", data);
-      props.keys("?"+data);
+      setStorage(`params-key${node}`, data);
+      props.keys("?" + data);
+    }
+  }
+
+  // Handle options!
+  function handleShowMore() {
+    setOptions([...options, options.length + 1]);
+    // Handling local memory for page persistant
+    setStorage("params-options", JSON.stringify(options));
+  }
+
+  function handleShowLess(){
+    if(options.length === 1){
+      return;
+    } else {
+      setOptions((value) => value.slice(0,-1));
+      setStorage("params-options", JSON.stringify(options));
     }
   }
 
@@ -40,19 +59,39 @@ const ParamsEditor = (props) => {
     )
   } else {
     return (
-      <div className = "body-container" style= {{height: props.height + "px"}}>
-        <div className = "row bottom-40">
-            <div className = "col brew-label">
-              {crumbsLang.key}
+      <div className="overFlow-Paramseditor">
+        <div className="body-container" style={{ height: props.height + "px" }}>
+          <div className = "container">
+            <div className="bottom-down">
+              <div className="btn btn-success side-align-right" onClick={() => handleShowMore()}>
+                {crumbsLang.showMore}
+              </div>
+              <div className="btn btn-secondary" onClick={() => handleShowLess()}>
+                {crumbsLang.showLess}
+              </div>
             </div>
-            <div className = "col brew-label">
-              {crumbsLang.value}
+            <div className="row">
+              <div className="col brew-label">
+                {crumbsLang.key}
+              </div>
+              <div className="col brew-label">
+                {crumbsLang.value}
+              </div>
             </div>
+            {
+              options.map((item, key) => {
+                return(
+                  <ParamsBuilder keys={(data, node) => handleDataKey(data, node)} value={(data, node) => handleDataValue(data, node)} options = {item} />
+                )
+              })
+            }
+          </div>
         </div>
-        <ParamsBuilder keys = {(data) => handleDataKey(data)} value = {(data) => handleDataValue(data)} />
       </div>
     )
   }
 }
 
 export default ParamsEditor;
+
+
