@@ -7,6 +7,7 @@ export const mainLang = {
     ],
     body: "Body",
     params: "Params",
+    authorization: "Authorization",
     send: "Send",
     crumb : "Crumbs"
 };

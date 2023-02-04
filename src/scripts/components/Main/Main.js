@@ -29,6 +29,10 @@ const Main = () => {
     const [mode, setMode] = useState();
     const [body, setBody] = useState("");
 
+    // Input handler for authorization container!
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
     // Height of the main parent container!
     const mainRef = useRef(null);
 
@@ -53,14 +57,17 @@ const Main = () => {
         const data = {
             url: url,
             mode: mode,
-            body: body
+            body: body,
+            username: username,
+            password: password
         }
         const result = await Handler(data);
         if (result.status === 200) {
             setResponse(result.data);
             setLoader(false);
         } else {
-            // Error handling!
+           setResponse(result);
+           setLoader(false);
         }
     }
 
@@ -78,7 +85,7 @@ const Main = () => {
     // Get Function!
     function getFunction(){
         const storage = localStorage.getItem(mainLang.crumb);
-        if(storage === mainLang.body || storage === mainLang.params){
+        if(storage === mainLang.body || storage === mainLang.params || storage === mainLang.authorization){
             handleRequest(url+key+values, mode, body);
         } 
     }
@@ -98,7 +105,8 @@ const Main = () => {
             options={mainLang.options} getFunction = {() => getFunction()} params = {key} valueUrl = {url + key + values} valueParams = {values}/>
             <Pagination pagination={setPagination} catch={(item) => handleCatch(item)} />
             {/* <Editor height = {height} data = {setData} /> */}
-            <Crumbs value={crumbs} height={height} data={setBody} keys = {setKey} values = {setValues} />
+            <Crumbs value={crumbs} height={height} data={setBody} keys = {setKey} values = {setValues} 
+            username = {setUsername} password = {setPassword}/>
             <Responses footer={setFooter} result={response} loader={loader} />
         </div>
     )
