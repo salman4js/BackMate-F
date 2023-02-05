@@ -28,7 +28,7 @@ const ParamsEditor = (props) => {
     } else {
       // Handling memory storage!
       setStorage(`params-key${node}`, data);
-      props.keys("?" + data);
+      props.keys("?" + data, node);
     }
   }
 
@@ -69,29 +69,33 @@ const ParamsEditor = (props) => {
       <div className="overFlow-Paramseditor">
         <div className="body-container" style={{ height: props.height + "px" }}>
           <div className="container">
-            <div className="bottom-down">
-              <div className="btn btn-success side-align-right" onClick={() => handleShowMore()}>
-                {crumbsLang.showMore}
-              </div>
-              <div className="btn btn-secondary" onClick={() => handleShowLess()}>
-                {crumbsLang.showLess}
-              </div>
+            <div className = "container">
+                  <div className = "bottom-down">
+                    <div className="btn btn-success side-align-right" onClick={() => handleShowMore()}>
+                      {crumbsLang.showMore}
+                    </div>
+                    <div className="btn btn-secondary" onClick={() => handleShowLess()}>
+                      {crumbsLang.showLess}
+                    </div>
+                  </div>
+                <table style = {{width: "100%"}}>
+                  <tr>
+                    <td className = "brew-label">
+                      {crumbsLang.key}
+                    </td>
+                    <td className = "brew-label">
+                      {crumbsLang.value}
+                    </td>
+                  </tr>
+                  {
+                    options.map((item, key) => {
+                      return (
+                        <ParamsBuilder keys={(data, node) => handleDataKey(data, node)} value={(data, node) => handleDataValue(data, node)} options={item} />
+                      )
+                    })
+                  }
+                </table>
             </div>
-            <div className="row">
-              <div className="col brew-label">
-                {crumbsLang.key}
-              </div>
-              <div className="col brew-label">
-                {crumbsLang.value}
-              </div>
-            </div>
-            {
-              options.map((item, key) => {
-                return (
-                  <ParamsBuilder keys={(data, node) => handleDataKey(data, node)} value={(data, node) => handleDataValue(data, node)} options={item} />
-                )
-              })
-            }
           </div>
         </div>
       </div>
