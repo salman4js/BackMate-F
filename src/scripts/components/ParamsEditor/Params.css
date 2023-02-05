@@ -11,10 +11,23 @@
     margin-right: 10px;
 }
 
+.side-align-left{
+    margin-left: 10px;
+}
+
 .bottom-down{
     margin-bottom: 20px;
 }
 
 .overFlow-Paramseditor{
     overflow: auto;
+}
+
+.align-right{
+    position: absolute;
+    right: 10px
+}
+
+.align-left{
+    margin-right: 60px;
 }

@@ -20,8 +20,8 @@ const Main = () => {
 
     // Data handler for the params container!
     // Input handler for the params container!
-    const [key, setKey] = useState("");
-    const [values, setValues] = useState("");
+    const [key, setKey] = useState([]);
+    const [values, setValues] = useState([]);
 
     // Data handler for body container!
     // Input handler for the body container!
@@ -99,7 +99,7 @@ const Main = () => {
         <div ref={mainRef}>
             <Header header={setHeader} />
             <Request request={setRequest} url = {setUrl} mode = {setMode}
-            options={mainLang.options} getFunction = {() => getFunction()} params = {key} valueUrl = {url + key + values} valueParams = {values}/>
+            options={mainLang.options} getFunction = {() => getFunction()} params = {key} valueUrl = {url} valueParams = {values}/>
             <Pagination pagination={setPagination} catch={(item) => handleCatch(item)} />
             {/* <Editor height = {height} data = {setData} /> */}
             <Crumbs value={crumbs} height={height} data={setBody} keys = {setKey} values = {setValues} 
