@@ -1,33 +1,37 @@
-.bottom-40{
+.bottom-40 {
     margin-top: '40px';
 }
 
-.body-container{
+.body-container {
     padding: 30px;
     background-color: rgba(0, 0, 0, 0.535);
 }
 
-.side-align-right{
+.side-align-right {
     margin-right: 10px;
 }
 
-.side-align-left{
+.side-align-left {
     margin-left: 10px;
 }
 
-.bottom-down{
+.bottom-down {
     margin-bottom: 20px;
 }
 
-.overFlow-Paramseditor{
+.overFlow-Paramseditor {
     overflow: auto;
 }
 
-.align-right{
+.align-right {
     position: absolute;
     right: 10px
 }
 
-.align-left{
+.align-left {
     margin-right: 60px;
+}
+
+.table-view{
+    padding: 50 50 50 50;
 }

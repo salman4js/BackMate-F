@@ -81,6 +81,9 @@ const ParamsEditor = (props) => {
                 <table style = {{width: "100%"}}>
                   <tr>
                     <td className = "brew-label">
+                      
+                    </td>
+                    <td className = "brew-label">
                       {crumbsLang.key}
                     </td>
                     <td className = "brew-label">
