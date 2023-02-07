@@ -12,29 +12,25 @@ const ParamsEditor = (props) => {
 
   function handleDataValue(data, node) {
     if (data.length === 0) {
-      setStorage(`params-value${node}`, data);
       props.values("");
     } else {
-      // handling memory storage!
-      setStorage(`params-value${node}`, data);
       props.values("=" + data);
     }
   }
 
   function handleDataKey(data, node) {
+    console.log(data, node);
     if (data.length === 0) {
-      setStorage(`params-key${node}`, data);
       props.keys("");
     } else {
-      // Handling memory storage!
-      setStorage(`params-key${node}`, data);
       props.keys("?" + data, node);
     }
   }
 
+  
   // Handle options!
   function handleShowMore() {
-    // Calling the setStorage method synchronizingly to keep the updaion stable
+    // Calling the setStorage method synchronizingly to keep the updation stable
     setOptions(options => {
       const updatedOptions = [...options, options.length + 1];
       setStorage("params-options", JSON.stringify(updatedOptions));

@@ -8,7 +8,7 @@ const Request = (props) => {
     // Height of the element handler!
     const requestRef = useRef(null);
 
-    const value = props.valueUrl + props.params + props.valueParams;
+    const value = props.valueUrl;
 
     function updateUrl(e){
         if(e.keyCode !== 8){

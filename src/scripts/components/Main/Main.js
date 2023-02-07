@@ -90,6 +90,20 @@ const Main = () => {
         } 
     }
 
+    function appendUrl(data){
+        setUrl(url => {
+            const newValue = url + data;
+            return newValue;
+        })
+    }
+
+    function appendUrlValue(data){
+        setUrl(url => {
+            const newValue = url + data;
+            return newValue;
+        })
+    }
+
     // Constructor!
     useEffect(() => {
         updateHeight();
@@ -102,7 +116,7 @@ const Main = () => {
             options={mainLang.options} getFunction = {() => getFunction()} params = {key} valueUrl = {url} valueParams = {values}/>
             <Pagination pagination={setPagination} catch={(item) => handleCatch(item)} />
             {/* <Editor height = {height} data = {setData} /> */}
-            <Crumbs value={crumbs} height={height} data={setBody} keys = {setKey} values = {setValues} 
+            <Crumbs value={crumbs} height={height} data={setBody} keys = {(data) => appendUrl(data)} values = {(data) => appendUrlValue(data)} 
             username = {setUsername} password = {setPassword}/>
             <Responses footer={setFooter} result={response} loader={loader} />
         </div>
