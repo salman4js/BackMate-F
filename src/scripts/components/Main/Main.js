@@ -92,8 +92,13 @@ const Main = () => {
 
     function appendUrl(data){
         setUrl(url => {
-            const newValue = url + data;
-            return newValue;
+            if(url.indexOf("?") !== -1){
+                const newValue = url + '&' + data;
+                return newValue;
+            } else {
+                const newValue = url + '?' + data;
+                return newValue;
+            }
         })
     }
 

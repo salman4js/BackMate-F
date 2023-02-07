@@ -19,15 +19,14 @@ const ParamsEditor = (props) => {
   }
 
   function handleDataKey(data, node) {
-    console.log(data, node);
     if (data.length === 0) {
       props.keys("");
     } else {
-      props.keys("?" + data, node);
+      props.keys(data, node);
     }
   }
 
-  
+
   // Handle options!
   function handleShowMore() {
     // Calling the setStorage method synchronizingly to keep the updation stable
