@@ -32,6 +32,8 @@
     margin-right: 60px;
 }
 
+
 .table-view{
-    padding: 50 50 50 50;
+   position: relative;
+   padding-left: 10px;
 }
