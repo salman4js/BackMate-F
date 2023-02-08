@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { setStorage, getStorage } from '../../Storage/Storage';
 import ParamsBuilder from './ParamsBuilder';
+import Toast from '../Toast/Toast';
 import { crumbsLang } from '../NavCrumbs/lang';
 import '../NavCrumbs/Crumbs.css';
 import './Params.css'
@@ -8,7 +9,15 @@ import './Params.css'
 const ParamsEditor = (props) => {
 
   // Number of query params!
-  const [options, setOptions] = useState(JSON.parse(getStorage("params-options")))
+  const [options, setOptions] = useState(JSON.parse(getStorage("params-options")));
+
+   // Error handling!
+   const [error, setError] = useState(false);
+   const [errortext, setErrortext] = useState();
+   function handleClose(){
+    setError(!error);
+   }
+
 
   function handleDataValue(data, node) {
     if (data.length === 0) {
@@ -88,11 +97,19 @@ const ParamsEditor = (props) => {
                   {
                     options.map((item, key) => {
                       return (
-                        <ParamsBuilder keys={(data, node) => handleDataKey(data, node)} value={(data, node) => handleDataValue(data, node)} options={item} />
+                        <ParamsBuilder error = {setError} errorTxt = {setErrortext} keys={(data, node) => handleDataKey(data, node)} value={(data, node) => handleDataValue(data, node)} options={item} />
                       )
                     })
                   }
                 </table>
+                {
+                  error ? (
+                    <Toast show = {error} message = {errortext} handleClose = {() => handleClose()} />
+                  ) : (
+                    <div>
+                    </div>
+                  )
+                }
             </div>
           </div>
         </div>

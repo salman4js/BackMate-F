@@ -1,22 +1,32 @@
 import React, { useState } from 'react';
+import { crumbsLang } from '../NavCrumbs/lang';
 import './Params.css';
 import { getStorage, setStorage } from '../../Storage/Storage';
 
-const ParamsBuilder = (props) => {
 
+const ParamsBuilder = (props) => {
 
     // Handling input check box!
     const [isChecked, setIsChecked] = useState(false);
     function handleSelected() {
-        if (tempKey === null || tempValue === null) {
-            console.log("This is getting called!")
-            return;
+        setIsChecked(option => {
+            const val = option;
+            return !val;
+        })
+        if(isChecked){
+            console.log("Replace value")
         } else {
-            setIsChecked(option => {
-                const val = option;
-                return !val;
-            })
+            updateValue();
+        }
+    }
+
+    function updateValue(){
+        if (tempKey !== "" && tempValue !== "") {
+            // Handling the local memory for the input check box!
+            setStorage(`params-checkbox${props.options}`, true);
             setValues();
+        } else {
+            activateToast();
         }
     }
 
@@ -25,7 +35,7 @@ const ParamsBuilder = (props) => {
     function handleKeys(e, opt) {
         setTempKey(val => {
             const value = e;
-            setStorage(`params-key${props.options}`, e);
+            setStorage(`params-key${opt}`, e);
             return value;
         })
     }
@@ -33,7 +43,7 @@ const ParamsBuilder = (props) => {
     function handleValues(e, opt) {
         setTempValue(val => {
             const value = e;
-            setStorage(`params-value${props.options}`, e);
+            setStorage(`params-value${opt}`, e);
             return value;
         })
     }
@@ -43,10 +53,20 @@ const ParamsBuilder = (props) => {
         props.value(tempValue, props.options);
     }
 
+    function activateToast(){
+        if(!isChecked){
+            props.error(true);
+            props.errorTxt(crumbsLang.paramsError);
+        } else {
+            return;
+        }
+    }
+
+
     return (
         <tr>
             <td>
-                <input type="checkbox" className="table-view" onClick={() => handleSelected()} />
+                <input type="checkbox" id="paramsCheckbox" className="table-view" onClick={() => handleSelected()} />
             </td>
             <td>
                 <input type="email" class="form-control form-control-sm" id="exampleInputEmail1"
