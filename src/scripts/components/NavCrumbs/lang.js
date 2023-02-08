@@ -6,5 +6,6 @@ export const crumbsLang = {
     basic: "Basic Auth",
     checkbox: "Show Password",
     showMore: "+",
-    showLess: "-"
+    showLess: "-",
+    paramsError: "Enter the Key and Value to continue"
 }
