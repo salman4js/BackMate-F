@@ -97,7 +97,9 @@ const ParamsEditor = (props) => {
                   {
                     options.map((item, key) => {
                       return (
-                        <ParamsBuilder error = {setError} errorTxt = {setErrortext} keys={(data, node) => handleDataKey(data, node)} value={(data, node) => handleDataValue(data, node)} options={item} />
+                        <ParamsBuilder error = {setError} errorTxt = {setErrortext} keys={(data, node) => handleDataKey(data, node)} 
+                        value={(data, node) => handleDataValue(data, node)} options={item} 
+                        replace = {(data) => props.replace(data)}/>
                       )
                     })
                   }
