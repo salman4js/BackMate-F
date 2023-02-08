@@ -14,7 +14,7 @@ const ParamsBuilder = (props) => {
             return !val;
         })
         if(isChecked){
-            console.log("Replace value")
+            props.replace(tempValue);
         } else {
             updateValue();
         }

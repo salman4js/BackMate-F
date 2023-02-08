@@ -90,6 +90,7 @@ const Main = () => {
         } 
     }
 
+    // The following two blocks performing appending the url to the url from the params container!
     function appendUrl(data){
         setUrl(url => {
             if(url.indexOf("?") !== -1){
@@ -109,6 +110,11 @@ const Main = () => {
         })
     }
 
+    // Replace value for the params container!
+    function replaceValues(data){
+        console.log(data);
+    }
+
     // Constructor!
     useEffect(() => {
         updateHeight();
@@ -121,8 +127,9 @@ const Main = () => {
             options={mainLang.options} getFunction = {() => getFunction()} params = {key} valueUrl = {url} valueParams = {values}/>
             <Pagination pagination={setPagination} catch={(item) => handleCatch(item)} />
             {/* <Editor height = {height} data = {setData} /> */}
-            <Crumbs value={crumbs} height={height} data={setBody} keys = {(data) => appendUrl(data)} values = {(data) => appendUrlValue(data)} 
-            username = {setUsername} password = {setPassword}/>
+            <Crumbs value={crumbs} height={height} data={setBody} keys = {(data) => appendUrl(data)} 
+            values = {(data) => appendUrlValue(data)} 
+            username = {setUsername} password = {setPassword} replaceValue = {(data) => replaceValues(data)}/>
             <Responses footer={setFooter} result={response} loader={loader} />
         </div>
     )
