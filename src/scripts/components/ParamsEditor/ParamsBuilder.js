@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { crumbsLang } from '../NavCrumbs/lang';
 import './Params.css';
 import { getStorage, setStorage } from '../../Storage/Storage';
@@ -14,6 +14,7 @@ const ParamsBuilder = (props) => {
             return !val;
         })
         if(isChecked){
+            setStorage(`params-checkbox${props.options}`, false);
             props.replace(tempValue);
         } else {
             updateValue();
@@ -62,11 +63,15 @@ const ParamsBuilder = (props) => {
         }
     }
 
+    useEffect(() => {
+        
+    }, [])
+
 
     return (
         <tr>
             <td>
-                <input type="checkbox" id="paramsCheckbox" className="table-view" onClick={() => handleSelected()} />
+                <input type="checkbox" id="paramsCheckbox" checked = {getStorage(`params-checkbox${props.options}`) === 'true' ? true : false} className="table-view" onClick={() => handleSelected()} />
             </td>
             <td>
                 <input type="email" class="form-control form-control-sm" id="exampleInputEmail1"
