@@ -111,8 +111,12 @@ const Main = () => {
     }
 
     // Replace value for the params container!
-    function replaceValues(data){
-        console.log(data);
+    function replaceValues(dataKey, dataValue){
+        const val = dataKey + "=" + dataValue;
+        setUrl(url => {
+            const replaceValue = url.replace(val, "");
+            return replaceValue;
+        })
     }
 
     // Constructor!
@@ -129,7 +133,7 @@ const Main = () => {
             {/* <Editor height = {height} data = {setData} /> */}
             <Crumbs value={crumbs} height={height} data={setBody} keys = {(data) => appendUrl(data)} 
             values = {(data) => appendUrlValue(data)} 
-            username = {setUsername} password = {setPassword} replaceValue = {(data) => replaceValues(data)}/>
+            username = {setUsername} password = {setPassword} replaceValue = {(key, value) => replaceValues(key, value)}/>
             <Responses footer={setFooter} result={response} loader={loader} />
         </div>
     )
