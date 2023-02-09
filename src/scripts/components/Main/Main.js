@@ -114,8 +114,13 @@ const Main = () => {
     function replaceValues(dataKey, dataValue){
         const val = dataKey + "=" + dataValue;
         setUrl(url => {
-            const replaceValue = url.replace(val, "");
-            return replaceValue;
+            const indexOfdataKey = url.indexOf(dataKey);
+            const escapeChar = url[indexOfdataKey - 1];
+            if(escapeChar === "?" || escapeChar === "&"){
+                console.log(escapeChar)
+                const replaceValue = url.replace(escapeChar+val, "");
+                return replaceValue;
+            }
         })
     }
 
