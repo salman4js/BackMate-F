@@ -13,14 +13,14 @@ const ParamsBuilder = (props) => {
             const val = option;
             return !val;
         })
-        
+
         // Updating the local storage for value persistant!
         setStorage(`params-key${props.options}`, tempKey);
         setStorage(`params-value${props.options}`, tempValue);
 
         if (isChecked) {
             setStorage(`params-checkbox${props.options}`, false);
-            props.replace(tempValue);
+            props.replace(tempKey, tempValue);
         } else {
             updateValue();
         }

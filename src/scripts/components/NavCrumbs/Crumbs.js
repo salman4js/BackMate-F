@@ -10,6 +10,11 @@ const Crumbs = (props) => {
     const handleEditorData = (data) => {
         props.data(data);
     }
+
+    // Handle replace!
+    function handleReplace(key, value){
+        props.replaceValue(key, value)
+    }
     
   
     if(props.value === paginationOptions.body){
@@ -18,7 +23,7 @@ const Crumbs = (props) => {
         )
     } else if(props.value === paginationOptions.params){
         return(
-            <ParamsEditor height = {props.height} keys = {props.keys} values = {props.values} replace = {(data) => props.replaceValue(data)} />
+            <ParamsEditor height = {props.height} keys = {props.keys} values = {props.values} replace = {(key, value) => handleReplace(key, value)} />
         )
     } else if(props.value === paginationOptions.authorization){
         return(

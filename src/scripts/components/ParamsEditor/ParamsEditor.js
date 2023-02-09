@@ -99,7 +99,7 @@ const ParamsEditor = (props) => {
                       return (
                         <ParamsBuilder error = {setError} errorTxt = {setErrortext} keys={(data, node) => handleDataKey(data, node)} 
                         value={(data, node) => handleDataValue(data, node)} options={item} 
-                        replace = {(data) => props.replace(data)}/>
+                        replace = {(key, value) => props.replace(key, value)}/>
                       )
                     })
                   }
