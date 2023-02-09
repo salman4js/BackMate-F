@@ -13,7 +13,12 @@ const ParamsBuilder = (props) => {
             const val = option;
             return !val;
         })
-        if(isChecked){
+        
+        // Updating the local storage for value persistant!
+        setStorage(`params-key${props.options}`, tempKey);
+        setStorage(`params-value${props.options}`, tempValue);
+
+        if (isChecked) {
             setStorage(`params-checkbox${props.options}`, false);
             props.replace(tempValue);
         } else {
@@ -21,7 +26,7 @@ const ParamsBuilder = (props) => {
         }
     }
 
-    function updateValue(){
+    function updateValue() {
         if (tempKey !== "" && tempValue !== "") {
             // Handling the local memory for the input check box!
             setStorage(`params-checkbox${props.options}`, true);
@@ -50,12 +55,13 @@ const ParamsBuilder = (props) => {
     }
 
     function setValues() {
+        // Updating the local state here!
         props.keys(tempKey, props.options);
         props.value(tempValue, props.options);
     }
 
-    function activateToast(){
-        if(!isChecked){
+    function activateToast() {
+        if (!isChecked) {
             props.error(true);
             props.errorTxt(crumbsLang.paramsError);
         } else {
@@ -63,15 +69,25 @@ const ParamsBuilder = (props) => {
         }
     }
 
+    function updateState() {
+        setTempKey(getStorage(`params-key${props.options}`));
+        setTempValue(getStorage(`params-value${props.options}`));
+
+        // Updating the checkbox value!
+        setIsChecked(getStorage(`params-checkbox${props.options}`))
+    }
+
     useEffect(() => {
-        
+        if (getStorage(`params-value${props.options}`) !== null) {
+            updateState();
+        }
     }, [])
 
 
     return (
         <tr>
             <td>
-                <input type="checkbox" id="paramsCheckbox" checked = {getStorage(`params-checkbox${props.options}`) === 'true' ? true : false} className="table-view" onClick={() => handleSelected()} />
+                <input type="checkbox" id="paramsCheckbox" checked={getStorage(`params-checkbox${props.options}`) === 'true' ? true : false} className="table-view" onClick={() => handleSelected()} />
             </td>
             <td>
                 <input type="email" class="form-control form-control-sm" id="exampleInputEmail1"
