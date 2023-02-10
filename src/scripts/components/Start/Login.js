@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {mainLang} from '../Main/lang';
-import { setStorage } from '../../Storage/Storage';
+import { setStorage, clearStorage } from '../../Storage/Storage';
 import Toast from '../Toast/Toast';
 import {Link, useNavigate} from 'react-router-dom';
 import { loginUser } from '../../Controller/authController';
@@ -22,6 +22,8 @@ const Login = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const processData = async (e) => {
+        // Clear out the old storage data!
+        clearStorage();
         e.preventDefault();
         const data = {
             email: email,
