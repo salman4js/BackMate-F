@@ -55,4 +55,5 @@
 .brew-header-title {
     font-size: 14px;
     margin-right: 10px;
+    cursor: pointer;
 }
