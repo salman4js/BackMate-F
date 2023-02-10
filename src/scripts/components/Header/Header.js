@@ -1,12 +1,20 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
+import './Header.css';
 import { headerLang } from './lang';
-import {Link, useNavigate} from "react-router-dom";
-import './Header.css'
 
 const Header = (props) => {
 
     // Height calculation handler for the element!
     const headerRef = useRef(null);
+
+    // Options mapping with the header lang file
+    const options = headerLang;
+
+    // Handle selection!
+    function handleSelect(data){
+        console.log(data)
+        props.select(data);
+    }
 
     // Constructor!
     useEffect(() => {
@@ -15,10 +23,16 @@ const Header = (props) => {
 
     return (
         <div class="header" ref = {headerRef}>
-            <div class="header-left">
-                <Link to = {'/'} className = "brew-header-title">{headerLang.home}</Link>
-                <Link to = {"/"} className = "brew-header-title">{headerLang.workspace}</Link>
-                <Link to = {'/'} className = "brew-header-title">{headerLang.collection}</Link>
+            <div className = "header-left">
+                {
+                    options.map((item, key) => {
+                        return(
+                            <a className = "brew-header-title" onClick = {() => handleSelect(item)}>
+                                {item}
+                            </a>
+                        )
+                    })
+                }
             </div>
         </div>
     )
