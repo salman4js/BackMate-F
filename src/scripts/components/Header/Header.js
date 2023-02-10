@@ -1,8 +1,14 @@
 import React, {useEffect, useRef} from 'react';
 import './Header.css';
 import { headerLang } from './lang';
+import { mainLang } from '../Main/lang';
+import {Link, useNavigate} from 'react-router-dom';
+import { clearStorage } from '../../Storage/Storage';
 
 const Header = (props) => {
+
+    // Initializing navigate route!
+    let navigate = useNavigate();
 
     // Height calculation handler for the element!
     const headerRef = useRef(null);
@@ -14,6 +20,14 @@ const Header = (props) => {
     function handleSelect(data){
         console.log(data)
         props.select(data);
+    }
+
+    // Handle universal logout!
+    function handleLogout(){
+        // Clear off the entire local storage!
+        clearStorage();
+        // Navigate to the login route!
+        navigate("/", {replace: true});
     }
 
     // Constructor!
@@ -33,6 +47,9 @@ const Header = (props) => {
                         )
                     })
                 }
+            </div>
+            <div className = "header-right">
+                <Link to = {'/'} className = "brew-header-title" onClick={() => handleLogout()}>{mainLang.logout}</Link>
             </div>
         </div>
     )
