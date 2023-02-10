@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {mainLang} from '../Main/lang';
-import { setStorage, clearStorage } from '../../Storage/Storage';
+import { setStorage, clearStorage, defaultStorage } from '../../Storage/Storage';
 import Toast from '../Toast/Toast';
 import {Link, useNavigate} from 'react-router-dom';
 import { loginUser } from '../../Controller/authController';
@@ -28,17 +28,23 @@ const Login = () => {
         const data = {
             email: email,
             password : password
+        }        
+
+        // Assign the dafault storafe system for the Home cabinet!
+        const options = [1]
+        const defaultSet = {
+            "body-code" : "",
+            "Crumbs": "Body",
+            "params-options": JSON.stringify(options),
+            "landing-page": "Home"
         }
+
         const result = await loginUser(data);
         if(result.success){
             setEmail("");
             setPassword("");
-            // Handling important local memory for page persistant!
-            setStorage(mainLang.bodyCode, ""); // Setting this as a empty string for the code editor!
-            setStorage(mainLang.crumb, mainLang.body); // Seeting the body editor as the default value for the landing page!
-            const options = [1];
-            setStorage(mainLang.paramsOptions, JSON.stringify(options)); // Setting this array as the one for the params container!
-            // Navigate to the next page!
+            // Handling mandatory local storage memory!
+            defaultStorage(defaultSet);
             navigate("/core", {replace:  true})
         } else {
             setError(!error);

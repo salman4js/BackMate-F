@@ -11,5 +11,8 @@ export const mainLang = {
     send: "Send",
     crumb : "Crumbs",
     bodyCode: "body-code",
-    paramsOptions: "params-options"
+    paramsOptions: "params-options",
+    landingPage: "landing-page",
+    home: "Home",
+    logout: "Logout"
 };

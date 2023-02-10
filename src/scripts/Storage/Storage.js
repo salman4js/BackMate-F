@@ -7,6 +7,13 @@ export function getStorage(key, value){
     return result;
 }
 
+export function defaultStorage(data){
+    for (const key in data){
+        console.log(key, data[key])
+        setStorage(key, data[key]);
+    }
+}
+
 export function clearStorage(){
     const result = localStorage.clear();
     return result;
