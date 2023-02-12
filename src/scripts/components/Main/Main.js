@@ -1,8 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { mainLang } from './lang';
-import Home from '../Home/Home';
 import Header from '../Header/Header';
 import { getStorage } from '../../Storage/Storage';
+
+// Importing pages!
+import Home from '../Home/Home';
+import Workspace from '../WorkSpace/Workspace';
 
 
 
@@ -23,7 +26,7 @@ const Main = () => {
     if(selected === mainLang.home){
         root = <Home mainref={mainRef} header={header} />
     } else {
-        root = <p>Hey there!</p>
+        root = <Workspace />
     }
 
     return (
