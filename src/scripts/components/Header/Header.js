@@ -18,7 +18,6 @@ const Header = (props) => {
 
     // Handle selection!
     function handleSelect(data){
-        console.log(data)
         props.select(data);
     }
 

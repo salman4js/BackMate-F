@@ -5,6 +5,7 @@ import Crumbs from '../NavCrumbs/Crumbs';
 import Responses from '../Response/Response';
 import Pagination from '../Pagination/Pagination';
 import { Handler } from '../../Functions/Functions';
+import { getStorage, setStorage } from '../../Storage/Storage';
 
 
 const Home = (props) => {
@@ -24,7 +25,7 @@ const Home = (props) => {
 
     // Data handler for body container!
     // Input handler for the body container!
-    const [url, setUrl] = useState("");
+    const [url, setUrl] = useState(getStorage("req-url"));
     const [mode, setMode] = useState();
     const [body, setBody] = useState("");
 
@@ -45,6 +46,15 @@ const Home = (props) => {
     const handleCatch = (val) => {
         localStorage.setItem(mainLang.crumb, val);
         setCrumbs(val);
+    }
+
+    // Update URL handler!
+    function updateUrl(data){
+        setUrl(url => {
+            setStorage("req-url", data);
+            const newValue = data;
+            return newValue;
+        })
     }
 
     // Request handler!
@@ -73,7 +83,6 @@ const Home = (props) => {
             const mainRef = props.mainref
             const mainElem = mainRef.current.offsetHeight; //  TODO: Comeup with a better calculation for this part!
             const topElem = props.header + pagination + request;
-            console.log(topElem);
             setHeight(footer + topElem + mainElem);
         } else {
             return;
@@ -115,9 +124,10 @@ const Home = (props) => {
             const indexOfdataKey = url.indexOf(dataKey);
             const escapeChar = url[indexOfdataKey - 1];
             if (escapeChar === "?" || escapeChar === "&") {
-                console.log(escapeChar)
                 const replaceValue = url.replace(escapeChar + val, "");
                 return replaceValue;
+            } else {
+                return url;
             }
         })
     }
@@ -129,7 +139,7 @@ const Home = (props) => {
 
     return (
         <div>
-            <Request request={setRequest} url={setUrl} mode={setMode}
+            <Request request={setRequest} url={(data) => updateUrl(data)} mode={setMode}
                 options={mainLang.options} getFunction={() => getFunction()} params={key} valueUrl={url} valueParams={values} />
             <Pagination pagination={setPagination} catch={(item) => handleCatch(item)} />
             {/* <Editor height = {height} data = {setData} /> */}
