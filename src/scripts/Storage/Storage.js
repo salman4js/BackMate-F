@@ -9,7 +9,6 @@ export function getStorage(key, value){
 
 export function defaultStorage(data){
     for (const key in data){
-        console.log(key, data[key])
         setStorage(key, data[key]);
     }
 }

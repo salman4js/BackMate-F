@@ -8,21 +8,25 @@ const ParamsBuilder = (props) => {
 
     // Handling input check box!
     const [isChecked, setIsChecked] = useState(false);
-    function handleSelected() {
-        setIsChecked(option => {
-            const val = option;
-            return !val;
-        })
+    function handleSelected () {
+        if(tempKey !== "" && tempValue !== ""){
+            setIsChecked(option => {
+                const val = option;
+                return !val;
+            });
 
-        // Updating the local storage for value persistant!
-        setStorage(`params-key${props.options}`, tempKey);
-        setStorage(`params-value${props.options}`, tempValue);
+            // Updating the local storage for value persistant!
+            setStorage(`params-key${props.options}`, tempKey);
+            setStorage(`params-value${props.options}`, tempValue);
 
-        if (isChecked) {
-            setStorage(`params-checkbox${props.options}`, false);
-            props.replace(tempKey, tempValue);
+            if(isChecked) {
+                setStorage(`params-checkbox${props.options}`, false);
+                props.replace(tempKey, tempValue);
+            } else {
+                updateValue();
+            }
         } else {
-            updateValue();
+            activateToast()
         }
     }
 
@@ -31,8 +35,6 @@ const ParamsBuilder = (props) => {
             // Handling the local memory for the input check box!
             setStorage(`params-checkbox${props.options}`, true);
             setValues();
-        } else {
-            activateToast();
         }
     }
 
