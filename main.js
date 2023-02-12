@@ -3,17 +3,19 @@ const path = require('path');
 
 const isDev = !app.isPackaged;
 
-
 function createWindow(){
     const win = new BrowserWindow({
         width: 1200,
         height: 800,
         backgroundColor: "white",
         webPreferences: {
-            nodeIntegration: false,
+            nodeIntegration: true,
+            enableRemoteModule: true,
             worldSafeExecuteJavaScript: true,
-            contextIsolation: true,
-            preload: path.join(__dirname, 'preload.js')
+            contextIsolation: false,
+            preload: path.join(__dirname, 'preload.js'),
+            //nodeIntegrationInWorker: true,
+            //nodeIntegrationInSubFrames: true
         }
     })
 
