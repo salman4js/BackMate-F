@@ -15,5 +15,5 @@ export const mainLang = {
     landingPage: "landing-page",
     home: "Home",
     logout: "Logout",
-    currentDirectory: "current-directory"
+    currentDirectory: "current-directory",
 };
