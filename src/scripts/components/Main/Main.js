@@ -5,8 +5,7 @@ import { getStorage } from '../../Storage/Storage';
 
 // Importing pages!
 import Home from '../Home/Home';
-import Workspace from '../WorkSpace/Workspace';
-
+import WorkSpace from '../WorkSpace/WorkSpace/WorkSpace';
 
 
 const Main = () => {
@@ -14,19 +13,19 @@ const Main = () => {
     // Header height state!
     const [header, setHeader] = useState();
 
-    // Height of the main parent container!
+    // Height of the parent container for all the pages!
     const mainRef = useRef(null);
+    const workRef = useRef(null);
 
     // Handle selected cabinet!
     const [selected, setSelected] = useState(getStorage(mainLang.currentDirectory));
 
     // Render component selector!
     let root;
-
     if(selected === mainLang.home){
         root = <Home mainref={mainRef} header={header} />
     } else {
-        root = <Workspace />
+        root = <WorkSpace />
     }
 
     return (
