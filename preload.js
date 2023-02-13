@@ -10,6 +10,6 @@ contextBridge.exposeInMainWorld('electron',{
 
     },
     filesApi:{
-
+        
     }
 })

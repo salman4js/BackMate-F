@@ -18,7 +18,7 @@ const Main = () => {
     const mainRef = useRef(null);
 
     // Handle selected cabinet!
-    const [selected, setSelected] = useState(getStorage(mainLang.landingPage));
+    const [selected, setSelected] = useState(getStorage(mainLang.currentDirectory));
 
     // Render component selector!
     let root;
