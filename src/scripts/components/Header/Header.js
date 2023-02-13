@@ -3,7 +3,7 @@ import './Header.css';
 import { headerLang } from './lang';
 import { mainLang } from '../Main/lang';
 import {Link, useNavigate} from 'react-router-dom';
-import { clearStorage } from '../../Storage/Storage';
+import { clearStorage, getStorage, setStorage } from '../../Storage/Storage';
 
 const Header = (props) => {
 
@@ -18,6 +18,9 @@ const Header = (props) => {
 
     // Handle selection!
     function handleSelect(data){
+        // Handle the selection in the local storage for the persistant!
+        setStorage(mainLang.currentDirectory, data);
+        // Send the data to the parent container!
         props.select(data);
     }
 

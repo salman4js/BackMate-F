@@ -34,10 +34,11 @@ const Login = () => {
         const options = [1]
         const defaultSet = {
             "body-code" : "",
-            "Crumbs": "Body",
+            "Crumbs": mainLang.body,
             "params-options": JSON.stringify(options),
-            "landing-page": "Home",
-            "req-url": ""
+            "landing-page": mainLang.landingPage,
+            "req-url": "",
+            "current-directory": mainLang.home
         }
 
         const result = await loginUser(data);

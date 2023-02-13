@@ -14,5 +14,6 @@ export const mainLang = {
     paramsOptions: "params-options",
     landingPage: "landing-page",
     home: "Home",
-    logout: "Logout"
+    logout: "Logout",
+    currentDirectory: "current-directory"
 };
