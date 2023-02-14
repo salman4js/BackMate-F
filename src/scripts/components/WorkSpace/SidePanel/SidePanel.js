@@ -66,7 +66,12 @@ const SidePanel = (props) => {
     <div className='Block'>
       <div id='Resizable' className = "workspace"> 
         <div className = "brew-title-workspace title-header">
-          {workLang.explorer}
+          <span className = "title-header-span">
+            {workLang.explorer}
+          </span>
+        </div>
+        <div className = "hr">
+
         </div>
         <div className = "files">
           {
