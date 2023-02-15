@@ -24,12 +24,14 @@
 }
 
 .title-header {
-    margin-left: 10px;
+    background-color: #504f4f;
+    color: white;
     font-size: 16px;
-    font-weight: 300;
+    font-weight: 700;
 }
 
 .title-header-span {
+    margin-left: 10px;
     cursor: pointer;
 }
 
@@ -41,7 +43,6 @@
 }
 
 .file-items {
-    margin-left: 10px;
     padding: 5px;
     cursor: pointer;
 }
@@ -61,9 +62,11 @@
 .icon-folder {
     width: 1em;
     margin-right: 20px;
+    margin-left: 10px;
 }
 
 .icon-file {
     width: 0.75em;
-    margin-right: 20px;;
+    margin-right: 20px;
+    margin-left: 10px;
 }

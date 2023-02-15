@@ -56,6 +56,11 @@ const SidePanel = (props) => {
 
   }
 
+  // Handle folders navigation!
+  function handleNavigation(names){
+    console.log(pathModule.join(data, names))
+  }
+
   // Constructor - Get all the files and folders in working directory before the component renders!
   useEffect(() => {
     // Assigning the object value to the data state!
@@ -77,7 +82,7 @@ const SidePanel = (props) => {
           {
             data.map((item, key) => {
               return (
-                <FileItems name={item.name} isDirectory={item.directory} />
+                <FileItems name={item.name} isDirectory={item.directory} navigation = {(data) => handleNavigation(data)} />
               )
             })
           }
