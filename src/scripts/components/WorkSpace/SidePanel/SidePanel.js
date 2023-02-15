@@ -64,31 +64,31 @@ const SidePanel = (props) => {
 
   return (
     <div className='Block'>
-      <div id='Resizable' className = "workspace"> 
-        <div className = "brew-title-workspace title-header">
-          <span className = "title-header-span">
+      <div id='Resizable' className="workspace">
+        <div className="brew-title-workspace title-header">
+          <span className="title-header-span">
             {workLang.explorer}
           </span>
         </div>
-        <div className = "hr">
+        <div className="hr">
 
         </div>
-        <div className = "files">
+        <div className="files">
           {
-            data.map((item,key) => {
-              return(
-                <FileItems name = {item.name} isDirectory = {item.directory} />
+            data.map((item, key) => {
+              return (
+                <FileItems name={item.name} isDirectory={item.directory} />
               )
             })
           }
         </div>
       </div>
-        <div id='Draggable'
-          draggable='true'
-          onDragStart={initial}
-          onDrag={resize}
-        >
-        </div>
+      <div id='Draggable'
+        draggable='true'
+        onDragStart={initial}
+        onDrag={resize}
+      >
+      </div>
     </div>
   )
 

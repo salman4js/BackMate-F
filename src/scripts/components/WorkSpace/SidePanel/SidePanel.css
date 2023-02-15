@@ -1,52 +1,69 @@
-.Block{
+.Block {
     display: flex;
     align-items: center;
 }
 
-#Resizable{
+#Resizable {
     height: 100vh;
     width: 300px;
 }
 
-#Draggable{
+#Draggable {
     background: rgba(1, 1, 1, 0.2);
     cursor: col-resize;
     height: 100vh;
     width: 10px;
 }
 
-.workspace{
-    background-color:  #f1f1f1;
+.workspace {
+    background-color: #f1f1f1;
 }
 
-.brew-title-workspace{
+.brew-title-workspace {
     color: black
 }
 
-.title-header{
+.title-header {
     margin-left: 10px;
     font-size: 16px;
     font-weight: 300;
 }
 
-.title-header-span{
+.title-header-span {
     cursor: pointer;
 }
 
-.hr{
+.hr {
     width: auto;
     height: 0.1px;
-    background-color:#666;
+    background-color: #666;
     margin-bottom: 10px;
 }
 
-.file-items{
+.file-items {
     margin-left: 10px;
     padding: 5px;
     cursor: pointer;
 }
 
-.files div:hover{
+.width-files-item{
+    width: 100%;
+}
+
+.files div:hover {
     background-color: #ddd;
-    color: dodgerblue;
+}
+
+.icon-row {
+    width: 2em;
+}
+
+.icon-folder {
+    width: 1em;
+    margin-right: 20px;
+}
+
+.icon-file {
+    width: 0.75em;
+    margin-right: 20px;;
 }
