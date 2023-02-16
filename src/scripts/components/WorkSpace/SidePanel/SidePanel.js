@@ -16,10 +16,10 @@ const SidePanel = (props) => {
   const [data, setData] = useState([]);
 
   // Handle the data in the directory!
-  function getData() {
-    const data = fs.readdirSync(wd)
+  function getData(path) {
+    const data = fs.readdirSync(path)
       .map(file => {
-        const stats = fs.statSync(pathModule.join(wd, file))
+        const stats = fs.statSync(pathModule.join(path, file))
         return {
           name: file,
           directory: stats.isDirectory()
@@ -32,7 +32,7 @@ const SidePanel = (props) => {
         return a.directory ? -1 : 1
       })
 
-    return data;
+    setData(data);
   }
 
   // Resize side panel on command!
@@ -58,13 +58,16 @@ const SidePanel = (props) => {
 
   // Handle folders navigation!
   function handleNavigation(names){
-    console.log(pathModule.join(data, names))
+    // Assigning the new path to data state to handle navigation!
+    const newPath = pathModule.join(wd, names);
+    console.log(newPath);
+    getData(newPath);
   }
 
   // Constructor - Get all the files and folders in working directory before the component renders!
   useEffect(() => {
-    // Assigning the object value to the data state!
-    setData(getData());
+    // Getting the data's from the path directory!
+    getData(wd);
   }, [])
 
   return (
