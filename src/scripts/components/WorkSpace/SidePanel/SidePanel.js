@@ -86,7 +86,7 @@ const SidePanel = (props) => {
   // Handle open file operation!
   function openFile(data){
     const fileContent = fs.readFileSync(pathModule.join(wd, data)).toString();
-    console.log(fileContent);
+    props.fileContent(fileContent);
   }
 
   // Constructor - Get all the files and folders in working directory before the component renders!
@@ -96,7 +96,8 @@ const SidePanel = (props) => {
   }, [])
 
   return (
-    <div className='Block'>
+    <div className = "align-sidepanel">
+      <div className='Block'>
       <div id='Resizable' className="workspace">
         <div className="brew-title-workspace title-header">
           <span className="title-header-span">
@@ -129,6 +130,7 @@ const SidePanel = (props) => {
         onDrag={resize}
       >
       </div>
+    </div>
     </div>
   )
 

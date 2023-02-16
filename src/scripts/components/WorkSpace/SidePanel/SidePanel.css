@@ -4,6 +4,10 @@
     position: relative;
 }
 
+.align-sidepanel{
+    flex-shrink: 0;
+}
+
 #Resizable {
     height: 100vh;
     width: 300px;
@@ -49,6 +53,11 @@
     cursor: pointer;
 }
 
+.files{
+    height: 96%;
+    overflow: auto;
+}
+
 .width-files-item{
     width: 100%;
 }
@@ -75,7 +84,7 @@
 
 .footer{
     position : absolute;
-    width: 100%;
     bottom : 0;
     left : 0;
 }
+
