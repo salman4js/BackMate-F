@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { workLang } from '../WorkSpace/lang';
+import { setStorage, getStorage } from '../../../Storage/Storage';
 import './SidePanel.css';
 import FileItems from './src/FileItems';
 // Importing the node 'fs' and 'pathModule' module.
@@ -10,7 +11,10 @@ const pathModule = window.require('path');
 const SidePanel = (props) => {
 
   // Get the current path of the working directory!;
-  var wd = process.cwd();
+  if(getStorage("wd") == null || undefined){
+    setStorage("wd",process.cwd());
+  }
+  var wd = getStorage("wd");
 
   // Files and Folders state handler!
   const [data, setData] = useState([]);
@@ -56,12 +60,27 @@ const SidePanel = (props) => {
 
   }
 
+  // Root Directory!
+  function rootDirectory(path){
+    setStorage("wd", path)
+  }
+
   // Handle folders navigation!
   function handleNavigation(names){
     // Assigning the new path to data state to handle navigation!
     const newPath = pathModule.join(wd, names);
-    console.log(newPath);
     getData(newPath);
+    // Change the working directory everytime the path changes!
+    rootDirectory(newPath);
+  }
+
+  // Handle Folders back operation!
+  function handleBack(){
+    console.log("Back Operation is triggered!");
+    const newPath = pathModule.dirname(wd);
+    getData(newPath);
+    // Change the working directory everytime the path changes!
+    rootDirectory(newPath);
   }
 
   // Constructor - Get all the files and folders in working directory before the component renders!
@@ -89,6 +108,13 @@ const SidePanel = (props) => {
               )
             })
           }
+        </div>
+        <div className = "footer">
+          <div className = "brew-title-workspace title-header">
+            <span className = "title-header-span" onClick={() => handleBack()}>
+              {workLang.back}
+            </span>
+          </div>
         </div>
       </div>
       <div id='Draggable'
