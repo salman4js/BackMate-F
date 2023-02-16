@@ -1,10 +1,22 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import'./workspace.css';
 import SidePanel from '../SidePanel/SidePanel';
+import WorkPanel from '../WorkPanel/WorkPanel';
 
 const WorkSpace = () => {
+
+  // Handle content for the workpanel!
+  const [content, setContent] = useState();
+
+  // Handle the file content to the editor!
+  function handleContent(data){
+    setContent(data);
+  }
+
   return (
-    <div>
-        <SidePanel />
+    <div className = "brew-container">
+        <SidePanel fileContent = {(data) => handleContent(data)} />
+        <WorkPanel content = {content} />
     </div>
   )
 }
