@@ -1,3 +1,4 @@
 export const workLang = {
-    explorer : "EXPLORER"
+    explorer : "EXPLORER",
+    back: "Back"
 }
