@@ -83,6 +83,12 @@ const SidePanel = (props) => {
     rootDirectory(newPath);
   }
 
+  // Handle open file operation!
+  function openFile(data){
+    const fileContent = fs.readFileSync(pathModule.join(wd, data)).toString();
+    console.log(fileContent);
+  }
+
   // Constructor - Get all the files and folders in working directory before the component renders!
   useEffect(() => {
     // Getting the data's from the path directory!
@@ -104,7 +110,7 @@ const SidePanel = (props) => {
           {
             data.map((item, key) => {
               return (
-                <FileItems name={item.name} isDirectory={item.directory} navigation = {(data) => handleNavigation(data)} />
+                <FileItems name={item.name} isDirectory={item.directory} navigation = {(data) => handleNavigation(data)} openFile = {(data) => openFile(data)} />
               )
             })
           }
