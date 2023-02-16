@@ -56,7 +56,8 @@ const Login = () => {
 
 
     return (
-        <div className="text-center">
+        <div className = "login-container">
+            <div className="text-center">
             <div className="heading-top">
                 <h1 className = "branding-logo">
                     BackMate
@@ -95,6 +96,7 @@ const Login = () => {
                     </form>
                 </div>
             </div>
+        </div>
         </div>
     )
 }
