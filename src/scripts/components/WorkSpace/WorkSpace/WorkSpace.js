@@ -3,7 +3,7 @@ import'./workspace.css';
 import SidePanel from '../SidePanel/SidePanel';
 import WorkPanel from '../WorkPanel/WorkPanel';
 
-const WorkSpace = () => {
+const WorkSpace = (props) => {
 
   // Handle content for the workpanel!
   const [content, setContent] = useState();
@@ -15,7 +15,7 @@ const WorkSpace = () => {
 
   return (
     <div className = "brew-container">
-        <SidePanel fileContent = {(data) => handleContent(data)} />
+        <SidePanel fileContent = {(data) => handleContent(data)}/>
         <WorkPanel content = {content} />
     </div>
   )
