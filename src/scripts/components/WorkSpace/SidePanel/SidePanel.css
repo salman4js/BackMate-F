@@ -1,90 +1,62 @@
-.Block {
-    display: flex;
-    align-items: center;
-    position: relative;
+.wrapper{
+    position: fixed;
 }
 
-.align-sidepanel{
-    flex-shrink: 0;
-}
-
-#Resizable {
-    height: 100vh;
+.sidebar {
+    background: #f1f1f1;
+    position: fixed;
+    left: 0;
     width: 300px;
-}
-
-#Draggable {
-    background: rgba(1, 1, 1, 0.2);
-    cursor: col-resize;
-    height: 100vh;
-    width: 10px;
-}
-
-.workspace {
-    background-color: #f1f1f1;
-    position: relative;
-}
-
-.brew-title-workspace {
-    color: black
-}
-
-.title-header {
-    background-color: #504f4f;
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-}
-
-.title-header-span {
-    margin-left: 10px;
-    cursor: pointer;
-}
-
-.hr {
-    width: auto;
-    height: 0.1px;
-    background-color: #666;
-    margin-bottom: 10px;
-}
-
-.file-items {
-    padding: 5px;
-    cursor: pointer;
-}
-
-.files{
-    height: 96%;
+    height: calc(100% - 90px);
+    padding: 20px 0;
     overflow: auto;
 }
 
-.width-files-item{
-    width: 100%;
+.brew-footer {
+    background-color: #504f4f;
+    width: 300px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.files div:hover {
-    background-color: #ddd;
-}
-
-.icon-row {
-    width: 2em;
+.title-footer-span {
+    margin-left: 15px;
 }
 
 .icon-folder {
     width: 1em;
-    margin-right: 20px;
-    margin-left: 10px;
 }
 
 .icon-file {
     width: 0.75em;
-    margin-right: 20px;
-    margin-left: 10px;
 }
 
-.footer{
-    position : absolute;
-    bottom : 0;
-    left : 0;
+.brew-title-workspace{
+    color:  black;
+}
+
+.side-align{
+    margin-left: 15px;
+}
+
+.file-items{
+    padding: 5px;
+    cursor: pointer;
+}
+
+.files div:hover{
+    background-color: #ddd;
+}
+
+.workspace-title{
+    background-color: #504f4f;
+    width: 300px;
+    cursor: pointer;
+    position: relative;
+}
+
+.workspace-title span{
+    margin-left: 15px;
+    font-weight: bold;
 }
 

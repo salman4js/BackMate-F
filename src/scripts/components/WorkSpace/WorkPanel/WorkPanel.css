@@ -1,7 +1,3 @@
-.workpanel{
-    flex-grow: 1;
-}
-
 .content{
     color: white;
     overflow: auto;

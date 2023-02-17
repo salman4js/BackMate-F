@@ -13,9 +13,13 @@ const FileItems = (props) => {
   }
 
   return (
-    <div className = "brew-title-workspace file-items" onClick={() => navigation(props.isDirectory, props.name)}>
-     {props.isDirectory ? <IconFolder /> : <IconFile />}
-     {props.name}
+    <div className = "file-items" onClick={() => navigation(props.isDirectory, props.name)}>
+     <span className = "side-align brew-icon-workspace">
+        {props.isDirectory ? <IconFolder /> : <IconFile />}
+     </span>
+     <span className = "brew-title-workspace side-align">
+        {props.name}
+     </span>
     </div>
   )
 }

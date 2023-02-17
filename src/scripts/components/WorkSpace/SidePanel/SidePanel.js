@@ -11,8 +11,6 @@ const pathModule = window.require('path');
 
 const SidePanel = (props) => {
 
-  const [footerElem, setFooterElem] = useState()
-
   // Get the current path of the working directory!;
   if (getStorage("wd") == null || undefined) {
     setStorage("wd", process.cwd());
@@ -99,35 +97,26 @@ const SidePanel = (props) => {
   }, [])
 
   return (
-    <div className="align-sidepanel">
-      <div className="workspace-container">
-        <div className='Block'>
-          <div id='Resizable' className="workspace">
-            <div className="brew-title-workspace title-header">
-              <span className="title-header-span">
-                {workLang.explorer}
-              </span>
-            </div>
-            <div className="hr">
-
-            </div>
-            <div className="files">
-              {
-                data.map((item, key) => {
-                  return (
-                    <FileItems name={item.name} isDirectory={item.directory} navigation={(data) => handleNavigation(data)} openFile={(data) => openFile(data)} />
-                  )
-                })
-              }
-            </div>
-            <FooterBtn workName={workLang.back} handleAction={() => handleBack()} footerElem={setFooterElem} />
+    <div>
+      <div className="wrapper">
+      <div className = "workspace-title">
+        <span>
+          {workLang.explorer}
+        </span>
+      </div>
+        <div className="sidebar">
+          <div className="files">
+            {
+              data.map((item, key) => {
+                return (
+                  <FileItems name={item.name} isDirectory={item.directory} navigation={(data) => handleNavigation(data)}
+                    openFile={(data) => openFile(data)}
+                  />
+                )
+              })
+            }
           </div>
-          <div id='Draggable'
-            draggable='true'
-            onDragStart={initial}
-            onDrag={resize}
-          >
-          </div>
+          <FooterBtn workName = {workLang.back} handleAction = {() => handleBack()} />
         </div>
       </div>
     </div>
