@@ -11,9 +11,11 @@ const pathModule = window.require('path');
 
 const SidePanel = (props) => {
 
+  const [footerElem, setFooterElem] = useState()
+
   // Get the current path of the working directory!;
-  if(getStorage("wd") == null || undefined){
-    setStorage("wd",process.cwd());
+  if (getStorage("wd") == null || undefined) {
+    setStorage("wd", process.cwd());
   }
   var wd = getStorage("wd");
 
@@ -62,12 +64,12 @@ const SidePanel = (props) => {
   }
 
   // Root Directory!
-  function rootDirectory(path){
+  function rootDirectory(path) {
     setStorage("wd", path)
   }
 
   // Handle folders navigation!
-  function handleNavigation(names){
+  function handleNavigation(names) {
     // Assigning the new path to data state to handle navigation!
     const newPath = pathModule.join(wd, names);
     getData(newPath);
@@ -76,7 +78,7 @@ const SidePanel = (props) => {
   }
 
   // Handle Folders back operation!
-  function handleBack(){
+  function handleBack() {
     console.log("Back Operation is triggered!");
     const newPath = pathModule.dirname(wd);
     getData(newPath);
@@ -85,7 +87,7 @@ const SidePanel = (props) => {
   }
 
   // Handle open file operation!
-  function openFile(data){
+  function openFile(data) {
     const fileContent = fs.readFileSync(pathModule.join(wd, data)).toString();
     props.fileContent(fileContent);
   }
@@ -97,8 +99,37 @@ const SidePanel = (props) => {
   }, [])
 
   return (
-    <div>
-      Side Panel
+    <div className="align-sidepanel">
+      <div className="workspace-container">
+        <div className='Block'>
+          <div id='Resizable' className="workspace">
+            <div className="brew-title-workspace title-header">
+              <span className="title-header-span">
+                {workLang.explorer}
+              </span>
+            </div>
+            <div className="hr">
+
+            </div>
+            <div className="files">
+              {
+                data.map((item, key) => {
+                  return (
+                    <FileItems name={item.name} isDirectory={item.directory} navigation={(data) => handleNavigation(data)} openFile={(data) => openFile(data)} />
+                  )
+                })
+              }
+            </div>
+            <FooterBtn workName={workLang.back} handleAction={() => handleBack()} footerElem={setFooterElem} />
+          </div>
+          <div id='Draggable'
+            draggable='true'
+            onDragStart={initial}
+            onDrag={resize}
+          >
+          </div>
+        </div>
+      </div>
     </div>
   )
 
