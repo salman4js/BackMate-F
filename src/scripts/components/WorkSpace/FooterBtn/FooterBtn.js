@@ -11,8 +11,8 @@ const HeaderBtn = (props) => {
     }, [])
 
     return (
-        <div className="footer title-header" ref={footerRef}>
-            <span className="title-header-span" onClick={() => props.handleAction()}>
+        <div className="footer brew-footer" ref={footerRef}>
+            <span className="title-footer-span" onClick={() => props.handleAction()}>
                 {props.workName}
             </span>
         </div>

@@ -1,8 +1,19 @@
 /* Style the header with a grey background and some padding */
-.header {
+body {
+    padding-top: 43px;
     overflow: hidden;
+    /* adjust as needed */
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     background-color: #f1f1f1;
     padding: 1px 10px;
+    z-index: 1;
+    /* Ensure that the header is on top of other elements */
 }
 
 /* Style the header links */

@@ -15,8 +15,12 @@ const WorkSpace = (props) => {
 
   return (
     <div className = "brew-container">
-        <SidePanel fileContent = {(data) => handleContent(data)}/>
-        <WorkPanel content = {content} />
+        <div className = "flex-1">
+          <SidePanel fileContent = {(data) => handleContent(data)}/>
+        </div>
+        <div className = "flex-2">
+          <WorkPanel content = {content} />
+        </div>
     </div>
   )
 }
