@@ -4,4 +4,5 @@
 
 .content{
     color: white;
+    overflow: auto;
 }

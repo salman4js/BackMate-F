@@ -25,7 +25,7 @@ const Main = () => {
     if(selected === mainLang.home){
         root = <Home mainref={mainRef} header={header} />
     } else {
-        root = <WorkSpace />
+        root = <WorkSpace mainref={mainRef} />
     }
 
     return (

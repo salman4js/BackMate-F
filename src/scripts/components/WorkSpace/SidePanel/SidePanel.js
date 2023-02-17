@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { workLang } from '../WorkSpace/lang';
 import { setStorage, getStorage } from '../../../Storage/Storage';
+import FooterBtn from '../FooterBtn/FooterBtn'
 import './SidePanel.css';
 import FileItems from './src/FileItems';
 // Importing the node 'fs' and 'pathModule' module.
@@ -96,41 +97,8 @@ const SidePanel = (props) => {
   }, [])
 
   return (
-    <div className = "align-sidepanel">
-      <div className='Block'>
-      <div id='Resizable' className="workspace">
-        <div className="brew-title-workspace title-header">
-          <span className="title-header-span">
-            {workLang.explorer}
-          </span>
-        </div>
-        <div className="hr">
-
-        </div>
-        <div className="files">
-          {
-            data.map((item, key) => {
-              return (
-                <FileItems name={item.name} isDirectory={item.directory} navigation = {(data) => handleNavigation(data)} openFile = {(data) => openFile(data)} />
-              )
-            })
-          }
-        </div>
-        <div className = "footer">
-          <div className = "brew-title-workspace title-header">
-            <span className = "title-header-span" onClick={() => handleBack()}>
-              {workLang.back}
-            </span>
-          </div>
-        </div>
-      </div>
-      <div id='Draggable'
-        draggable='true'
-        onDragStart={initial}
-        onDrag={resize}
-      >
-      </div>
-    </div>
+    <div>
+      Side Panel
     </div>
   )
 
