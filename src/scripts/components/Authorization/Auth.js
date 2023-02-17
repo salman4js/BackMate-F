@@ -43,12 +43,12 @@ const Auth = (props) => {
                 <div className="text-center center auth-section">
                     <div className="form-group">
                         <label style={{ color: 'white', marginRight: "20px" }}> Username </label>
-                        <input type="text" className="form-control-inline" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email Id"
+                        <input type="text" className="form-control-inline" placeholder = "Username"
                             value={getStorage("auth-username")} onChange={(e) => handleUsername(e.target.value)} />
                         <br />
                         <br />
                         <label style={{ color: "white", marginRight: "20px" }}> Password </label>
-                        <input type={isChecked ? "text" : "password"} className="form-control-inline" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Password"
+                        <input type={isChecked ? "text" : "password"} className="form-control-inline" placeholder="Password"
                             value={getStorage("auth-password")} onChange={(e) => handlePassword(e.target.value)} />
                         <div class="form-check side-align">
                             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onClick={() => handleCheckbox()} />
