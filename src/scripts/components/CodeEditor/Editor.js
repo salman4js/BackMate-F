@@ -10,12 +10,6 @@ import { javascript } from '@codemirror/lang-javascript';
 
 const Editor = (props) => {
 
-
-    // Update the value for everytime the file has been opened in the side panel!
-    useEffect(() => {
-        setCode(getStorage("body-code"))
-    }, [code])
-
     // Editor instance!
     const [code, setCode] = useState(getStorage("body-code"));
 

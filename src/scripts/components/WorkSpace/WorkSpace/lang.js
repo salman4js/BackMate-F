@@ -1,4 +1,5 @@
 export const workLang = {
     explorer : "EXPLORER",
-    back: "Back"
+    back: "Back",
+    load: "Creating your workspace, Hang On!"
 }
