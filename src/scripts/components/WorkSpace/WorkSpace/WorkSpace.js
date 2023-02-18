@@ -7,7 +7,7 @@ import { setStorage } from '../../../Storage/Storage';
 const WorkSpace = (props) => {
 
   // Handle content for the workpanel!
-  const [content, setContent] = useState();
+  const [content, setContent] = useState(); // Remove this later if not being used anywhere!
 
   // Height handler!
   const [height, setHeight] = useState();
