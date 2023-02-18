@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, {useState, useEffect, useRef } from 'react'
 
 const HeaderBtn = (props) => {
 
@@ -7,7 +7,7 @@ const HeaderBtn = (props) => {
 
     // Send the footer button height back to the parent container!
     useEffect(() => {
-        //props.footerElem(footerRef.current.offsetHeight);
+        props.footerHeight(footerRef.current.offsetHeight);
     }, [])
 
     return (

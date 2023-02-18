@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { setStorage, getStorage } from '../../Storage/Storage';
 import '../NavCrumbs/Crumbs.css'
 import { crumbsLang } from '../NavCrumbs/lang';
@@ -9,6 +9,12 @@ import { javascript } from '@codemirror/lang-javascript';
 
 
 const Editor = (props) => {
+
+
+    // Update the value for everytime the file has been opened in the side panel!
+    useEffect(() => {
+        setCode(getStorage("body-code"))
+    }, [code])
 
     // Editor instance!
     const [code, setCode] = useState(getStorage("body-code"));

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { workLang } from '../WorkSpace/lang';
 import { setStorage, getStorage } from '../../../Storage/Storage';
 import FooterBtn from '../FooterBtn/FooterBtn'
@@ -10,6 +10,10 @@ const pathModule = window.require('path');
 
 
 const SidePanel = (props) => {
+
+  // References to calculate the code editor height!
+  const sideRef = useRef(null);
+  const workSpaceRef = useRef(null);
 
   // Get the current path of the working directory!;
   if (getStorage("wd") == null || undefined) {
@@ -38,27 +42,6 @@ const SidePanel = (props) => {
       })
 
     setData(data);
-  }
-
-  // Resize side panel on command!
-  const [initialPos, setInitialPos] = useState(null);
-  const [initialSize, setInitialSize] = useState(null);
-
-  const initial = (e) => {
-
-    let resizable = document.getElementById('Resizable');
-
-    setInitialPos(e.clientX);
-    setInitialSize(resizable.offsetWidth);
-
-  }
-
-  const resize = (e) => {
-
-    let resizable = document.getElementById('Resizable');
-
-    resizable.style.width = `${parseInt(initialSize) + parseInt(e.clientX - initialPos)}px`;
-
   }
 
   // Root Directory!
@@ -90,6 +73,11 @@ const SidePanel = (props) => {
     props.fileContent(fileContent);
   }
 
+  // Update height for the code editor!
+  function updateHeight(data){
+    props.height(workSpaceRef, sideRef, data);
+  }
+
   // Constructor - Get all the files and folders in working directory before the component renders!
   useEffect(() => {
     // Getting the data's from the path directory!
@@ -99,12 +87,12 @@ const SidePanel = (props) => {
   return (
     <div className = "sidepanel-container">
       <div className="wrapper">
-      <div className = "workspace-title">
+      <div className = "workspace-title" ref = {workSpaceRef}>
         <span>
           {workLang.explorer}
         </span>
       </div>
-        <div className="sidebar">
+        <div className="sidebar" ref = {sideRef}>
         
           <div className="files">
             {
@@ -117,7 +105,7 @@ const SidePanel = (props) => {
               })
             }
           </div>
-          <FooterBtn workName = {workLang.back} handleAction = {() => handleBack()} />
+          <FooterBtn workName = {workLang.back} handleAction = {() => handleBack()} footerHeight = {(data) => updateHeight(data)} />
         </div>
       </div>
     </div>

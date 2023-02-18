@@ -15,7 +15,6 @@ const Main = () => {
 
     // Height of the parent container for all the pages!
     const mainRef = useRef(null);
-    const workRef = useRef(null);
 
     // Handle selected cabinet!
     const [selected, setSelected] = useState(getStorage(mainLang.currentDirectory));
