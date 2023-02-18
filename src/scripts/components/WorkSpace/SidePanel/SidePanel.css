@@ -9,7 +9,8 @@
     width: 300px;
     height: calc(100% - 90px);
     padding: 20px 0;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .brew-footer {

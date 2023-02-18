@@ -1,11 +1,19 @@
 .brew-container{
     display: flex;
+    min-width: min-content;
+}
+
+.brew-container .flex-1{
+    width: 300px;
 }
 
 .flex-1{
-    flex: 1;
+    flex: 0 1 300px;
 }
 
 .flex-2{
     flex: 2;
+    width: 100%
 }
+
+
