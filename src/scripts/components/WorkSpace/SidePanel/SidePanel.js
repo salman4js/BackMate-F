@@ -97,7 +97,7 @@ const SidePanel = (props) => {
   }, [])
 
   return (
-    <div>
+    <div className = "sidepanel-container">
       <div className="wrapper">
       <div className = "workspace-title">
         <span>
