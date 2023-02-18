@@ -105,6 +105,7 @@ const SidePanel = (props) => {
         </span>
       </div>
         <div className="sidebar">
+        
           <div className="files">
             {
               data.map((item, key) => {

@@ -6,6 +6,7 @@ body{
     height: 100vh;
     color: white;
     overflow: auto;
+    overflow-x: hidden;
 }
 
 .test {

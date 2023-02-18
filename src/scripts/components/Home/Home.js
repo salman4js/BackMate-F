@@ -138,7 +138,7 @@ const Home = (props) => {
     }, [footer])
 
     return (
-        <div>
+        <div className = "home-container" style = {{paddingTop: "43px"}}>
             <Request request={setRequest} url={(data) => updateUrl(data)} mode={setMode}
                 options={mainLang.options} getFunction={() => getFunction()} params={key} valueUrl={url} valueParams={values} />
             <Pagination pagination={setPagination} catch={(item) => handleCatch(item)} />
