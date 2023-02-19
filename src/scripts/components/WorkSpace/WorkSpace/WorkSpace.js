@@ -8,10 +8,11 @@ import EditorWelcome from '../../CodeEditor/WelcomeEditor/Editor';
 const WorkSpace = (props) => {
 
   // Handle content for the workpanel!
-  const [content, setContent] = useState(); // Remove this later if not being used anywhere!
+  const [content, setContent] = useState(); 
 
-  // Editor State handler!
-  const [editorCount, setEditorCount] = useState([1]);
+
+  // File Click handler!
+  const [click, setClick] = useState(false);
 
   // Height handler!
   const [height, setHeight] = useState();
@@ -19,12 +20,7 @@ const WorkSpace = (props) => {
   // Handle the file content to the editor!
   function handleContent(data) {
     setContent(data); // For working around with the content, if not usable remove this later!
-
-    // Setting the editor count here to render the number of editor as the user opens!
-    setEditorCount(editorCount => {
-      const updatedValue = [...editorCount, editorCount.length + 1];
-      return updatedValue;
-    })
+    setClick(!click);
 
     // Setting the editor value to the storage for value persistant!
     setStorage("editor-code", data);
@@ -43,9 +39,9 @@ const WorkSpace = (props) => {
       <div className="flex-2">
         {
           content !== undefined ? (
-            <WorkPanel content = {content} height = {height} />
+            <WorkPanel content = {content} height = {height} click = {click} />
           ) : (
-            <EditorWelcome />
+            <EditorWelcome message = {"Welcome!"} isReload = {false} />
           )
         }
       </div>
