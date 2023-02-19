@@ -145,7 +145,9 @@ const Home = (props) => {
             {/* <Editor height = {height} data = {setData} /> */}
             <Crumbs value={crumbs} height={height} data={setBody} keys={(data) => appendUrl(data)}
                 values={(data) => appendUrlValue(data)}
-                username={setUsername} password={setPassword} replaceValue={(key, value) => replaceValues(key, value)} />
+                username={setUsername} password={setPassword} replaceValue={(key, value) => replaceValues(key, value)}
+                storage = {"body-code"}
+                />
             <Responses footer={setFooter} result={response} loader={loader} />
         </div>
     )

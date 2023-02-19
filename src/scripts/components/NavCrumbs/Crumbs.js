@@ -8,7 +8,7 @@ const Crumbs = (props) => {
 
     // Editor container for the parent!
     const handleEditorData = (data) => {
-        props.data(data);
+        props.data(JSON.parse(data));
     }
 
     // Handle replace!
@@ -19,7 +19,7 @@ const Crumbs = (props) => {
   
     if(props.value === paginationOptions.body){
         return(
-            <Editor height = {props.height} data = {(data) => handleEditorData(data)} />
+            <Editor height = {props.height} data = {(data) => handleEditorData(data)} storage = {props.storage} />
         )
     } else if(props.value === paginationOptions.params){
         return(

@@ -10,21 +10,26 @@ import { javascript } from '@codemirror/lang-javascript';
 
 const Editor = (props) => {
 
+
+    // Changes to make this component re-usable for the editor workspace!
+    // Instanting storage variable!
+    const storage = props.storage;
+
     // Editor instance!
-    const [code, setCode] = useState(getStorage("body-code"));
+    const [code, setCode] = useState(JSON.stringify(getStorage(storage)));
 
     if (props.height !== undefined) {
 
         return (
             <div>
                 <CodeMirror
-                    value={code}
+                    value={JSON.parse(code)}
                     height={props.height+"px"}
                     theme={dracula}
                     extensions= {[javascript()]}
                     onChange={(editor, change) => {
-                        setStorage("body-code", editor);
-                        props.data(JSON.parse(editor))
+                        setStorage(storage, editor);
+                        props.data(editor)
                     }}
                 />
             </div>
