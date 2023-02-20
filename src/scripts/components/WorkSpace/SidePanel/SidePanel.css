@@ -19,9 +19,8 @@
     font-weight: bold;
 }
 
-.title-footer-span {
-    display: flex;
-    align-items: center;
+.icon-back{
+    cursor: pointer;
 }
 
 .footer-icon{
