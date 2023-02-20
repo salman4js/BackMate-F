@@ -60,7 +60,6 @@ const SidePanel = (props) => {
 
   // Handle Folders back operation!
   function handleBack() {
-    console.log("Back Operation is triggered!");
     const newPath = pathModule.dirname(wd);
     getData(newPath);
     // Change the working directory everytime the path changes!
@@ -88,8 +87,14 @@ const SidePanel = (props) => {
     <div className = "sidepanel-container">
       <div className="wrapper">
       <div className = "workspace-title" ref = {workSpaceRef}>
-        <span>
+        <span className = "explorer">
           {workLang.explorer}
+        </span>
+        <span className = "new-folder">
+          New
+        </span>
+        <span className = "new-file">
+          New 2
         </span>
       </div>
         <div className="sidebar" ref = {sideRef}>

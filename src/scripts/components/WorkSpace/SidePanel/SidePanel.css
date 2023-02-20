@@ -17,11 +17,15 @@
     background-color: #504f4f;
     width: 300px;
     font-weight: bold;
-    cursor: pointer;
 }
 
 .title-footer-span {
-    margin-left: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.footer-icon{
+    margin-left: 10px;
 }
 
 .icon-folder {
@@ -52,7 +56,6 @@
 .workspace-title{
     background-color: #504f4f;
     width: 300px;
-    cursor: pointer;
     position: relative;
 }
 
@@ -65,3 +68,15 @@
     padding-top: 43px;
 }
 
+.explorer{
+    margin-right: 80px;
+    cursor: pointer;
+}
+
+.new-folder{
+    cursor: pointer;
+}
+
+.new-file{
+    cursor: pointer;
+}
