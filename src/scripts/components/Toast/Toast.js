@@ -1,12 +1,22 @@
 import React from 'react';
+import './Toast.css';
+import Textarea from './InputBox/Textarea';
 import Modal from "react-bootstrap/Modal";
+import Button from 'react-bootstrap/Button';
 
 const Toast = (props) => {
+  
   return (
     <Modal show = {props.show} onHide={() => props.handleClose()}>
-        <Modal.Body className = "text-center">
+        <Modal.Body className = {props.alignment !== undefined ? props.alignment : "text-center"}>
             {props.message}
+            {props.data && props.data.textarea.isRequired && <Textarea placeholder = {props.data.textarea.placeholder}/>}
         </Modal.Body>
+        {props.data && props.data.footer.isRequired && 
+          <Modal.Footer>
+            <Button variant = {props.data.footer.buttons.btn1.isPrimary ? "primary" : "secondary"}>{props.data.footer.buttons.btn1.id}</Button>
+          </Modal.Footer>
+        }
     </Modal>
   )
 }
