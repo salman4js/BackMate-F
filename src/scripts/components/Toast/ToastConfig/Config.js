@@ -9,7 +9,7 @@ var dataConfig = {
         buttons: {
             btn1: {
                 id: "Create",
-                isPrimary: true,
+                variant: "success"
             }
         }
     }
