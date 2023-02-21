@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { workLang } from '../WorkSpace/lang';
+import dataConfig from '../../Toast/ToastConfig/Config';
 import { setStorage, getStorage } from '../../../Storage/Storage';
 import FooterBtn from '../FooterBtn/FooterBtn'
 import './SidePanel.css';
 import FileItems from './src/FileItems';
+import Toast from '../../Toast/Toast';
 // Importing the node 'fs' and 'pathModule' module.
 const fs = window.require('fs');
 const pathModule = window.require('path');
@@ -14,6 +16,9 @@ const SidePanel = (props) => {
   // References to calculate the code editor height!
   const sideRef = useRef(null);
   const workSpaceRef = useRef(null);
+
+  // Toast handler!
+  const [toastShow, setToastShow] = useState(false);
 
   // Get the current path of the working directory!;
   if (getStorage("wd") == null || undefined) {
@@ -77,9 +82,14 @@ const SidePanel = (props) => {
     props.height(workSpaceRef, sideRef, data);
   }
 
+  // Handle Toast Close!
+  function handleToastClose(){
+    setToastShow(!toastShow);
+  }
+
   // Handle folder creation!
   function folderCreation(){
-    console.log("Create folder has been clicked!");
+    setToastShow(!toastShow);
   }
 
   // Handle file creation!
@@ -129,6 +139,14 @@ const SidePanel = (props) => {
           <FooterBtn workName={workLang.back} handleAction={() => handleBack()} footerHeight={(data) => updateHeight(data)} />
         </div>
       </div>
+      {
+        toastShow === true ? (
+          <Toast show = {toastShow} message = {workLang.toastHeader} alignment = {"brew-toast-title"}
+          handleClose = {() => handleToastClose()} data = {dataConfig} />
+        ) : (
+          null
+        )
+      }
     </div>
   )
 
