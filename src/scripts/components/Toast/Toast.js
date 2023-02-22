@@ -16,7 +16,7 @@ const Toast = (props) => {
         <Modal.Body className = {props.alignment !== undefined ? props.alignment : "text-center"}>
             {props.message}
             {props.data && props.data.textarea.isRequired && 
-            <Textarea placeholder = {props.data.textarea.placeholder} value = {props.value} data = {props.node}/>}
+            <Textarea placeholder = {props.data.textarea.placeholder} value = {props.value} data = {props.node} error = {props.error}/>}
         </Modal.Body>
         {props.data && props.data.footer.isRequired && 
           <Modal.Footer>
