@@ -22,6 +22,7 @@ const SidePanel = (props) => {
 
   // New folder and value state handler!
   const [value, setValue] = useState();
+  const [error, setError] = useState();
 
   // Get the current path of the working directory!;
   if (getStorage("wd") == null || undefined) {
@@ -89,6 +90,8 @@ const SidePanel = (props) => {
 
   // Handle Toast Close!
   function handleToast(){
+    // Setting the error undefined to retain miniToast rendering on opening the panel for the first time after the error pops!
+    setError(undefined);
     setToastShow(!toastShow);
   }
 
@@ -104,10 +107,14 @@ const SidePanel = (props) => {
     try {
       if (!fs.existsSync(value)) {
         fs.mkdirSync(value);
+        // When the folder has been created, the default wd would be in the created folder hence the sidepanel value might be misleading!
+        // So, Whenever the folder has been created, initiating handleback function to get back to the original directory!
+        handleBack(wd);
         // Close the creation toast dialog!
         handleToast();
       } else {
-        // Throw error that the folder already exists!
+        // Throw error that the name must be needed to create a folder!
+        setError(workLang.error)
       }
     } catch (err) {
       console.error(err);
@@ -164,7 +171,7 @@ const SidePanel = (props) => {
       {
         toastShow === true ? (
           <Toast show = {toastShow} message = {workLang.toastHeader} alignment = {"brew-toast-title"}
-          handleClose = {() => handleToast()} data = {dataConfig} value = {value} 
+          handleClose = {() => handleToast()} data = {dataConfig} value = {value} error = {error}
           node = {(data) => updateValue(data)} handleClick = {() => folderCreation()} />
         ) : (
           null
