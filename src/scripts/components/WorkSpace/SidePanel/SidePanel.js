@@ -58,6 +58,7 @@ const SidePanel = (props) => {
 
   // Root Directory!
   function rootDirectory(path) {
+    // Setting the local storage for value persistant!
     setStorage("wd", path);
     setValue(path);
   }
@@ -81,6 +82,7 @@ const SidePanel = (props) => {
 
   // Handle open file operation!
   function openFile(data) {
+    setStorage('wdf', pathModule.join(wd, data));
     const fileContent = fs.readFileSync(pathModule.join(wd, data)).toString();
     props.fileContent(fileContent);
   }

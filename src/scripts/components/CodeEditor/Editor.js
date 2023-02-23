@@ -10,6 +10,21 @@ import { javascript } from '@codemirror/lang-javascript';
 
 const Editor = (props) => {
 
+    // Save the code in ctrl + save!
+    useEffect(() => {
+        function handleKeyDown(event) {
+            if (event.ctrlKey && event.key === "s") {
+                event.preventDefault();
+                props.saveText();
+            }
+        }
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    });
+
 
     // Changes to make this component re-usable for the editor workspace!
     // Instanting storage variable!
@@ -24,9 +39,9 @@ const Editor = (props) => {
             <div>
                 <CodeMirror
                     value={JSON.parse(code)}
-                    height={props.height+"px"}
+                    height={props.height + "px"}
                     theme={dracula}
-                    extensions= {[javascript()]}
+                    extensions={[javascript()]}
                     onChange={(editor, change) => {
                         setStorage(storage, editor);
                         props.data(editor)

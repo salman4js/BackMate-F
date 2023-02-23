@@ -1,4 +1,5 @@
 .mini-viewer{
+    margin-top: 2px;
     border: 1px solid red;
     height: 15px;
 }
@@ -6,4 +7,5 @@
 .mini-message{
     font-size: x-small;
     color: red;
+    background-color: #d4dae4;
 }

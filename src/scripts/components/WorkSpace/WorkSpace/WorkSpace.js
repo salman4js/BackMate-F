@@ -2,13 +2,19 @@ import React, { useState, useEffect } from 'react';
 import './workspace.css';
 import SidePanel from '../SidePanel/SidePanel';
 import WorkPanel from '../WorkPanel/WorkPanel';
-import { setStorage } from '../../../Storage/Storage';
+import { workLang } from './lang';
+import { getStorage, setStorage } from '../../../Storage/Storage';
 import EditorWelcome from '../../CodeEditor/WelcomeEditor/Editor';
+// Importing the node 'fs' and 'pathModule' module.
+const fs = window.require('fs');
+const pathModule = window.require('path');
+
 
 const WorkSpace = (props) => {
 
   // Handle content for the workpanel!
   const [content, setContent] = useState(); 
+  const [value, setValue] = useState();
 
 
   // File Click handler!
@@ -26,6 +32,15 @@ const WorkSpace = (props) => {
     setStorage("editor-code", data);
   }
 
+  // Save the modified file!
+  function save(){
+    try{
+      fs.writeFileSync(getStorage('wdf'), value);
+    } catch(err){
+      console.error("Error occured in file saving!", err);
+    }
+  }
+
   // Update height for the code editor!
   function updateHeight(workSpaceRef, sideRef, footerRef){
     setHeight(workSpaceRef.current.offsetHeight + sideRef.current.offsetHeight + footerRef)
@@ -39,9 +54,9 @@ const WorkSpace = (props) => {
       <div className="flex-2">
         {
           content !== undefined ? (
-            <WorkPanel content = {content} height = {height} click = {click} />
+            <WorkPanel content = {content} height = {height} click = {click} saveText = {() => save()} data = {setValue}/>
           ) : (
-            <EditorWelcome message = {"Welcome!"} isReload = {false} />
+            <EditorWelcome message = {workLang.preview} isReload = {false} height = {height} />
           )
         }
       </div>
