@@ -16,6 +16,8 @@ const WorkSpace = (props) => {
   const [content, setContent] = useState(); 
   const [value, setValue] = useState();
 
+  // Calculate panel header height!
+  const [panelHeader, setPanelHeader] = useState();
 
   // File Click handler!
   const [click, setClick] = useState(false);
@@ -42,14 +44,14 @@ const WorkSpace = (props) => {
   }
 
   // Update height for the code editor!
-  function updateHeight(workSpaceRef, sideRef, footerRef){
-    setHeight(workSpaceRef.current.offsetHeight + sideRef.current.offsetHeight + footerRef)
+  function updateHeight(workSpaceRef, sideRef, footerRef, wrapperRef){
+    setHeight(workSpaceRef.current.offsetHeight + sideRef.current.offsetHeight + footerRef - wrapperRef.current.offsetHeight)
   }
 
   return (
     <div className="brew-container">
       <div className="flex-1">
-        <SidePanel fileContent={(data) => handleContent(data)} height = {(x,y,z) => updateHeight(x,y,z)} />
+        <SidePanel fileContent={(data) => handleContent(data)} height = {(x,y,z,a) => updateHeight(x,y,z,a)} />
       </div>
       <div className="flex-2">
         {
