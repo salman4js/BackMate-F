@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
-import { setStorage } from '../../../Storage/Storage';
 import Editor from '../../CodeEditor/Editor';
 import EditorWelcome from '../../CodeEditor/WelcomeEditor/Editor';
+import { workLang } from '../WorkSpace/lang';
 import './WorkPanel.css';
 
 const WorkPanel = (props) => {
@@ -11,7 +11,11 @@ const WorkPanel = (props) => {
 
   // Handling code editor data!
   function handleData(data){
-    console.log(JSON.stringify(data));
+    props.data(data);
+  }
+
+  function saveText(){
+    props.saveText();
   }
 
   // Update reload state!
@@ -30,10 +34,11 @@ const WorkPanel = (props) => {
   return (
     reload === true ? (
       <div className = "workpanel">
-        <Editor height = {props.height} storage = {"editor-code"} data = {(data) => handleData(data)} content = {props.content}  />
+        <Editor height = {props.height} storage = {"editor-code"} data = {(data) => handleData(data)} content = {props.content}
+        saveText = {() => saveText()}  />
       </div>
     ) : (
-      <EditorWelcome message = {"Reloading!"} isReload = {true} reload = {(data) => updateState(data)}/>
+      <EditorWelcome message = {workLang.reload} isReload = {true} reload = {(data) => updateState(data)} height = {props.height} />
     )
   )
 }
