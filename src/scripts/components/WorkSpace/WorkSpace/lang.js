@@ -2,6 +2,8 @@ export const workLang = {
     explorer : "EXPLORER",
     back: "Back",
     load: "Creating your workspace, Hang On!",
-    toastHeader: "Folder Creation",
-    error: "Please type a name to create a folder!"
+    toastFolderHeader: "Folder Creation",
+    errorFolder: "Please type a name to create a folder!",
+    errorFile: "Please type a name to create a file!",
+    toastFileHeader: "File Creation"
 }
