@@ -16,6 +16,7 @@ const SidePanel = (props) => {
   // References to calculate the code editor height!
   const sideRef = useRef(null);
   const workSpaceRef = useRef(null);
+  const wrapperRef = useRef(null);
 
   // Toast handler!
   const [toastShow, setToastShow] = useState(false);
@@ -89,7 +90,7 @@ const SidePanel = (props) => {
 
   // Update height for the code editor!
   function updateHeight(data) {
-    props.height(workSpaceRef, sideRef, data);
+    props.height(workSpaceRef, sideRef, data, wrapperRef);
   }
 
   // Handle Toast Close!
@@ -169,7 +170,7 @@ const SidePanel = (props) => {
 
   return (
     <div className="sidepanel-container">
-      <div className="wrapper">
+      <div className="wrapper" ref = {wrapperRef}>
         <div className="workspace-title" ref={workSpaceRef}>
           <span className="explorer">
             {workLang.explorer}
