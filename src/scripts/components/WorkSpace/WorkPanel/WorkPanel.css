@@ -5,8 +5,12 @@
 }
 
 .panel-header{
-    padding-top: 20px;
+    padding-top: 40px;
     background-color: rgb(40, 44, 52);
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(20, 1fr);
+}
+
+.bread-crumbs{
+    overflow-x: auto;
 }
