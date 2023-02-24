@@ -17,7 +17,7 @@ const WorkSpace = (props) => {
   const [value, setValue] = useState();
 
   // Calculate panel header height!
-  const [panelHeader, setPanelHeader] = useState();
+  const [panelHeader, setPanelHeader] = useState([]);
 
   // File Click handler!
   const [click, setClick] = useState(false);
@@ -51,12 +51,12 @@ const WorkSpace = (props) => {
   return (
     <div className="brew-container">
       <div className="flex-1">
-        <SidePanel fileContent={(data) => handleContent(data)} height = {(x,y,z,a) => updateHeight(x,y,z,a)} />
+        <SidePanel fileContent={(data) => handleContent(data)} height = {(x,y,z,a) => updateHeight(x,y,z,a)} openFile = {setPanelHeader} />
       </div>
       <div className="flex-2">
         {
           content !== undefined ? (
-            <WorkPanel content = {content} height = {height} click = {click} saveText = {() => save()} data = {setValue}/>
+            <WorkPanel panelHeader = {panelHeader} content = {content} height = {height} click = {click} saveText = {() => save()} data = {setValue}/>
           ) : (
             <EditorWelcome message = {workLang.preview} isReload = {false} height = {height} />
           )

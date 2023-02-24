@@ -1,0 +1,28 @@
+.panel-header-content{
+    padding: 2.5px;
+}
+
+.panel-header-name{
+    margin-left: 5px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.panel-header-content:hover{
+    background-color: rgb(58, 62, 70);
+}
+
+.panel-header{
+    width: auto;
+    cursor: pointer;
+}
+
+.close-panel{
+    display: none;
+}
+
+.panel-header:hover .close-panel{
+    display: inline-block;
+}
+
+

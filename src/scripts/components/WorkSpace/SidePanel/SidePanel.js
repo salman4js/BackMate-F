@@ -18,6 +18,9 @@ const SidePanel = (props) => {
   const workSpaceRef = useRef(null);
   const wrapperRef = useRef(null);
 
+  // Opened files state handler!
+  const [open, setOpen] = useState(getStorage('openFile'));
+
   // Toast handler!
   const [toastShow, setToastShow] = useState(false);
 
@@ -83,7 +86,19 @@ const SidePanel = (props) => {
 
   // Handle open file operation!
   function openFile(data) {
+    // Set the path of the opened file to the local storage!
     setStorage('wdf', pathModule.join(wd, data));
+    
+    // Set the opened files in the local storage for editor persitant!
+    setOpen(open => {
+      const newValue = [...open, data];
+      // Sending the opened file back to the parent container!
+      props.openFile(newValue);
+      setStorage("openFile", JSON.stringify(newValue));
+      return newValue;
+    })
+    
+    // Sending the file content to the code editor!
     const fileContent = fs.readFileSync(pathModule.join(wd, data)).toString();
     props.fileContent(fileContent);
   }
