@@ -88,10 +88,10 @@ const SidePanel = (props) => {
   function openFile(data) {
     // Set the path of the opened file to the local storage!
     setStorage('wdf', pathModule.join(wd, data));
-    
+    const pathWithDir = pathModule.join(wd, data);
     // Set the opened files in the local storage for editor persitant!
     setOpen(open => {
-      const newValue = [...open, data];
+      const newValue = [...open, pathWithDir];
       // Sending the opened file back to the parent container!
       props.openFile(newValue);
       setStorage("openFile", JSON.stringify(newValue));

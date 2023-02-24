@@ -40,7 +40,7 @@ const WorkPanel = (props) => {
           {
             props.panelHeader.map((item, key) => {
               return (
-                <PanelHeader fileName={item} />
+                <PanelHeader fileName={item.split("/").pop()} />
               )
             })
           }
