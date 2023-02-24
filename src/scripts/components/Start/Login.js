@@ -32,13 +32,15 @@ const Login = () => {
 
         // Assign the dafault storafe system for the Home cabinet!
         const options = [1]
+        const defaultValue = []
         const defaultSet = {
             "body-code" : "",
             "Crumbs": mainLang.body,
             "params-options": JSON.stringify(options),
             "landing-page": mainLang.landingPage,
             "req-url": "",
-            "current-directory": mainLang.home
+            "current-directory": mainLang.home,
+            "openFile" : defaultValue
         }
 
         const result = await loginUser(data);
