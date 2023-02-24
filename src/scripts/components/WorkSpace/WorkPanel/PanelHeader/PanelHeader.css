@@ -1,11 +1,14 @@
 .panel-header-content{
     padding: 2.5px;
+    display: flex;
+    align-items: center;
 }
 
 .panel-header-name{
     margin-left: 5px;
     margin-right: 10px;
     font-size: 14px;
+    padding: 5px 5px 0px 5px;
 }
 
 .panel-header-content:hover{
@@ -13,16 +16,13 @@
 }
 
 .panel-header{
-    width: auto;
     cursor: pointer;
+    display: inline-block;
+    width: auto;
+    white-space: nowrap;
 }
 
 .close-panel{
-    display: none;
+    padding-top: 5px
 }
-
-.panel-header:hover .close-panel{
-    display: inline-block;
-}
-
 
