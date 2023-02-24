@@ -37,13 +37,13 @@ const WorkPanel = (props) => {
     reload === true ? (
       <div>
         <div className="panel-header">
-            {
-              props.panelHeader.map((item,key) => {
-                return(
-                  <PanelHeader fileName = {item} />
-                )
-              })
-            }
+          {
+            props.panelHeader.map((item, key) => {
+              return (
+                <PanelHeader fileName={item} />
+              )
+            })
+          }
         </div>
         <div className="workpanel">
           <Editor height={props.height} storage={"editor-code"} data={(data) => handleData(data)} content={props.content}
