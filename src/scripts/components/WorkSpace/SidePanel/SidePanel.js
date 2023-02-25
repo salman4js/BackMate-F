@@ -184,6 +184,10 @@ const SidePanel = (props, ref) => {
   useImperativeHandle(ref, () => ({
     log(filePath, fileName) {
       openFile(filePath, fileName)
+    },
+
+    fileClose(filePath){
+      console.log(filePath);
     }
   }));
   

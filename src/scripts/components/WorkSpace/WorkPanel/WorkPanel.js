@@ -25,6 +25,11 @@ const WorkPanel = (props) => {
     props.fileOpen(data);
   }
 
+  // Handle the file-close panel state from the panel header!
+  function handleClosePanel(data){
+    props.fileClose(data)
+  }
+
   // Update reload state!
   function updateState(data) {
     if (data === false) {
@@ -45,7 +50,9 @@ const WorkPanel = (props) => {
           {
             props.panelHeader.map((item, key) => {
               return (
-                <PanelHeader fileName={item.split("/").pop()} pathWithDir = {item} handleFileOpen = {(data) => handleFileOpen(data)} />
+                <PanelHeader fileName={item.split("/").pop()} pathWithDir = {item} 
+                handleFileOpen = {(data) => handleFileOpen(data)}
+                handleClosePanel = {(data) => handleClosePanel(data)} />
               )
             })
           }
