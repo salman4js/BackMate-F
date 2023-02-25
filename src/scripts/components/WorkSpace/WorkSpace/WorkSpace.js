@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import './workspace.css';
 import SidePanel from '../SidePanel/SidePanel';
 import WorkPanel from '../WorkPanel/WorkPanel';
@@ -15,6 +15,9 @@ const WorkSpace = (props) => {
   // Handle content for the workpanel!
   const [content, setContent] = useState(); 
   const [value, setValue] = useState();
+
+  // SidePanel component reference!
+  const ref = useRef(null);
 
   // Calculate panel header height!
   const [panelHeader, setPanelHeader] = useState([]);
@@ -34,6 +37,14 @@ const WorkSpace = (props) => {
     setStorage("editor-code", data);
   }
 
+  // Handle file open from the panel header
+  function handleFileOpen(data){
+    var lastOccurence = data.lastIndexOf('/');
+    const fileName = data.substring(lastOccurence + 1);
+    const filePath = data.substring(0, lastOccurence);
+    ref.current.log(filePath, fileName)
+  }
+
   // Save the modified file!
   function save(){
     try{
@@ -51,12 +62,13 @@ const WorkSpace = (props) => {
   return (
     <div className="brew-container">
       <div className="flex-1">
-        <SidePanel fileContent={(data) => handleContent(data)} height = {(x,y,z,a) => updateHeight(x,y,z,a)} openFile = {setPanelHeader} />
+        <SidePanel ref = {ref} fileContent={(data) => handleContent(data)} height = {(x,y,z,a) => updateHeight(x,y,z,a)} openFile = {setPanelHeader} />
       </div>
       <div className="flex-2">
         {
           content !== undefined ? (
-            <WorkPanel panelHeader = {panelHeader} content = {content} height = {height} click = {click} saveText = {() => save()} data = {setValue}/>
+            <WorkPanel panelHeader = {panelHeader} content = {content} height = {height} click = {click} 
+            saveText = {() => save()} data = {setValue} fileOpen = {(data) => handleFileOpen(data)} />
           ) : (
             <EditorWelcome message = {workLang.preview} isReload = {false} height = {height} />
           )

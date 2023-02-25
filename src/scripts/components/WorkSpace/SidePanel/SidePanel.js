@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
 import { workLang } from '../WorkSpace/lang';
 import dataConfig from '../../Toast/ToastConfig/Config';
 import { setStorage, getStorage } from '../../../Storage/Storage';
@@ -11,7 +11,7 @@ const fs = window.require('fs');
 const pathModule = window.require('path');
 
 
-const SidePanel = (props) => {
+const SidePanel = (props, ref) => {
 
   // References to calculate the code editor height!
   const sideRef = useRef(null);
@@ -85,11 +85,12 @@ const SidePanel = (props) => {
   }
 
   // Handle open file operation!
-  function openFile(data) {
+  function openFile(wd,data) {
     // Set the path of the opened file to the local storage!
     setStorage('wdf', pathModule.join(wd, data));
     const pathWithDir = pathModule.join(wd, data);
     // Set the opened files in the local storage for editor persitant!
+    // Remove duplicates array!
     setOpen(open => {
       const newValue = [...open, pathWithDir];
       // Sending the opened file back to the parent container!
@@ -175,6 +176,15 @@ const SidePanel = (props) => {
       fileCreation();
     }
   }
+
+
+  // Referencing openFile function to the parent component
+  // to enable the panel header to handle open file functions!
+  useImperativeHandle(ref, () => ({
+    log(filePath, fileName) {
+      openFile(filePath, fileName)
+    }
+  }));
   
 
   // Constructor - Get all the files and folders in working directory before the component renders!
@@ -210,7 +220,7 @@ const SidePanel = (props) => {
               data.map((item, key) => {
                 return (
                   <FileItems name={item.name} isDirectory={item.directory} navigation={(data) => handleNavigation(data)}
-                    openFile={(data) => openFile(data)}
+                    openFile={(data) => openFile(wd ,data)}
                   />
                 )
               })
@@ -234,4 +244,4 @@ const SidePanel = (props) => {
 
 }
 
-export default SidePanel;
+export default React.forwardRef(SidePanel);
