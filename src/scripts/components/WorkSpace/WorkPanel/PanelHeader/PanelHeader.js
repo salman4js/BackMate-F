@@ -15,9 +15,9 @@ const PanelHeader = (props) => {
     }
 
     return (
-        <div className="panel-header-src" onClick={() => props.handleFileOpen(props.pathWithDir)}>
+        <div className="panel-header-src">
             <div className="panel-header-content" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-                <span className="panel-header-name">
+                <span className="panel-header-name" onClick={() => props.handleFileOpen(props.pathWithDir)}>
                     {props.fileName}
                 </span>
                 {isHovered && (

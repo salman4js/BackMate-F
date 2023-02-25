@@ -37,17 +37,25 @@ const WorkSpace = (props) => {
     setStorage("editor-code", data);
   }
 
-  // Handle file open from the panel header
-  function handleFileOpen(data){
+
+  // Template helpers!
+  function templateHelpers(data){
     var lastOccurence = data.lastIndexOf('/');
     const fileName = data.substring(lastOccurence + 1);
     const filePath = data.substring(0, lastOccurence);
-    ref.current.log(filePath, fileName)
+    return {filePath: filePath, fileName: fileName};
+  }
+
+  // Handle file open from the panel header
+  function handleFileOpen(data){
+    const result = templateHelpers(data)
+    ref.current.log(result.filePath, result.fileName);
   }
 
   // Handle the file-close panel data from the panel header!
   function handleClosePanel(data){
-    ref.current.fileClose(data);
+    const result = templateHelpers(data);
+    ref.current.fileClose(result.filePath, result.fileName);
   }
 
   // Save the modified file!

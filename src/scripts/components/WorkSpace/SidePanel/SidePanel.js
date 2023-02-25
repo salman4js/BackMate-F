@@ -105,6 +105,16 @@ const SidePanel = (props, ref) => {
     props.fileContent(fileContent);
   }
 
+  // Handle file-close panel header operation!
+  function fileClose(filePath){
+    setOpen(open => {
+      const newValue = open.filter(item => item !== filePath);
+      props.openFile(newValue);
+      setStorage("openFile", JSON.stringify(newValue));
+      return newValue;
+    })
+  }
+
   // Update height for the code editor!
   function updateHeight(data) {
     props.height(workSpaceRef, sideRef, data, wrapperRef);
@@ -186,8 +196,8 @@ const SidePanel = (props, ref) => {
       openFile(filePath, fileName)
     },
 
-    fileClose(filePath){
-      console.log(filePath);
+    fileClose(filePath, fileName){
+      fileClose(filePath + "/" + fileName);
     }
   }));
   
