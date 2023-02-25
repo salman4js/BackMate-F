@@ -20,6 +20,11 @@ const WorkPanel = (props) => {
     props.saveText();
   }
 
+  // Handle the file open state from the panel header!
+  function handleFileOpen(data){
+    props.fileOpen(data);
+  }
+
   // Update reload state!
   function updateState(data) {
     if (data === false) {
@@ -40,7 +45,7 @@ const WorkPanel = (props) => {
           {
             props.panelHeader.map((item, key) => {
               return (
-                <PanelHeader fileName={item.split("/").pop()} />
+                <PanelHeader fileName={item.split("/").pop()} pathWithDir = {item} handleFileOpen = {(data) => handleFileOpen(data)} />
               )
             })
           }
