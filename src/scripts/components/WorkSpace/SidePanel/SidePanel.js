@@ -94,8 +94,9 @@ const SidePanel = (props, ref) => {
     setOpen(open => {
       const newValue = [...open, pathWithDir];
       // Sending the opened file back to the parent container!
-      props.openFile(newValue);
-      setStorage("openFile", JSON.stringify(newValue));
+      const val = [...new Set(newValue)];
+      props.openFile(val);
+      setStorage("openFile", JSON.stringify(val));
       return newValue;
     })
     
