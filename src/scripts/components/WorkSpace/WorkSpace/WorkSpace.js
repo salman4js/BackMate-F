@@ -45,6 +45,11 @@ const WorkSpace = (props) => {
     ref.current.log(filePath, fileName)
   }
 
+  // Handle the file-close panel data from the panel header!
+  function handleClosePanel(data){
+    ref.current.fileClose(data);
+  }
+
   // Save the modified file!
   function save(){
     try{
@@ -68,7 +73,8 @@ const WorkSpace = (props) => {
         {
           content !== undefined ? (
             <WorkPanel panelHeader = {panelHeader} content = {content} height = {height} click = {click} 
-            saveText = {() => save()} data = {setValue} fileOpen = {(data) => handleFileOpen(data)} />
+            saveText = {() => save()} data = {setValue} fileOpen = {(data) => handleFileOpen(data)}
+            fileClose = {(data) => handleClosePanel(data)} />
           ) : (
             <EditorWelcome message = {workLang.preview} isReload = {false} height = {height} />
           )
