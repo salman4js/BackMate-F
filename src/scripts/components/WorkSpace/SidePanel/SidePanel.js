@@ -105,20 +105,20 @@ const SidePanel = (props, ref) => {
     props.fileContent(fileContent);
   }
 
-  // Handle file-close panel header operation!
-  function fileClose(filePath){
-    setOpen(open => {
-      const check = open.indexOf(filePath);
-      // Added as part of closed item duplicate preventor fails at sometimes!
-      if(check > -1){
-        var newValue = open.filter(item => item !== filePath);
-      }
-      const failSafe = [...new Set(newValue)]; // Adding an extra check as a fail safe.
-      props.openFile(failSafe);
-      setStorage("openFile", JSON.stringify(newValue));
-      return newValue;
-    })
-  }
+ // Handle file-close panel header operation!
+ function fileClose(filePath){
+  setOpen(open => {
+    const check = open.indexOf(filePath);
+    // Added as part of closed item duplicate preventor fails at sometimes!
+    if(check > -1){
+      var newValue = open.filter(item => item !== filePath);
+    }
+    const failSafe = [...new Set(newValue)]; // Adding an extra check as a fail safe.
+    props.openFile(failSafe);
+    setStorage("openFile", JSON.stringify(newValue));
+    return newValue;
+  })
+}
 
   // Update height for the code editor!
   function updateHeight(data) {
