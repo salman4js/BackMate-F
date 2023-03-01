@@ -101,12 +101,18 @@ const SidePanel = (props, ref) => {
     })
     
     // Sending the file content to the code editor!
+    passContent(wd, data);
+  }
+
+  function passContent(wd, data){
     const fileContent = fs.readFileSync(pathModule.join(wd, data)).toString();
     props.fileContent(fileContent);
   }
 
  // Handle file-close panel header operation!
  function fileClose(filePath){
+  const onOpen = getStorage('wdf');
+  // Handle the panel header data!
   setOpen(open => {
     const check = open.indexOf(filePath);
     // Added as part of closed item duplicate preventor fails at sometimes!
@@ -118,6 +124,18 @@ const SidePanel = (props, ref) => {
     setStorage("openFile", JSON.stringify(newValue));
     return newValue;
   })
+
+  // Handle the code editor data interference with panel header!
+  if(onOpen === filePath){
+    const getIndex = open;
+    const index = getIndex.indexOf(onOpen);
+    setStorage('wdf', open[index - 1]);
+    // Calling the function responsible for sending the content to the editor!
+    const path = open[index - 1];
+    const data = path.split("/").pop();
+    const wd = path.substring(0, path.lastIndexOf("/"));
+    passContent(wd, data);
+  }
 }
 
   // Update height for the code editor!
