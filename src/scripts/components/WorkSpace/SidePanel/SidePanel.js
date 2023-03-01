@@ -108,8 +108,13 @@ const SidePanel = (props, ref) => {
   // Handle file-close panel header operation!
   function fileClose(filePath){
     setOpen(open => {
-      const newValue = open.filter(item => item !== filePath);
-      props.openFile(newValue);
+      const check = open.indexOf(filePath);
+      // Added as part of closed item duplicate preventor fails at sometimes!
+      if(check > -1){
+        var newValue = open.filter(item => item !== filePath);
+      }
+      const failSafe = [...new Set(newValue)]; // Adding an extra check as a fail safe.
+      props.openFile(failSafe);
       setStorage("openFile", JSON.stringify(newValue));
       return newValue;
     })
