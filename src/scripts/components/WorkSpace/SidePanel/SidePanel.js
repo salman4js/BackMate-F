@@ -105,8 +105,13 @@ const SidePanel = (props, ref) => {
   }
 
   function passContent(wd, data){
-    const fileContent = fs.readFileSync(pathModule.join(wd, data)).toString();
-    props.fileContent(fileContent);
+    // Implemented fail safe method as a part of rendering the welcome editor screen when no panel header file is in open state!
+    try{
+      const fileContent = fs.readFileSync(pathModule.join(wd, data)).toString();
+      props.fileContent(fileContent);
+    } catch(err){
+      props.fileContent(undefined);
+    }
   }
 
  // Handle file-close panel header operation!
@@ -121,21 +126,37 @@ const SidePanel = (props, ref) => {
     }
     const failSafe = [...new Set(newValue)]; // Adding an extra check as a fail safe.
     props.openFile(failSafe);
-    setStorage("openFile", JSON.stringify(newValue));
-    return newValue;
+    setStorage("openFile", JSON.stringify(failSafe));
+    // Handle the code editor data interference with panel header!
+    if(onOpen === filePath){
+      const getIndex = open;
+      let index = getIndex.indexOf(onOpen);
+      setStorage('wdf', open[index - 1]);
+      // Gets how many panel header tabs are present, If none render the welcome editor screen!
+      if(failSafe.length > 0){
+        try{
+          const path = open[index - 1];
+          const data = path.split("/").pop();
+          const wd = path.substring(0, path.lastIndexOf("/"));
+          // Calling the function responsible for sending the content to the editor!
+          passContent(wd, data);
+        } catch(err){
+          const path = failSafe[index];
+          // Re writing the storage value since its undefined when its comes to first panel header tab close action!
+          setStorage('wdf', failSafe[index]);
+          const data = path.split("/").pop();
+          const wd = path.substring(0, path.lastIndexOf("/"));
+          passContent(wd, data);
+        }
+      } else {
+        // the above try and catch block performs the same operation, this if condition is a fail safe condition for any expected scenarios!
+        passContent(undefined);
+      } 
+    }
+    return failSafe;
   })
 
-  // Handle the code editor data interference with panel header!
-  if(onOpen === filePath){
-    const getIndex = open;
-    const index = getIndex.indexOf(onOpen);
-    setStorage('wdf', open[index - 1]);
-    // Calling the function responsible for sending the content to the editor!
-    const path = open[index - 1];
-    const data = path.split("/").pop();
-    const wd = path.substring(0, path.lastIndexOf("/"));
-    passContent(wd, data);
-  }
+  
 }
 
   // Update height for the code editor!
