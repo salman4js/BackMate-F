@@ -24,7 +24,6 @@ const PanelHeader = (props) => {
         // Last opened file is the one previewing on the screen!
        if(props.pathWithDir === getStorage('wdf')){
         setHighlight(true);
-        setIsHovered(true);
        } else {
         return;
        }
