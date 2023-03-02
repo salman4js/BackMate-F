@@ -6,6 +6,15 @@
     white-space: nowrap;
 }
 
+.panel-header-content-highlight{
+    padding: 2.5px;
+    display: flex;
+    align-items: center;
+    width: auto;
+    white-space: nowrap;
+    background-color: rgb(58, 62, 70);
+}
+
 .panel-header-name{
     margin-left: 5px;
     font-size: 14px;
@@ -13,9 +22,9 @@
     padding: 5px 5px 0px 5px;
 }
 
-.panel-header-content:hover{
+/* .panel-header-content:hover{
     background-color: rgb(58, 62, 70);
-}
+} */
 
 .panel-header-src{
     cursor: pointer;
