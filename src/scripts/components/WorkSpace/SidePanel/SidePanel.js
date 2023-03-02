@@ -273,7 +273,6 @@ const SidePanel = (props, ref) => {
           </span>
         </div>
         <div className="sidebar" ref={sideRef}>
-
           <div className="files">
             {
               data.map((item, key) => {

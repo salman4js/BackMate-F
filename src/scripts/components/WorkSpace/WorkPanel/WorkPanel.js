@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Editor from '../../CodeEditor/Editor';
 import PanelHeader from './PanelHeader/PanelHeader';
 import EditorWelcome from '../../CodeEditor/WelcomeEditor/Editor';
@@ -10,6 +10,9 @@ const WorkPanel = (props) => {
 
   // Reload state handler!
   const [reload, setReload] = useState(false);
+
+  // Reference handler for panel header element
+  const panelHeaderRef = useRef(null);
 
   // Handling code editor data!
   function handleData(data) {
@@ -46,13 +49,13 @@ const WorkPanel = (props) => {
   return (
     reload === true ? (
       <div>
-        <div className="panel-header">
+        <div className="panel-header" ref = {panelHeaderRef}>
           {
             props.panelHeader.map((item, key) => {
               return (
                 <PanelHeader fileName={item.split("/").pop()} pathWithDir = {item} 
                 handleFileOpen = {(data) => handleFileOpen(data)}
-                handleClosePanel = {(data) => handleClosePanel(data)} />
+                handleClosePanel = {(data) => handleClosePanel(data)}/>
               )
             })
           }

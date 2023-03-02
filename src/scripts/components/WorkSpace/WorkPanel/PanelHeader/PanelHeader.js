@@ -30,7 +30,7 @@ const PanelHeader = (props) => {
     }
 
     useEffect(() => {
-        checkFileState()
+        checkFileState();
     }, [props.pathWithDir])
 
     return (

@@ -5,6 +5,7 @@ import WorkPanel from '../WorkPanel/WorkPanel';
 import { workLang } from './lang';
 import { getStorage, setStorage } from '../../../Storage/Storage';
 import EditorWelcome from '../../CodeEditor/WelcomeEditor/Editor';
+import Control from '../ControlCenter/Control';
 // Importing the node 'fs' and 'pathModule' module.
 const fs = window.require('fs');
 const pathModule = window.require('path');
@@ -27,6 +28,7 @@ const WorkSpace = (props) => {
 
   // Height handler!
   const [height, setHeight] = useState();
+  const [footerHeight, setFooterHeight] = useState();
 
   // Handle the file content to the editor!
   function handleContent(data) {
@@ -69,7 +71,13 @@ const WorkSpace = (props) => {
 
   // Update height for the code editor!
   function updateHeight(workSpaceRef, sideRef, footerRef, wrapperRef){
-    setHeight(workSpaceRef.current.offsetHeight + sideRef.current.offsetHeight + footerRef - wrapperRef.current.offsetHeight)
+    controlHeight(footerRef) // Set the footer height to the state inorder to handle the height of the control center container!
+    setHeight(workSpaceRef.current.offsetHeight + sideRef.current.offsetHeight + wrapperRef.current.offsetHeight - footerRef - footerRef)
+  }
+
+  // Calculate the height of the control center container
+  function controlHeight(data){
+    setFooterHeight(data)
   }
 
   return (
@@ -80,13 +88,16 @@ const WorkSpace = (props) => {
       <div className="flex-2">
         {
           content !== undefined ? (
-            <WorkPanel panelHeader = {panelHeader} content = {content} height = {height} click = {click} 
-            saveText = {() => save()} data = {setValue} fileOpen = {(data) => handleFileOpen(data)}
-            fileClose = {(data) => handleClosePanel(data)} />
+            <div>
+              <WorkPanel panelHeader = {panelHeader} content = {content} height = {height} click = {click} 
+              saveText = {() => save()} data = {setValue} fileOpen = {(data) => handleFileOpen(data)}
+              fileClose = {(data) => handleClosePanel(data)} />
+            </div>
           ) : (
             <EditorWelcome message = {workLang.preview} isReload = {false} height = {height} />
           )
         }
+        <Control height = {footerHeight} />
       </div>
     </div>
   )
