@@ -1,4 +1,5 @@
 const axios = require("axios");
+import { readJson, extractExpected, paramsExtractor, checkExpected } from "./Automation/Automate";
 
 async function Get(params){
    try{
@@ -39,4 +40,15 @@ export async function Handler(params){
     } else {
         console.log("Please choose a valid mode!")
     }
+}
+
+
+// Automate Functions
+export async function Automate(data){
+    const result = await readJson(data);
+    const expectedValue = await extractExpected(result);
+    const params = await paramsExtractor(result);
+    const automate = await Handler(params);
+    const endResult = await checkExpected(automate.data, expectedValue);
+    console.log(endResult);
 }
