@@ -133,6 +133,7 @@ const SidePanel = (props, ref) => {
       let index = getIndex.indexOf(onOpen);
       setStorage('wdf', open[index - 1]);
       // Gets how many panel header tabs are present, If none render the welcome editor screen!
+      // TODO :: Change the file open operation based on the operation system!
       if(failSafe.length > 0){
         try{
           const path = open[index - 1];

@@ -11,6 +11,8 @@ const WorkPanel = (props) => {
   // Reload state handler!
   const [reload, setReload] = useState(false);
 
+  console.log(props.height);
+
   // Reference handler for panel header element
   const panelHeaderRef = useRef(null);
 
@@ -55,7 +57,7 @@ const WorkPanel = (props) => {
               return (
                 <PanelHeader fileName={item.split("/").pop()} pathWithDir = {item} 
                 handleFileOpen = {(data) => handleFileOpen(data)}
-                handleClosePanel = {(data) => handleClosePanel(data)}/>
+                handleClosePanel = {(data) => handleClosePanel(data)} updatePanelHeight = {() => props.updatePanelHeight(panelHeaderRef.current.offsetHeight)}/>
               )
             })
           }
