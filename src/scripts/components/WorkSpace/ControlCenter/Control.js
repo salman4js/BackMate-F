@@ -1,16 +1,23 @@
 import React from 'react';
 import './Control.css';
+import {lang} from './root/lang';
 
 const Control = (props) => {
+
   return (
     <div className="control-center-container" style={{ height: props.height + "px" }}>
+      <div className = 'acting-keys-container'>
+          <div className = "git-branch">
+              {props.branch}*
+          </div>
+      </div>
       <div className='control-key'>
         <div className = "button-trigger" onClick={() => props.btnTrigger()}>
           <button className='control-key-config'>
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 ">
               <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
             </svg>
-            Run Automation
+            {lang.automation}
           </button>
         </div>
       </div>
