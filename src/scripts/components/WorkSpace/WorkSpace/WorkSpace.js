@@ -80,6 +80,11 @@ const WorkSpace = (props) => {
     setFooterHeight(data)
   }
 
+  // Control Center Code
+  function btnTrigger(){
+    console.log("Automation triggered!")
+  }
+
   return (
     <div className="brew-container">
       <div className="flex-1">
@@ -97,7 +102,7 @@ const WorkSpace = (props) => {
             <EditorWelcome message = {workLang.preview} isReload = {false} height = {height} />
           )
         }
-        <Control height = {footerHeight} />
+        <Control height = {footerHeight} btnTrigger = {() => btnTrigger()} />
       </div>
     </div>
   )
