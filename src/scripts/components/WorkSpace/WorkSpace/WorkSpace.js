@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './workspace.css';
 import SidePanel from '../SidePanel/SidePanel';
 import WorkPanel from '../WorkPanel/WorkPanel';
@@ -6,9 +6,11 @@ import { workLang } from './lang';
 import { getStorage, setStorage } from '../../../Storage/Storage';
 import EditorWelcome from '../../CodeEditor/WelcomeEditor/Editor';
 import Control from '../ControlCenter/Control';
-// Importing the node 'fs' and 'pathModule' module.
+// Importing the node 'fs', 'pathModule' and 'execSync' module.
 const fs = window.require('fs');
 const pathModule = window.require('path');
+const { execSync } = require('child_process');
+
 
 
 const WorkSpace = (props) => {
@@ -16,6 +18,9 @@ const WorkSpace = (props) => {
   // Handle content for the workpanel!
   const [content, setContent] = useState(); 
   const [value, setValue] = useState();
+
+  // Git Branch state handler
+  const [branch, setBranch] = useState();
 
   // SidePanel component reference!
   const ref = useRef(null);
@@ -82,8 +87,14 @@ const WorkSpace = (props) => {
 
   // Control Center Code
   function btnTrigger(){
-    console.log("Automation triggered!")
+    console.log("Automation triggered!");
   }
+
+  // Get the git branch
+  useEffect(() => {
+    const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+    setBranch(branch);
+  }, [])
 
   return (
     <div className="brew-container">
@@ -102,7 +113,7 @@ const WorkSpace = (props) => {
             <EditorWelcome message = {workLang.preview} isReload = {false} height = {height} />
           )
         }
-        <Control height = {footerHeight} btnTrigger = {() => btnTrigger()} />
+        <Control height = {footerHeight} btnTrigger = {() => btnTrigger()} branch = {branch} />
       </div>
     </div>
   )

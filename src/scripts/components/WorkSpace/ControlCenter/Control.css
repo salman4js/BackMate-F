@@ -1,5 +1,8 @@
 .control-center-container {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
     background-color: #504f4f;
+    grid-auto-rows: minmax(100px, auto);
     border-left: 2px solid black;
 }
 
@@ -13,7 +16,21 @@
     font-size: 12px;
 }
 
-.control-key{
-    float: right;
-    margin-right: 20px;
+.control-key {
+    grid-column: 10;
+    grid-row: 1;
+}
+
+.acting-keys-container {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.git-branch{
+    padding: 4px;
+    cursor: pointer;
+    height: 20px;
+    width: 150px;
+    color: white;
+    font-size: 13px;
 }
