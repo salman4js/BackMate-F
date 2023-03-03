@@ -6,11 +6,14 @@ import { workLang } from './lang';
 import { getStorage, setStorage } from '../../../Storage/Storage';
 import EditorWelcome from '../../CodeEditor/WelcomeEditor/Editor';
 import Control from '../ControlCenter/Control';
+
 // Importing the node 'fs', 'pathModule' and 'execSync' module.
 const fs = window.require('fs');
 const pathModule = window.require('path');
 const { execSync } = require('child_process');
 
+// Importing Automation functions
+import { Automate } from '../../../Functions/Functions';
 
 
 const WorkSpace = (props) => {
@@ -87,7 +90,7 @@ const WorkSpace = (props) => {
 
   // Control Center Code
   function btnTrigger(){
-    console.log("Automation triggered!");
+    Automate(getStorage('wdf'))
   }
 
   // Get the git branch
