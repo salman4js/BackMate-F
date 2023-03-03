@@ -80,10 +80,6 @@ const WorkSpace = (props) => {
     setFooterHeight(data)
   }
 
-  function updatePanelHeight(data){    
-    console.log(data);
-  }
-
   return (
     <div className="brew-container">
       <div className="flex-1">
@@ -95,7 +91,7 @@ const WorkSpace = (props) => {
             <div>
               <WorkPanel panelHeader = {panelHeader} content = {content} height = {height} click = {click} 
               saveText = {() => save()} data = {setValue} fileOpen = {(data) => handleFileOpen(data)}
-              fileClose = {(data) => handleClosePanel(data)} updatePanelHeight = {(data) => updatePanelHeight(data)} />
+              fileClose = {(data) => handleClosePanel(data)} />
             </div>
           ) : (
             <EditorWelcome message = {workLang.preview} isReload = {false} height = {height} />
