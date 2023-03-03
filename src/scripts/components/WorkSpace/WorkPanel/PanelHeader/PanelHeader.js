@@ -31,7 +31,6 @@ const PanelHeader = (props) => {
 
     useEffect(() => {
         checkFileState();
-        props.updatePanelHeight();
     }, [props.pathWithDir])
 
     return (

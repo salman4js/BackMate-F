@@ -11,8 +11,6 @@ const WorkPanel = (props) => {
   // Reload state handler!
   const [reload, setReload] = useState(false);
 
-  console.log(props.height);
-
   // Reference handler for panel header element
   const panelHeaderRef = useRef(null);
 
@@ -57,13 +55,14 @@ const WorkPanel = (props) => {
               return (
                 <PanelHeader fileName={item.split("/").pop()} pathWithDir = {item} 
                 handleFileOpen = {(data) => handleFileOpen(data)}
-                handleClosePanel = {(data) => handleClosePanel(data)} updatePanelHeight = {() => props.updatePanelHeight(panelHeaderRef.current.offsetHeight)}/>
+                handleClosePanel = {(data) => handleClosePanel(data)} />
               )
             })
           }
         </div>
         <div className="workpanel">
-          <Editor height={props.height} storage={"editor-code"} data={(data) => handleData(data)} content={props.content}
+           {/* Hard Coding height - 5 cause of the code mirror leaves 5px space down by default, the calculation for height of the code editor is correct in the parent container! */}
+          <Editor height={props.height - 5} storage={"editor-code"} data={(data) => handleData(data)} content={props.content}
             saveText={() => saveText()} />
         </div>
       </div>
