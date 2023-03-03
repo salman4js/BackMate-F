@@ -10,7 +10,6 @@
     cursor: pointer;
     border: 1px solid black;
     background-color: rgb(125, 122, 122);
-    height: 20px;
     width: 150px;
     color: black;
     font-size: 12px;
@@ -27,10 +26,10 @@
 }
 
 .git-branch{
-    padding: 4px;
+    padding: 2px;
     cursor: pointer;
     height: 20px;
     width: 150px;
     color: white;
-    font-size: 13px;
+    font-size: 14px;
 }
