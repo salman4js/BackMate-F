@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
 import { workLang } from '../WorkSpace/lang';
 import dataConfig from '../../Toast/ToastConfig/Config';
 import { setStorage, getStorage } from '../../../Storage/Storage';
+import { handlePathSep } from '../../../Functions/CommonFunctions/common.functions.js';
 import FooterBtn from '../FooterBtn/FooterBtn'
 import './SidePanel.css';
 import FileItems from './src/FileItems';
@@ -32,8 +33,11 @@ const SidePanel = (props, ref) => {
 
   // Get the current path of the working directory!;
   if (getStorage("wd") == null || undefined) {
+    const currentPath = process.cwd();
+    const pathSep = pathModule.sep;
+    const path = currentPath.endsWith(pathSep) ? currentPath : currentPath + pathSep;
     setStorage("wd", process.cwd());
-    setValue(process.cwd());
+    setValue(path);
   }
   var wd = getStorage("wd");
 
@@ -70,7 +74,10 @@ const SidePanel = (props, ref) => {
   // Handle folders navigation!
   function handleNavigation(names) {
     // Assigning the new path to data state to handle navigation!
-    const newPath = pathModule.join(wd, names);
+    const path = pathModule.join(wd, names);
+    
+    const newPath =  handlePathSep(path); // Handles path separator for cross platforms!
+    
     getData(newPath);
     // Change the working directory everytime the path changes!
     rootDirectory(newPath);
@@ -78,7 +85,10 @@ const SidePanel = (props, ref) => {
 
   // Handle Folders back operation!
   function handleBack() {
-    const newPath = pathModule.dirname(wd);
+    const path = pathModule.dirname(wd);
+    
+    const newPath = handlePathSep(path); // Handle the path separator for all platforms when navigating back...
+    
     getData(newPath);
     // Change the working directory everytime the path changes!
     rootDirectory(newPath);
