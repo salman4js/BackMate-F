@@ -5,6 +5,7 @@ import EditorWelcome from '../../CodeEditor/WelcomeEditor/Editor';
 import { workLang } from '../WorkSpace/lang';
 import './WorkPanel.css';
 import { getStorage } from '../../../Storage/Storage';
+import { getPathSep } from '../../../Functions/CommonFunctions/common.functions.js';
 
 const WorkPanel = (props) => {
 
@@ -53,7 +54,7 @@ const WorkPanel = (props) => {
           {
             props.panelHeader.map((item, key) => {
               return (
-                <PanelHeader fileName={item.split("/").pop()} pathWithDir = {item} 
+                <PanelHeader fileName={item.split(getPathSep()).pop()} pathWithDir = {item} 
                 handleFileOpen = {(data) => handleFileOpen(data)}
                 handleClosePanel = {(data) => handleClosePanel(data)} />
               )

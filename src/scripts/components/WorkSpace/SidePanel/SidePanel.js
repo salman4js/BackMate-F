@@ -34,8 +34,7 @@ const SidePanel = (props, ref) => {
   // Get the current path of the working directory!;
   if (getStorage("wd") == null || undefined) {
     const currentPath = process.cwd();
-    const pathSep = pathModule.sep;
-    const path = currentPath.endsWith(pathSep) ? currentPath : currentPath + pathSep;
+    const path = handlePathSep(currentPath);
     setStorage("wd", process.cwd());
     setValue(path);
   }
