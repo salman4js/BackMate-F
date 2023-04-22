@@ -4,6 +4,7 @@ import SidePanel from '../SidePanel/SidePanel';
 import WorkPanel from '../WorkPanel/WorkPanel';
 import { workLang } from './lang';
 import { getStorage, setStorage } from '../../../Storage/Storage';
+import { getPathSep } from '../../../Functions/CommonFunctions/common.functions.js';
 import EditorWelcome from '../../CodeEditor/WelcomeEditor/Editor';
 import Control from '../ControlCenter/Control';
 
@@ -50,7 +51,7 @@ const WorkSpace = (props) => {
 
   // Template helpers!
   function templateHelpers(data){
-    var lastOccurence = data.lastIndexOf('/');
+    var lastOccurence = data.lastIndexOf(getPathSep());
     const fileName = data.substring(lastOccurence + 1);
     const filePath = data.substring(0, lastOccurence);
     return {filePath: filePath, fileName: fileName};
