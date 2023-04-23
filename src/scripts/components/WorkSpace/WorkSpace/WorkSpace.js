@@ -31,7 +31,13 @@ const WorkSpace = (props) => {
 
   // Calculate panel header height!
   const [panelHeader, setPanelHeader] = useState([]);
-
+  
+  // Panel Header Value!
+  var panelHeaderValue = getStorage("openFile");
+  
+  // Lastly opened editor value!
+  var editorValue = getStorage("editor-code");
+   
   // File Click handler!
   const [click, setClick] = useState(false);
 
@@ -93,17 +99,42 @@ const WorkSpace = (props) => {
   function btnTrigger(){
     Automate(getStorage('wdf'))
   }
+  
+  // Git branch handler!
+  function getGitBranch(){
+    const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+    setBranch(branch);
+  }
+  
+  // Set Panel Header Value!
+  function getPanelHeader(){
+    if(panelHeaderValue.length > 0){ // When the panel header value is not empty string, 
+      // Convert it into the array object and set the useState of content and panelHeader value 
+      const headerValue = JSON.parse(panelHeaderValue);
+      setEditorContent(headerValue);
+      return headerValue;
+    }
+  }
+  
+  // Set the content and the panel header value onRender!
+  function setEditorContent(headerValue){
+    setPanelHeader(headerValue);
+    if(editorValue !== "undefined"){ // Here we have sepcified undefined as string as we retrieve it from local storage!
+      setContent(editorValue);
+    } 
+  }
 
   // Get the git branch
   useEffect(() => {
-    const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
-    setBranch(branch);
+    getGitBranch();
+    getPanelHeader();
   }, [])
 
   return (
     <div className="brew-container">
       <div className="flex-1">
-        <SidePanel ref = {ref} fileContent={(data) => handleContent(data)} height = {(x,y,z,a) => updateHeight(x,y,z,a)} openFile = {setPanelHeader} />
+        <SidePanel ref = {ref} fileContent={(data) => handleContent(data)} height = {(x,y,z,a) => updateHeight(x,y,z,a)} 
+        openFile = {setPanelHeader} getPanelHeader = {() => getPanelHeader()} />
       </div>
       <div className="flex-2">
         {
