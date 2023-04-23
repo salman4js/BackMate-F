@@ -53,11 +53,14 @@ const WorkPanel = (props) => {
         <div className="panel-header" ref = {panelHeaderRef}>
           {
             props.panelHeader.map((item, key) => {
-              return (
-                <PanelHeader fileName={item.split(getPathSep()).pop()} pathWithDir = {item} 
-                handleFileOpen = {(data) => handleFileOpen(data)}
-                handleClosePanel = {(data) => handleClosePanel(data)} />
-              )
+              if(item.length > 1){ // Due to interchanging from one page to another, the useState on sidepanel file misbehaving
+                // this is a patch fix, later change it to universal state ( Global State )
+                return (
+                  <PanelHeader fileName={item.split(getPathSep()).pop()} pathWithDir = {item} 
+                  handleFileOpen = {(data) => handleFileOpen(data)}
+                  handleClosePanel = {(data) => handleClosePanel(data)} />
+                )
+              }
             })
           }
         </div>

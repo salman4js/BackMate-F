@@ -14,7 +14,7 @@ export async function readJson(data) {
 
 export async function extractExpected(data) {
     try {
-        return data.expectedValue;
+        return data.modelReturn;
     } catch (err) {
         console.log("Error occured while extracting expected value!")
     }
@@ -38,18 +38,17 @@ export async function paramsExtractor(data) {
 
 
 
-export async function checkExpected(result, value) {
-    traverseJSON(result);
+export async function valueHelpers(result, value) {
+    traverseJSON(result, value);
 }
 
 
-async function traverseJSON(obj) {
+async function traverseJSON(obj, value) {
     for (let key in obj) {
         if (typeof obj[key] === 'object') {
-            traverseJSON(obj[key]);
+            traverseJSON(obj[key], value);
         } else {
-            // console.log(key + ': ' + obj[key]);
-            console.log(key)
+            // Check for the results matching with the expected values!
         }
     }
 }
