@@ -23,7 +23,7 @@ const SidePanel = (props, ref) => {
   const pathSepr = getPathSep();
 
   // Opened files state handler!
-  const [open, setOpen] = useState(getStorage("openFile"));
+  const [open, setOpen] = useState([]);
 
   // Toast handler!
   const [toastShow, setToastShow] = useState(false);
@@ -234,6 +234,14 @@ const SidePanel = (props, ref) => {
       }
      })
   }
+  
+  // Get the panel header value and store it in the openFile state handler!
+  function panelHeader(){
+    const result = props.getPanelHeader();
+    if(result !== undefined){
+      setOpen(result);
+    }
+  }
 
 
   // Decide Creation!
@@ -263,6 +271,7 @@ const SidePanel = (props, ref) => {
   useEffect(() => {
     // Getting the data's from the path directory!
     getData(wd);
+    panelHeader();
   }, [])
 
   return (
