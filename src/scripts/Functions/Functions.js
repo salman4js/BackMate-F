@@ -1,5 +1,5 @@
 const axios = require("axios");
-import { readJson, extractExpected, paramsExtractor, checkExpected } from "./Automation/Automate";
+import { readJson, extractExpected, paramsExtractor, valueHelpers } from "./Automation/Automate";
 
 async function Get(params){
    try{
@@ -49,6 +49,6 @@ export async function Automate(data){
     const expectedValue = await extractExpected(result);
     const params = await paramsExtractor(result);
     const automate = await Handler(params);
-    const endResult = await checkExpected(automate.data, expectedValue);
+    const endResult = await valueHelpers(automate.data, expectedValue);
     console.log(endResult);
 }

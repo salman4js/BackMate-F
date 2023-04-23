@@ -23,7 +23,7 @@ const SidePanel = (props, ref) => {
   const pathSepr = getPathSep();
 
   // Opened files state handler!
-  const [open, setOpen] = useState(getStorage('openFile'));
+  const [open, setOpen] = useState(getStorage("openFile"));
 
   // Toast handler!
   const [toastShow, setToastShow] = useState(false);
