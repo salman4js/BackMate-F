@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
 import { workLang } from '../WorkSpace/lang';
 import dataConfig from '../../Toast/ToastConfig/Config';
 import { setStorage, getStorage } from '../../../Storage/Storage';
-import { handlePathSep } from '../../../Functions/CommonFunctions/common.functions.js';
+import { handlePathSep, getPathSep } from '../../../Functions/CommonFunctions/common.functions.js';
 import FooterBtn from '../FooterBtn/FooterBtn'
 import './SidePanel.css';
 import FileItems from './src/FileItems';
@@ -18,6 +18,9 @@ const SidePanel = (props, ref) => {
   const sideRef = useRef(null);
   const workSpaceRef = useRef(null);
   const wrapperRef = useRef(null);
+  
+  // Path separator for cross platforms!
+  const pathSepr = getPathSep();
 
   // Opened files state handler!
   const [open, setOpen] = useState(getStorage('openFile'));
@@ -146,16 +149,16 @@ const SidePanel = (props, ref) => {
       if(failSafe.length > 0){
         try{
           const path = open[index - 1];
-          const data = path.split("/").pop();
-          const wd = path.substring(0, path.lastIndexOf("/"));
+          const data = path.split(pathSepr).pop();
+          const wd = path.substring(0, path.lastIndexOf(pathSepr));
           // Calling the function responsible for sending the content to the editor!
           passContent(wd, data);
         } catch(err){
           const path = failSafe[index];
           // Re writing the storage value since its undefined when its comes to first panel header tab close action!
           setStorage('wdf', failSafe[index]);
-          const data = path.split("/").pop();
-          const wd = path.substring(0, path.lastIndexOf("/"));
+          const data = path.split(pathSepr).pop();
+          const wd = path.substring(0, path.lastIndexOf(pathSepr));
           passContent(wd, data);
         }
       } else {
@@ -251,7 +254,7 @@ const SidePanel = (props, ref) => {
     },
 
     fileClose(filePath, fileName){
-      fileClose(filePath + "/" + fileName);
+      fileClose(filePath + pathSepr + fileName);
     }
   }));
   
