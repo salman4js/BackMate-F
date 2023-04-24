@@ -1,5 +1,5 @@
 const axios = require("axios");
-import { readJson, extractExpected, paramsExtractor, responseHelpers, getCountCase, isEqual, isValueCheck, checkEqual } from "./Automation/Automate";
+import { readJson, extractExpected, paramsExtractor, responseHelpers, getCountCase, getObject, isValueCheck, checkEqual } from "./Automation/Automate";
 
 // Response Array!
 var responseArr = [];
@@ -60,11 +60,14 @@ export async function Automate(data){
     const params = paramsExtractor(result);
     const automate = await Handler(params);
     const countCase = getCountCase(data);
-    const propertyCheck = isEqual(automate.data, expectedValue);
-    if(propertyCheck){
-      // const valueCheckForResponse = isValueCheck(automate.data, responseArr, true);
-      const valueCheckForExpected = isValueCheck(expectedValue, expectedValueArr, false);
+    const propertyCheck = await getObject(automate.data, expectedValue);
+    if(propertyCheck.isCompleted){
+      const valueCheckForResponse = isValueCheck(propertyCheck.respObj, responseArr, true);
+      const valueCheckForExpected = isValueCheck(propertyCheck.expectedObj, expectedValueArr, false);
     } else {
       return {success: false, message: "Properties doesn't match!"}
     }
+    
+    checkEqual(responseArr, expectedValueArr);
+    
 }

@@ -1,6 +1,7 @@
 const fs = require('fs');
 const pathModule = require('path');
 const assert = require("assert"); // Importing assert for comparision!
+const _ = require("lodash");
 
 // Read the JSON value!
 export async function readJson(data) {
@@ -52,27 +53,36 @@ export function responseHelpers(result, helperArr, resp) {
 
 // Helper function for responseHelpers!
 function traverseJSON(obj, helperArr, resp) {
+    var newArr = new Array();
     for (let key in obj) {
         if (typeof obj[key] === 'object') {
-            traverseJSON(obj[key], helperArr);
+            traverseJSON(obj[key], helperArr, resp);
         } else {
-          helperArr.push(key);
+          if(resp){
+            newArr.push(key);
+          } else {
+            helperArr.push(key);
+          }
         }
     }
     
-    // Check for the value if incase its a actual response!
-    checkEqual(resp, helperArr);
-    
+    // When we find the value of the object, push that separate arrays into the helperArr!
+    if(newArr.length > 0){
+      helperArr.push(newArr);
+    }        
 }
 
 // Checking equal value for propertyCheck!
-export function isEqual(response, expected){
+export async function getObject(response, expected){
   try{
     const responseValue = Object.keys(response);
     const expectedValue = Object.keys(expected);
     
+    const respObj = await checkObject(response);
+    const expectedObj = await checkObject(expected);
+    
     assert.deepStrictEqual(responseValue.sort(), expectedValue.sort(), "Values doesn't match!");
-    return true;
+    return {isCompleted: true, respObj: respObj, expectedObj: expectedObj};
     
   } catch(err){
     return false;
@@ -84,11 +94,25 @@ export function isValueCheck(value, helperArr, resp){
   responseHelpers(value, helperArr, resp)
 }
 
-export function checkEqual(response, helperArr){
-  console.log(response);
-  if(response){
-    console.log(helperArr)
+// Check properties of the object value in the response!
+export function checkEqual(response, expected){
+  console.log(response[0]);
+  for(let resp in response){
+    console.log(resp);
+    console.log(_.isEqual(resp, expected))
   }
+}
+
+// Check if there are any object in the value response!
+function checkObject(responseValue){
+  return new Promise(function(resolve, reject){
+    for(let key in responseValue){
+      if(typeof responseValue[key] === "object"){
+        resolve(responseValue[key]);
+      }
+    }
+    resolve(null);
+  })
 }
 
 
