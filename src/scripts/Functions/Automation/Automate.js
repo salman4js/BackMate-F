@@ -1,6 +1,8 @@
 const fs = require('fs');
 const pathModule = require('path');
+const assert = require("assert"); // Importing assert for comparision!
 
+// Read the JSON value!
 export async function readJson(data) {
     try {
         const fileContent = fs.readFileSync(pathModule.join(data)).toString();
@@ -10,9 +12,8 @@ export async function readJson(data) {
     }
 }
 
-
-
-export async function extractExpected(data) {
+// Extract expected value from the model JSON
+export function extractExpected(data) {
     try {
         return data.modelReturn;
     } catch (err) {
@@ -20,9 +21,17 @@ export async function extractExpected(data) {
     }
 }
 
+// Get count case from the model JSON value
+export function getCountCase(data){
+  try{
+    return data.countCase;
+  } catch(err){
+    console.log("There is no count case in the JSON model!");
+  }
+}
 
-
-export async function paramsExtractor(data) {
+// Extract the params method from the model JSON
+export function paramsExtractor(data) {
     try {
         const url = data.url;
         const method = data.method;
@@ -36,20 +45,52 @@ export async function paramsExtractor(data) {
     }
 }
 
+// Used to read all the keys and value for the response and the expected value!
+export function responseHelpers(result, helperArr, resp) {
+   traverseJSON(result, helperArr, resp)
+} 
 
-
-export async function valueHelpers(result, value) {
-    traverseJSON(result, value);
-}
-
-
-async function traverseJSON(obj, value) {
+// Helper function for responseHelpers!
+function traverseJSON(obj, helperArr, resp) {
     for (let key in obj) {
         if (typeof obj[key] === 'object') {
-            traverseJSON(obj[key], value);
+            traverseJSON(obj[key], helperArr);
         } else {
-            // Check for the results matching with the expected values!
+          helperArr.push(key);
         }
     }
+    
+    // Check for the value if incase its a actual response!
+    checkEqual(resp, helperArr);
+    
 }
+
+// Checking equal value for propertyCheck!
+export function isEqual(response, expected){
+  try{
+    const responseValue = Object.keys(response);
+    const expectedValue = Object.keys(expected);
+    
+    assert.deepStrictEqual(responseValue.sort(), expectedValue.sort(), "Values doesn't match!");
+    return true;
+    
+  } catch(err){
+    return false;
+  }
+}
+
+// Equal value for objects check!
+export function isValueCheck(value, helperArr, resp){
+  responseHelpers(value, helperArr, resp)
+}
+
+export function checkEqual(response, helperArr){
+  console.log(response);
+  if(response){
+    console.log(helperArr)
+  }
+}
+
+
+
 
