@@ -7,6 +7,9 @@ var responseArr = [];
 // Expected Value Array!
 var expectedValueArr = [];
 
+// Failed Scenarios!
+var failedScenarios = [];
+
 // GET method for API call
 async function Get(params){
    try{
@@ -52,9 +55,21 @@ export async function Handler(params){
     }
 }
 
+// Get story name!
+function getDetails(data){
+  try{
+    return {storyName: data.Story_Name, authorName: data.Author_Name, scenario: data.Scenario, apiName: data.API_Name};
+  } catch(err){
+    console.log("There is no story name");
+  }
+}
+
 
 // Automate Functions
 export async function Automate(data){
+  
+    const storyDetails = getDetails(data);
+  
     const result = await readJson(data);
     const expectedValue = extractExpected(result);
     const params = paramsExtractor(result);
@@ -68,6 +83,5 @@ export async function Automate(data){
       return {success: false, message: "Properties doesn't match!"}
     }
     
-    checkEqual(responseArr, expectedValueArr);
-    
+    const getFailed = checkEqual(responseArr, expectedValueArr);
 }
