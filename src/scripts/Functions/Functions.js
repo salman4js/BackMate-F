@@ -60,10 +60,9 @@ function getDetails(data){
   try{
     return {storyName: data.Story_Name, authorName: data.Author_Name, scenario: data.Scenario, apiName: data.API_Name};
   } catch(err){
-    console.log("There is no story name");
+    console.log("Some key values are missing!");
   }
 }
-
 
 // Automate Functions
 export async function Automate(data){
