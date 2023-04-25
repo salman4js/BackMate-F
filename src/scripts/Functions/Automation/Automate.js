@@ -96,11 +96,19 @@ export function isValueCheck(value, helperArr, resp){
 
 // Check properties of the object value in the response!
 export function checkEqual(response, expected){
-  console.log(response[0]);
+  var failedTest = [];
   for(let resp in response){
-    console.log(resp);
-    console.log(_.isEqual(resp, expected))
+    if(!_.isEqual(response[resp], expected)){
+      const failed = {
+        expected: expected,
+        actualResult: response[resp]
+      }
+      
+      failedTest.push(failed);
+      
+    }
   }
+  return failedTest;
 }
 
 // Check if there are any object in the value response!
