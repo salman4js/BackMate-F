@@ -56,13 +56,10 @@ function traverseJSON(obj, helperArr, resp) {
     var newArr = new Array();
     for (let key in obj) {
         if (typeof obj[key] === 'object') {
-            traverseJSON(obj[key], helperArr, resp);
+          const isIterable = checkArray(obj[key]);
+          isIterable ? traverseJSON(obj[key], helperArr, resp) : setValue(key, resp, helperArr, newArr)
         } else {
-          if(resp){
-            newArr.push(key);
-          } else {
-            helperArr.push(key);
-          }
+          setValue(key, resp, helperArr, newArr);
         }
     }
     
@@ -72,20 +69,42 @@ function traverseJSON(obj, helperArr, resp) {
     }        
 }
 
+// Push value into checking array!
+function setValue(key, resp, helperArr, newArr){
+  if(resp){
+    newArr.push(key);
+  } else {
+    helperArr.push(key);
+  }
+}
+
+
+// Check for array and iteratable!
+function checkArray(value){
+  const isArray = Array.isArray(value);
+  if(isArray){
+    return value.length > 0 ? true : false;
+  } else {
+    return true;
+  }
+}
+
 // Checking equal value for propertyCheck!
 export async function getObject(response, expected){
+  
+  // Check for the nested objects!
+  var respObj = await checkObject(response);
+  var expectedObj = await checkObject(expected);
+  
   try{
     const responseValue = Object.keys(response);
     const expectedValue = Object.keys(expected);
     
-    const respObj = await checkObject(response);
-    const expectedObj = await checkObject(expected);
-    
     assert.deepStrictEqual(responseValue.sort(), expectedValue.sort(), "Values doesn't match!");
-    return {isCompleted: true, respObj: respObj, expectedObj: expectedObj};
+    return {success: true, respObj: respObj, expectedObj: expectedObj};
     
   } catch(err){
-    return false;
+    return {success: false, actualResult: respObj, expectedResult: expectedObj}
   }
 }
 
@@ -97,17 +116,19 @@ export function isValueCheck(value, helperArr, resp){
 // Check properties of the object value in the response!
 export function checkEqual(response, expected){
   var failedTest = [];
-  for(let resp in response){
-    if(!_.isEqual(response[resp], expected)){
+  
+  for(let i = 0; i <= response.length - 1; i++){
+    if(!_.isEqual(response[i].sort(), expected.sort())){
       const failed = {
         expected: expected,
-        actualResult: response[resp]
+        actualResult: response[i]
       }
       
       failedTest.push(failed);
       
     }
   }
+  console.log(failedTest);
   return failedTest;
 }
 
