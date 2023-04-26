@@ -8,7 +8,7 @@ var responseArr = [];
 var expectedValueArr = [];
 
 // Failed Scenarios!
-var failedScenarios = [];
+var failedScenarios = {};
 
 // GET method for API call
 async function Get(params){
@@ -75,12 +75,13 @@ export async function Automate(data){
     const automate = await Handler(params);
     const countCase = getCountCase(data);
     const propertyCheck = await getObject(automate.data, expectedValue);
-    if(propertyCheck.isCompleted){
+    if(propertyCheck.success){
       const valueCheckForResponse = isValueCheck(propertyCheck.respObj, responseArr, true);
       const valueCheckForExpected = isValueCheck(propertyCheck.expectedObj, expectedValueArr, false);
+      const getFailed = checkEqual(responseArr, expectedValueArr); // If any!
     } else {
-      return {success: false, message: "Properties doesn't match!"}
+      // return {success: false, actualResult: propertyCheck.actualResult, expectedResult: propertyCheck.expectedResult}
+      failedScenarios['actualResult'] = propertyCheck.actualResult;
+      failedScenarios['expectedResult'] = propertyCheck.expectedResult;
     }
-    
-    const getFailed = checkEqual(responseArr, expectedValueArr);
 }
