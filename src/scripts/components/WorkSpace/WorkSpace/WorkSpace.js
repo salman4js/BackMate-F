@@ -4,14 +4,14 @@ import SidePanel from '../SidePanel/SidePanel';
 import WorkPanel from '../WorkPanel/WorkPanel';
 import { workLang } from './lang';
 import { getStorage, setStorage } from '../../../Storage/Storage';
-import { getPathSep } from '../../../Functions/CommonFunctions/common.functions.js';
+import { getPathSep, gitBranch } from '../../../Functions/CommonFunctions/common.functions.js';
 import EditorWelcome from '../../CodeEditor/WelcomeEditor/Editor';
 import Control from '../ControlCenter/Control';
+import CustomDialog from '../../Toast/CustomDialog/custom.dialog.view'
 
 // Importing the node 'fs', 'pathModule' and 'execSync' module.
 const fs = window.require('fs');
 const pathModule = window.require('path');
-const { execSync } = require('child_process');
 
 // Importing Automation functions
 import { Automate } from '../../../Functions/Functions';
@@ -28,6 +28,27 @@ const WorkSpace = (props) => {
 
   // SidePanel component reference!
   const ref = useRef(null);
+  
+  // Custom Dialog State Handler!
+  const [showCustomDialog, setShowCustomDialog] = useState({
+    show: false,
+    heading: undefined,
+    subHeading: undefined,
+    content: undefined,
+    buttons: [
+      {
+        id: "Save",
+        variant: "primary",
+        onClick: _hideCustomDialog
+      },
+      {
+        id: "Close",
+        variant: "secondary",
+        onClick: _hideCustomDialog
+      }
+    ],
+    onHide: _hideCustomDialog
+  })
 
   // Calculate panel header height!
   const [panelHeader, setPanelHeader] = useState([]);
@@ -96,13 +117,26 @@ const WorkSpace = (props) => {
   }
 
   // Control Center Code
-  function btnTrigger(){
-    Automate(getStorage('wdf'))
+  async function triggerAutomate(){
+    // Call the automation process!
+    // await Automate(getStorage('wdf'));
+    // call the custom dialog!
+    _showCustomDialog();
+  }
+  
+  // show custom dialog!
+  function _showCustomDialog(){
+    setShowCustomDialog(prevState => ({...prevState, show: true, heading: workLang.saveReport, content: workLang.content}))
+  }
+  
+  // Hide Custom Dialog!
+  function _hideCustomDialog(){
+    setShowCustomDialog(prevState => ({...prevState, show: false}))
   }
   
   // Git branch handler!
   function getGitBranch(){
-    const branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+    const branch = gitBranch();
     setBranch(branch);
   }
   
@@ -148,8 +182,11 @@ const WorkSpace = (props) => {
             <EditorWelcome message = {workLang.preview} isReload = {false} height = {height} />
           )
         }
-        <Control height = {footerHeight} btnTrigger = {() => btnTrigger()} branch = {branch} />
+        <Control height = {footerHeight} triggerAutomate = {() => triggerAutomate()} branch = {branch} />
       </div>
+      {showCustomDialog.show && (
+        <CustomDialog model = {showCustomDialog} />
+      )}
     </div>
   )
 }

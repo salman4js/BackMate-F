@@ -55,7 +55,7 @@ export function responseHelpers(result, helperArr, resp) {
 function traverseJSON(obj, helperArr, resp) {
     var newArr = new Array();
     for (let key in obj) {
-        if (typeof obj[key] === 'object') {
+        if (obj[key].constructor === ({}).constructor) {
           const isIterable = checkArray(obj[key]);
           isIterable ? traverseJSON(obj[key], helperArr, resp) : setValue(key, resp, helperArr, newArr)
         } else {
@@ -123,12 +123,11 @@ export function checkEqual(response, expected){
         expected: expected,
         actualResult: response[i]
       }
-      
+
       failedTest.push(failed);
       
     }
   }
-  console.log(failedTest);
   return failedTest;
 }
 

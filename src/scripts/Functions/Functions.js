@@ -34,8 +34,8 @@ async function Post(params){
 }
 
 // DELETE method for API call
-async function Delete(params){
-    const result = await axios.delete(`${params.url}`);
+async function deleteResource(params){
+    const result = await axios.delete(`${params.url}`, {data: params.body});
     return result;
 }
 
@@ -48,7 +48,7 @@ export async function Handler(params){
         const result = await Post(params);
         return result;
     } else if(params.mode === 'DELETE'){
-        const result = await Delete(params);
+        const result = await deleteResource(params);
         return result;
     } else {
         console.log("Please choose a valid mode!")
@@ -57,31 +57,62 @@ export async function Handler(params){
 
 // Get story name!
 function getDetails(data){
-  try{
-    return {storyName: data.Story_Name, authorName: data.Author_Name, scenario: data.Scenario, apiName: data.API_Name};
-  } catch(err){
-    console.log("Some key values are missing!");
-  }
+  return {storyName: data.Story_Name, authorName: data.Author_Name, scenarioName: data.Scenario, apiName: data.API_Name};
+}
+
+// Clear helper arr values!
+function clearHelperArrMemory(){
+  return new Promise((resolve, reject) => {
+    while(responseArr.length > 0){
+      responseArr.pop();
+    }
+    
+    while(expectedValueArr.length > 0){
+      expectedValueArr.pop();
+    }
+    resolve();
+  })
 }
 
 // Automate Functions
-export async function Automate(data){
-  
-    const storyDetails = getDetails(data);
-  
-    const result = await readJson(data);
-    const expectedValue = extractExpected(result);
-    const params = paramsExtractor(result);
-    const automate = await Handler(params);
-    const countCase = getCountCase(data);
-    const propertyCheck = await getObject(automate.data, expectedValue);
-    if(propertyCheck.success){
-      const valueCheckForResponse = isValueCheck(propertyCheck.respObj, responseArr, true);
-      const valueCheckForExpected = isValueCheck(propertyCheck.expectedObj, expectedValueArr, false);
-      const getFailed = checkEqual(responseArr, expectedValueArr); // If any!
-    } else {
-      // return {success: false, actualResult: propertyCheck.actualResult, expectedResult: propertyCheck.expectedResult}
-      failedScenarios['actualResult'] = propertyCheck.actualResult;
-      failedScenarios['expectedResult'] = propertyCheck.expectedResult;
-    }
+export function Automate(data){
+  return new Promise(async (resolve, reject) => {
+    
+      // Before we proceed with the automation, Its mandatory to clear the helperArr's 
+      await clearHelperArrMemory();
+        
+      const result = await readJson(data);
+      const storyDetails = getDetails(result);
+
+      const expectedValue = extractExpected(result);
+      const params = paramsExtractor(result);
+      const automate = await Handler(params);
+      const countCase = getCountCase(data);
+      const propertyCheck = await getObject(automate.data, expectedValue);
+      if(propertyCheck.success){
+        const valueCheckForResponse = isValueCheck(propertyCheck.respObj, responseArr, true);
+        const valueCheckForExpected = isValueCheck(propertyCheck.expectedObj, expectedValueArr, false);
+        const getFailed = checkEqual(responseArr, expectedValueArr); // If any!
+        
+        // Once the automation gets completed, add those into failedScenarios Model!
+        _populateModel(storyDetails, getFailed);
+        resolve();
+      } else {
+        // return {success: false, actualResult: propertyCheck.actualResult, expectedResult: propertyCheck.expectedResult}
+        failedScenarios['actualResult'] = propertyCheck.actualResult;
+        failedScenarios['expectedResult'] = propertyCheck.expectedResult;
+        resolve();
+      }
+  })
+}
+
+// Populate the failed scenario model!
+function _populateModel(details, failedCases){
+  failedScenarios['actualResult'] = failedCases[0].actualResult;
+  failedScenarios['expectedResult'] = failedCases[0].expected;
+  failedScenarios['storyName'] = details.storyName;
+  failedScenarios['apiName'] = details.apiName;
+  failedScenarios['authorName'] = details.authorName;
+  failedScenarios['scenarioName'] = details.scenarioName;
+  console.log(failedScenarios);
 }

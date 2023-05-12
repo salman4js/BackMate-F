@@ -1,4 +1,6 @@
 const pathModule = require("path");
+const { execSync } = require('child_process');
+
 
 // Handle path separation for cross platforms
 export function handlePathSep(value){
@@ -14,6 +16,13 @@ export function getCurrentPath(){
   return path;
 }
 
+// Get path separator!
 export function getPathSep(){
   return pathModule.sep;
+}
+
+// Get git branch!
+export function gitBranch(){
+  var branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
+  return branch;
 }
