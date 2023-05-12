@@ -7,5 +7,7 @@ export const workLang = {
     errorFile: "Please type a name to create a file!",
     toastFileHeader: "File Creation",
     preview: "Select a file to view its content",
-    reload: "Loading your content!"
+    reload: "Loading your content!",
+    saveReport: "Save Report",
+    content: "Do you want to save this report?"
 }
