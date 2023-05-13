@@ -4,10 +4,11 @@ import SidePanel from '../SidePanel/SidePanel';
 import WorkPanel from '../WorkPanel/WorkPanel';
 import { workLang } from './lang';
 import { getStorage, setStorage } from '../../../Storage/Storage';
-import { getPathSep, gitBranch } from '../../../Functions/CommonFunctions/common.functions.js';
+import { getPathSep, gitBranch, getUserId } from '../../../Functions/CommonFunctions/common.functions.js';
 import EditorWelcome from '../../CodeEditor/WelcomeEditor/Editor';
 import Control from '../ControlCenter/Control';
-import CustomDialog from '../../Toast/CustomDialog/custom.dialog.view'
+import CustomDialog from '../../Toast/CustomDialog/custom.dialog.view';
+import {saveReport} from '../../../Controller/appController';
 
 // Importing the node 'fs', 'pathModule' and 'execSync' module.
 const fs = window.require('fs');
@@ -39,7 +40,7 @@ const WorkSpace = (props) => {
       {
         id: "Save",
         variant: "primary",
-        onClick: _hideCustomDialog
+        onClick: _saveReport
       },
       {
         id: "Close",
@@ -119,9 +120,18 @@ const WorkSpace = (props) => {
   // Control Center Code
   async function triggerAutomate(){
     // Call the automation process!
-    // await Automate(getStorage('wdf'));
+    const result = await Automate(getStorage('wdf'));
+    setStorage("automatedFailedCases", JSON.stringify(result));
     // call the custom dialog!
     _showCustomDialog();
+  }
+  
+  // Save the generated report!
+  async function _saveReport(){
+    const generatedReport = JSON.parse(getStorage("automatedFailedCases"));
+    // Add user id to the generated report!
+    generatedReport['userId'] = getUserId();
+    const saveResult = await saveReport(generatedReport);
   }
   
   // show custom dialog!
