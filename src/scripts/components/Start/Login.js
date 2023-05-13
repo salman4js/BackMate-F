@@ -3,7 +3,7 @@ import {mainLang} from '../Main/lang';
 import { setStorage, clearStorage, defaultStorage } from '../../Storage/Storage';
 import Toast from '../Toast/Toast';
 import {Link, useNavigate} from 'react-router-dom';
-import { loginUser } from '../../Controller/authController';
+import { loginUser } from '../../Controller/appController';
 import './Login.css'
 
 const Login = () => {
@@ -45,6 +45,8 @@ const Login = () => {
 
         const result = await loginUser(data);
         if(result.success){
+            // Adding user id to the default set to store it in the database!
+            defaultSet['userId'] = result.userid;
             setEmail("");
             setPassword("");
             // Handling mandatory local storage memory!

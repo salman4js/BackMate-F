@@ -1,5 +1,6 @@
 const pathModule = require("path");
 const { execSync } = require('child_process');
+const {getStorage, setStorage, defaultStorage} = require('../../Storage/Storage')
 
 
 // Handle path separation for cross platforms
@@ -25,4 +26,14 @@ export function getPathSep(){
 export function gitBranch(){
   var branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
   return branch;
+}
+
+// Get user of the logged in user!
+export function getUserId(){
+  return getStorage("userId");
+}
+
+// DOM refresh!
+export function refreshPage(){
+  window.location.reload(true);
 }

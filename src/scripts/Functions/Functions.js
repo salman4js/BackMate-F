@@ -95,8 +95,8 @@ export function Automate(data){
         const getFailed = checkEqual(responseArr, expectedValueArr); // If any!
         
         // Once the automation gets completed, add those into failedScenarios Model!
-        _populateModel(storyDetails, getFailed);
-        resolve();
+        const failedCases = _populateModel(storyDetails, getFailed);
+        resolve(failedCases);
       } else {
         // return {success: false, actualResult: propertyCheck.actualResult, expectedResult: propertyCheck.expectedResult}
         failedScenarios['actualResult'] = propertyCheck.actualResult;
@@ -114,5 +114,5 @@ function _populateModel(details, failedCases){
   failedScenarios['apiName'] = details.apiName;
   failedScenarios['authorName'] = details.authorName;
   failedScenarios['scenarioName'] = details.scenarioName;
-  console.log(failedScenarios);
+  return failedScenarios;
 }
