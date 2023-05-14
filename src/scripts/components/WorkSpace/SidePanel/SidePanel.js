@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
 import { workLang } from '../WorkSpace/lang';
-import dataConfig from '../../Toast/ToastConfig/Config';
 import { setStorage, getStorage } from '../../../Storage/Storage';
 import { handlePathSep, getPathSep } from '../../../Functions/CommonFunctions/common.functions.js';
 import FooterBtn from '../FooterBtn/FooterBtn'
@@ -27,6 +26,26 @@ const SidePanel = (props, ref) => {
 
   // Toast handler!
   const [toastShow, setToastShow] = useState(false);
+  
+  // Toast config!
+  const toastConfig = {
+    alignment : "brew-toast-title",
+    onHide: handleToast,
+    textarea: {
+        isRequired: true,
+        placeholder: "Folder Creation",
+    },
+    footer: {
+        isRequired: true,
+        buttons: [
+            {
+                id: "Create",
+                variant: "success",
+                onClick: decideCreation
+            }
+        ]  
+    }
+  }
 
   // New folder and value state handler!
   const [value, setValue] = useState();
@@ -253,7 +272,6 @@ const SidePanel = (props, ref) => {
     }
   }
 
-
   // Referencing openFile function to the parent component
   // to enable the panel header to handle open file functions!
   useImperativeHandle(ref, () => ({
@@ -312,9 +330,8 @@ const SidePanel = (props, ref) => {
       {
         toastShow === true ? (
           <Toast show = {toastShow} message = {folder ? workLang.toastFolderHeader : workLang.toastFileHeader} 
-          alignment = {"brew-toast-title"}
-          handleClose = {() => handleToast()} data = {dataConfig} value = {value} error = {error}
-          node = {(data) => updateValue(data)} handleClick = {() => decideCreation()} />
+          data = {toastConfig} value = {value} error = {error}
+          node = {(data) => updateValue(data)} />
         ) : (
           null
         )
