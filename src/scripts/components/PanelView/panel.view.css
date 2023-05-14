@@ -1,0 +1,10 @@
+.sidepanel{
+  background: #f1f1f1;
+  position: absolute;
+  left: 0;
+  width: 300px;
+  height: calc(100% - 67px);
+  padding: 20px 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
