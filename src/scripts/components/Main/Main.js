@@ -6,6 +6,7 @@ import { getStorage } from '../../Storage/Storage';
 // Importing pages!
 import Home from '../Home/Home';
 import WorkSpace from '../WorkSpace/WorkSpace/WorkSpace';
+import ReportsView from '../Reports/reports.view.js';
 
 
 const Main = () => {
@@ -26,7 +27,7 @@ const Main = () => {
     } else if(selected === mainLang.workspace) {
         root = <WorkSpace mainref={mainRef} />
     } else {
-      root = <WorkSpace mainref = {mainRef} />
+      root = <ReportsView mainref = {mainRef} />
     }
 
     return (

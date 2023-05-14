@@ -29,14 +29,26 @@ async function Get(params){
 
 // POST method for API call
 async function Post(params){
-    const result = await axios.post(`${params.url}`, params.body);
-    return result;
+    try{
+      const result = await axios.post(`${params.url}`, params.body);
+      return result;
+    } catch(err){
+      if(err.response && err.response.status){
+        return err.response;
+      }
+    }
 }
 
 // DELETE method for API call
 async function deleteResource(params){
-    const result = await axios.delete(`${params.url}`, {data: params.body});
-    return result;
+    try{
+      const result = await axios.delete(`${params.url}`, {data: params.body});
+      return result;
+    } catch(err){
+      if(err.response && err.response.status){
+        return err.response;
+      }
+    }
 }
 
 // API call handler functions!
