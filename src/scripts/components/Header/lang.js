@@ -1,1 +1,1 @@
-export const headerLang = ["Home", "Workspace", "Collection"]
+export const headerLang = ["Home", "Workspace", "Reports"]

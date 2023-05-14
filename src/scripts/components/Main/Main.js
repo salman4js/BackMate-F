@@ -23,8 +23,10 @@ const Main = () => {
     let root;
     if(selected === mainLang.home){
         root = <Home mainref={mainRef} header={header} />
-    } else {
+    } else if(selected === mainLang.workspace) {
         root = <WorkSpace mainref={mainRef} />
+    } else {
+      root = <WorkSpace mainref = {mainRef} />
     }
 
     return (

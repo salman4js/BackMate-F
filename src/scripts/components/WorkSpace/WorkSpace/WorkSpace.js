@@ -132,6 +132,7 @@ const WorkSpace = (props) => {
     // Add user id to the generated report!
     generatedReport['userId'] = getUserId();
     const saveResult = await saveReport(generatedReport);
+    console.log(saveResult);
   }
   
   // show custom dialog!

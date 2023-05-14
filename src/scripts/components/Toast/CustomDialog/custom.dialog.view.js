@@ -1,4 +1,5 @@
 import React from 'react';
+import './custom.dialog.view.css';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
@@ -17,7 +18,7 @@ const CustomDialog = (props) => {
   
   
   return(
-    <div>
+    <div className = "custom-dialog">
       <Modal
         show = {props.model.show} onHide={() => props.model.onHide()}
         size="medium"

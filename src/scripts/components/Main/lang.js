@@ -14,6 +14,8 @@ export const mainLang = {
     paramsOptions: "params-options",
     landingPage: "landing-page",
     home: "Home",
+    workspace: "workspace",
+    reports: "reports",
     logout: "Logout",
     currentDirectory: "current-directory",
 };
