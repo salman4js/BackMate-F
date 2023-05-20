@@ -3,8 +3,26 @@
   position: absolute;
   left: 0;
   width: 300px;
-  height: calc(100% - 67px);
-  padding: 20px 0;
+  height: calc(100% - 43px);
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.sidepanel-title{
+    background-color: #504f4f;
+    width: 300px;
+    position: relative;
+}
+
+.sidepanel-title span{
+    font-weight: bold;
+}
+
+.sidepanel-explorer{
+    cursor: pointer;
+}
+
+.side-panel-items{
+  padding: 10px;
+  cursor: pointer;
 }
