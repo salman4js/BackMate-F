@@ -9,5 +9,7 @@ export const workLang = {
     preview: "Select a file to view its content",
     reload: "Loading your content!",
     saveReport: "Save Report",
-    content: "Do you want to save this report?"
+    content: "Automation success, Do you want to save this report?",
+    successAlert: "Report saved successfully!",
+    errorAlert: "Internal error occured."
 }

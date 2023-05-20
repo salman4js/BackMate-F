@@ -33,9 +33,22 @@ const WorkSpace = (props) => {
   // Custom Dialog State Handler!
   const [showCustomDialog, setShowCustomDialog] = useState({
     show: false,
-    heading: undefined,
-    subHeading: undefined,
-    content: undefined,
+    centered: true,
+    header: {
+      enableHeading: false,
+      heading: undefined,
+      className: undefined
+    },
+    subHeading: {
+      enableSubheading: false,
+      subHeading: undefined,
+    },
+    content: {
+      enableContent: false,
+      content: undefined,
+      className: undefined
+    },
+    enableFooterButtons: false,
     buttons: [
       {
         id: "Save",
@@ -49,6 +62,12 @@ const WorkSpace = (props) => {
       }
     ],
     onHide: _hideCustomDialog
+  })
+  
+  // Toast state handler!
+  const [toast, setToast] = useState({
+    show: false,
+    
   })
 
   // Calculate panel header height!
@@ -132,12 +151,57 @@ const WorkSpace = (props) => {
     // Add user id to the generated report!
     generatedReport['userId'] = getUserId();
     const saveResult = await saveReport(generatedReport);
-    console.log(saveResult);
+
+    if(saveResult.status == 200){
+        toastSave(workLang.successAlert);
+    } else {
+        toastSave(workLang.errorAlert);
+    }
+  }
+  
+  // Save Report alert message to the user through toast!
+  function toastSave(message){
+    setShowCustomDialog(prevState => ({
+      ...prevState, 
+      show: true, 
+      centered: false,
+      header: {
+        ...prevState.header,
+        enableHeading: true, 
+        heading: message,
+        className: "text-center" 
+      },
+      subHeading: {
+        enableSubheading: false,
+      },
+      content: {
+        enableContent: false, 
+        content: undefined,
+      },
+      enableFooterButtons: false
+    }))
   }
   
   // show custom dialog!
   function _showCustomDialog(){
-    setShowCustomDialog(prevState => ({...prevState, show: true, heading: workLang.saveReport, content: workLang.content}))
+    setShowCustomDialog(prevState => ({
+      ...prevState, 
+      show: true, 
+      centered: true,
+      header: {
+        ...prevState.header,
+        enableHeading:true, 
+        heading: workLang.saveReport
+      },
+      subHeading: {
+        enableSubheading: true,
+      },
+      content: {
+        enableContent: true, 
+        content: workLang.content
+      },
+      enableFooterButtons: true
+    }))
   }
   
   // Hide Custom Dialog!

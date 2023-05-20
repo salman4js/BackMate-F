@@ -2,10 +2,10 @@ import React from 'react';
 
 const PanelItemView = (props) => {
   return(
-    <div className = "side-panel-items">
-     <span className = "brew-title-workspace side-align" onClick = {() => props.onClick(props.objectId)}>
-        {props.data}
-     </span>
+    <div className = "side-panel-items" onClick = {() => props.onClick(props.objectId)}>
+       <span className = "brew-title-workspace side-align">
+          {props.data}
+       </span>
     </div>
   )
 }
