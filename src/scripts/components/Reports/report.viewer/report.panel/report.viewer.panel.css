@@ -1,0 +1,8 @@
+.report-viewer-panel{
+  border: 1px solid red;
+  overflow: auto;
+}
+
+.report-viewer-header{
+  font-size: 19px;
+}

@@ -91,20 +91,19 @@ function checkArray(value){
 
 // Checking equal value for propertyCheck!
 export async function getObject(response, expected){
-  
   // Check for the nested objects!
   var respObj = await checkObject(response);
   var expectedObj = await checkObject(expected);
   
   try{
-    const responseValue = Object.keys(response);
-    const expectedValue = Object.keys(expected);
+    var responseValue = Object.keys(response);
+    var expectedValue = Object.keys(expected);
     
     assert.deepStrictEqual(responseValue.sort(), expectedValue.sort(), "Values doesn't match!");
     return {success: true, respObj: respObj, expectedObj: expectedObj};
     
   } catch(err){
-    return {success: false, actualResult: respObj, expectedResult: expectedObj}
+    return {success: false, actualResult: responseValue, expectedResult: expectedValue}
   }
 }
 
@@ -120,7 +119,7 @@ export function checkEqual(response, expected){
   for(let i = 0; i <= response.length - 1; i++){
     if(!_.isEqual(response[i].sort(), expected.sort())){
       const failed = {
-        expected: expected,
+        expectedResult: expected,
         actualResult: response[i]
       }
 

@@ -2,6 +2,7 @@ import React, {useState, useLayoutEffect} from 'react';
 import './reports.view.css';
 import {reportLang} from './lang/lang';
 import EditorWelcome from '../CodeEditor/WelcomeEditor/Editor';
+import ReportViewer from './report.viewer/report.viewer';
 import PanelView from '../PanelView/panel.view';
 import {getAllReports} from '../../Controller/appController';
 
@@ -16,12 +17,6 @@ const ReportsView = () => {
     onHide: _triggerLoader
   })
   
-  // Handler for selected object id!
-  const [selectedId, setSelectedId] = useState({
-    id: undefined,
-    selectedObject: undefined
-  })
-  
   // Side panel populate model!
   const [panelModel, setPanelModel] = useState({
     header: "PERSONAL REPORTS",
@@ -29,6 +24,15 @@ const ReportsView = () => {
     loaderStyle: "black",
     data: undefined,
     itemOnClick: _selectedObject
+  })
+  
+  // Report Viewer State Handler!
+  const [viewerData, setViewerData] = useState({
+    height: height,
+    leftViewerHeader: "Expected Result",
+    rightViewerHeader: "Actual Result",
+    id: undefined,
+    objectData: undefined
   })
   
   // Trigger loader method!
@@ -43,7 +47,9 @@ const ReportsView = () => {
   
   // Calculate height for the right panel!
   function calculateHeight(wrapper, sidepanel){
-    setHeight(wrapper.current.offsetHeight + sidepanel.current.offsetHeight);
+    const calculatedHeight = wrapper.current.offsetHeight + sidepanel.current.offsetHeight
+    setHeight(calculatedHeight);
+    setViewerData(prevState => ({...prevState, height: calculatedHeight }))
   }
   
   // Get reports!
@@ -60,7 +66,7 @@ const ReportsView = () => {
   
   // This function handle getting the specific report from the objectId from the panel.item.view
   function _selectedObject(objectId, options){
-    setSelectedId(prevState => ({...prevState, id: objectId, selectedObject: options}));
+    setViewerData(prevState => ({...prevState, id: objectId, objectData: options}));
   }
 
   // Get current report of the logged in user!
@@ -75,7 +81,12 @@ const ReportsView = () => {
       </div>
       <div className = "flex-2">
         <div className = "container-header">
-          <EditorWelcome message = {reportLang.editorPreview} isReload = {false} height = {height} />
+          {viewerData.id !== undefined ? (
+            <ReportViewer viewerData = {viewerData} />
+          ) : (
+            <EditorWelcome message = {reportLang.editorPreview} isReload = {false} height = {height} />
+          )
+        }
         </div>
       </div>
     </div>

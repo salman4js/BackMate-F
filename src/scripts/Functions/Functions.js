@@ -101,6 +101,7 @@ export function Automate(data){
       const automate = await Handler(params);
       const countCase = getCountCase(data);
       const propertyCheck = await getObject(automate.data, expectedValue);
+
       if(propertyCheck.success){
         const valueCheckForResponse = isValueCheck(propertyCheck.respObj, responseArr, true);
         const valueCheckForExpected = isValueCheck(propertyCheck.expectedObj, expectedValueArr, false);
@@ -110,10 +111,12 @@ export function Automate(data){
         const failedCases = _populateModel(storyDetails, getFailed);
         resolve(failedCases);
       } else {
-        // return {success: false, actualResult: propertyCheck.actualResult, expectedResult: propertyCheck.expectedResult}
-        failedScenarios['actualResult'] = propertyCheck.actualResult;
-        failedScenarios['expectedResult'] = propertyCheck.expectedResult;
-        resolve();
+        
+        const getFailed = [];
+        getFailed.push(propertyCheck);
+        
+        const failedCases = _populateModel(storyDetails, getFailed); // Populate the failed cases into failedScenarios model.
+        resolve(failedCases);
       }
   })
 }
@@ -121,7 +124,7 @@ export function Automate(data){
 // Populate the failed scenario model!
 function _populateModel(details, failedCases){
   failedScenarios['actualResult'] = failedCases[0].actualResult;
-  failedScenarios['expectedResult'] = failedCases[0].expected;
+  failedScenarios['expectedResult'] = failedCases[0].expectedResult;
   failedScenarios['storyName'] = details.storyName;
   failedScenarios['apiName'] = details.apiName;
   failedScenarios['authorName'] = details.authorName;
