@@ -1,8 +1,7 @@
 .footer {
-    position: fixed;
-    width: 100%;
+    position: absolute;
+    width: calc(100% - 300px);
     bottom: 0;
-    left: 0;
 }
 
 .response-space{
@@ -33,6 +32,5 @@
 
 .sticky {
   position: fixed !important;
-  border-radius: 90 !important;
-  width: 100% !important;
+  width: calc(100% - 300px)
 }
