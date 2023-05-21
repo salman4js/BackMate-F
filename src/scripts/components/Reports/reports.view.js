@@ -32,7 +32,9 @@ const ReportsView = () => {
     leftViewerHeader: "Expected Result",
     rightViewerHeader: "Actual Result",
     id: undefined,
-    objectData: undefined
+    objectData: undefined,
+    expectedResultId : "left-side-viewer-panel",
+    actualResultId: "right-side-viewer-panel"
   })
   
   // Trigger loader method!
