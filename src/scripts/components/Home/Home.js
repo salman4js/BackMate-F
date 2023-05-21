@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { mainLang } from '../Main/lang';
+import PanelView from '../PanelView/panel.view';
 import Request from '../Requests/Request';
 import Crumbs from '../NavCrumbs/Crumbs';
 import Responses from '../Response/Response';
@@ -38,6 +39,19 @@ const Home = (props) => {
 
     // Respons handler!
     const [response, setResponse] = useState("");
+    
+    // Side panel populate model!
+    const [panelModel, setPanelModel] = useState({
+      header: "API COLLECTIONS",
+      enableLoader: false,
+      loaderStyle: "black",
+      data: undefined,
+      itemOnClick: _dummyFunction
+    })
+    
+    function _dummyFunction(){
+      console.log("Dummy Function Trigger")
+    }
 
     // Pagination Child container catch handler!
     //const defaultCrumb = "Body";
@@ -138,17 +152,24 @@ const Home = (props) => {
     }, [footer])
 
     return (
-        <div className = "home-container" style = {{paddingTop: "43px"}}>
-            <Request request={setRequest} url={(data) => updateUrl(data)} mode={setMode}
-                options={mainLang.options} getFunction={() => getFunction()} params={key} valueUrl={url} valueParams={values} />
-            <Pagination pagination={setPagination} catch={(item) => handleCatch(item)} />
-            {/* <Editor height = {height} data = {setData} /> */}
-            <Crumbs value={crumbs} height={height} data={setBody} keys={(data) => appendUrl(data)}
-                values={(data) => appendUrlValue(data)}
-                username={setUsername} password={setPassword} replaceValue={(key, value) => replaceValues(key, value)}
-                storage = {"body-code"}
-                />
-            <Responses footer={setFooter} result={response} loader={loader} />
+        <div className = "brew-container">
+          <div className = "flex-1">
+            <PanelView panelData = {panelModel} getHeight = {() => _dummyFunction()} />
+          </div>
+          <div className = "flex-2">
+            <div className = "home-container" style = {{paddingTop: "43px"}}>
+                <Request request={setRequest} url={(data) => updateUrl(data)} mode={setMode}
+                    options={mainLang.options} getFunction={() => getFunction()} params={key} valueUrl={url} valueParams={values} />
+                <Pagination pagination={setPagination} catch={(item) => handleCatch(item)} />
+                {/* <Editor height = {height} data = {setData} /> */}
+                <Crumbs value={crumbs} height={height} data={setBody} keys={(data) => appendUrl(data)}
+                    values={(data) => appendUrlValue(data)}
+                    username={setUsername} password={setPassword} replaceValue={(key, value) => replaceValues(key, value)}
+                    storage = {"body-code"}
+                    />
+                <Responses footer={setFooter} result={response} loader={loader} />
+            </div>
+          </div>
         </div>
     )
 }
