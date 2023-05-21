@@ -8,14 +8,31 @@
 .response-space{
     height: 300px;
     background-color:#ddd;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 
 .result-section{
-    padding: 50px 100px;
+    padding: 100px 100px;
 }
 
 .lang{
     color: dodgerblue
+}
+
+.response-controller-view{
+  float: right;
+}
+
+.response-controls{
+  margin-right: 3px;
+  height: 30px;
+  max-height: 40px;
+}
+
+.sticky {
+  position: fixed !important;
+  border-radius: 90 !important;
+  width: 100% !important;
 }

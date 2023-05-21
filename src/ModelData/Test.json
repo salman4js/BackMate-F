@@ -1,0 +1,22 @@
+{
+  "Author_Name" : "New User",
+  "Story_Name": "General API test",
+  "Scenario": "Get all the users available",
+  "API_Name": "Login API",
+  "url": "http://localhost:3002/allusers",
+  "method": "GET",
+  "modelReturn": 
+    {
+      "success": true,
+      "message": [
+        {
+          "_id" : "string",
+          "user": "string",
+          "email" : "string",
+          "password": "string",
+          "reports": [],
+          "__v": "string"
+        }
+      ]
+    }
+}

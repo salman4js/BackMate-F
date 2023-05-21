@@ -8,10 +8,10 @@ const ReportViewer = (props) => {
     <div className = "report-viewer-tab" style = {{height: props.viewerData.height + "px"}}>
       <div className = "row">
           <div className = "col-sm">
-              <ReportPanel data = {props.viewerData} header = {props.viewerData.leftViewerHeader} />
+              <ReportPanel data = {props.viewerData} header = {props.viewerData.leftViewerHeader} id = {props.viewerData.expectedResultId} />
           </div>
           <div className = "col-sm">
-              <ReportPanel data = {props.viewerData} header = {props.viewerData.rightViewerHeader} />
+              <ReportPanel data = {props.viewerData} header = {props.viewerData.rightViewerHeader} id = {props.viewerData.actualResultId}/>
           </div>
       </div>
     </div>
