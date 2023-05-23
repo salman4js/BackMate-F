@@ -4,6 +4,8 @@ import {reportLang} from './lang/lang';
 import EditorWelcome from '../CodeEditor/WelcomeEditor/Editor';
 import ReportViewer from './report.viewer/report.viewer';
 import PanelView from '../PanelView/panel.view';
+import PanelItemView from '../PanelView/panel.item/panel.item.view';
+import Loader from '../Loader/loader.view';
 import {getAllReports} from '../../Controller/appController';
 
 const ReportsView = () => {
@@ -23,7 +25,7 @@ const ReportsView = () => {
     enableLoader: false,
     loaderStyle: "black",
     data: undefined,
-    itemOnClick: _selectedObject
+    itemOnClick: _selectedObject,
   })
   
   // Report Viewer State Handler!
@@ -51,7 +53,7 @@ const ReportsView = () => {
   function calculateHeight(wrapper, sidepanel){
     const calculatedHeight = wrapper.current.offsetHeight + sidepanel.current.offsetHeight
     setHeight(calculatedHeight);
-    setViewerData(prevState => ({...prevState, height: calculatedHeight }))
+    setViewerData(prevState => ({...prevState, height: calculatedHeight}))
   }
   
   // Get reports!
@@ -70,6 +72,30 @@ const ReportsView = () => {
   function _selectedObject(objectId, options){
     setViewerData(prevState => ({...prevState, id: objectId, objectData: options}));
   }
+  
+  // Show child view for the panel view!
+  function _showChildView(){
+    if(!panelModel.enableLoader && panelModel.data !== undefined){
+      return(
+        panelModel.data.map((options, key) => {
+          return(
+            <PanelItemView data = {options.storyName} objectId = {options._id} onClick = {(object_id) => panelModel.itemOnClick(object_id, options)} />
+          )
+        })
+      )
+    } else {
+      return _showLoader();
+    }
+  }
+  
+  // Show loader for the panel view!
+  function _showLoader(){
+    return(
+      <div className = "loader-spinner" style = {{marginTop: (height) / 2.2 + "px"}}> 
+          <Loader data = {panelModel.loaderStyle} />
+      </div>
+    )
+  }
 
   // Get current report of the logged in user!
   useLayoutEffect(() => {
@@ -79,7 +105,7 @@ const ReportsView = () => {
   return(
     <div className = "brew-container">
       <div className = "flex-1">
-        <PanelView getHeight = {(wrapper, sidepanel) => calculateHeight(wrapper, sidepanel)} panelData = {panelModel} />
+        <PanelView panelData = {panelModel} getHeight = {(wrapper, sidepanel) => calculateHeight(wrapper, sidepanel)} showChildView = {() => _showChildView()} />
       </div>
       <div className = "flex-2">
         <div className = "container-header">
