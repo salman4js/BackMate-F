@@ -6,6 +6,8 @@ import Crumbs from '../NavCrumbs/Crumbs';
 import Responses from '../Response/Response';
 import Pagination from '../Pagination/Pagination';
 import { Handler } from '../../Functions/Functions';
+import PanelItemView from '../PanelView/panel.view';
+import Loader from '../Loader/loader.view';
 import { getStorage, setStorage } from '../../Storage/Storage';
 
 
@@ -46,11 +48,18 @@ const Home = (props) => {
       enableLoader: false,
       loaderStyle: "black",
       data: undefined,
-      itemOnClick: _dummyFunction
+      itemOnClick: _dummyFunction,
+      panelHeight: 0
     })
     
     function _dummyFunction(){
-      console.log("Dummy Function Trigger")
+      console.log("Function!!")
+    }
+    
+    // Update side panel container height to determine loader place!!!
+    function updatePanelHeight(wrapper, sidepanel){
+      const calculatedHeight = wrapper.current.offsetHeight + sidepanel.current.offsetHeight;
+      setPanelModel(prevState => ({...prevState, panelHeight: calculatedHeight}))
     }
 
     // Pagination Child container catch handler!
@@ -145,6 +154,30 @@ const Home = (props) => {
             }
         })
     }
+    
+    // Show child view for the panel view!
+    function _showChildView(){
+      if(!panelModel.enableLoader && panelModel.data !== undefined){
+        return(
+          panelModel.data.map((options, key) => {
+            return(
+              <PanelItemView data = {options.storyName} objectId = {options._id} onClick = {(object_id) => panelModel.itemOnClick(object_id, options)} />
+            )
+          })
+        )
+      } else {
+        return _showLoader();
+      }
+    }
+    
+    // Show loader for the panel view!
+    function _showLoader(){
+      return(
+        <div className = "loader-spinner" style = {{marginTop: (panelModel.panelHeight) / 2.2 + "px"}}> 
+            <Loader data = {panelModel.loaderStyle} />
+        </div>
+      )
+    }
 
     // Constructor!
     useEffect(() => {
@@ -154,7 +187,7 @@ const Home = (props) => {
     return (
         <div className = "brew-container">
           <div className = "flex-1">
-            <PanelView panelData = {panelModel} getHeight = {() => _dummyFunction()} />
+            <PanelView panelData = {panelModel} getHeight = {(wrapper, sidepanel) => updatePanelHeight(wrapper, sidepanel)} showChildView = {() => _showChildView()} />
           </div>
           <div className = "flex-2">
             <div className = "home-container" style = {{paddingTop: "43px"}}>

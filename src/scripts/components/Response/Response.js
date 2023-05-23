@@ -19,17 +19,27 @@ const Responses = (props) => {
     // Response controller handler!
     function responseController(value){
       if(value === "maxi"){
-        setController(prevState => ({...prevState, height: '800px', maxi: true, mini: false}))
+        setController(prevState => ({...prevState, height: getMaxFooterHeight(), maxi: true, mini: false}))
       } else {
-        setController(prevState => ({...prevState, height: '350px', mini: true, maxi: false}))
+        setController(prevState => ({...prevState, height: getMinFooterHeight(), mini: true, maxi: false}))
       }
+    }
+    
+    // Get maximium footer height!
+    function getMaxFooterHeight(){
+      return (calculateResponseSpaceHeight() * 2) + "px"
+    }
+    
+    // Get minimium footer height!
+    function getMinFooterHeight(){
+      return ((calculateResponseSpaceHeight() / 2) + "px");
     }
     
     // calculate height of the response space for the loader calculation!
     function calculateResponseSpaceHeight(){
       try{
-        const height = footerRef.current.offsetHeight;
-        return height
+        const footerHeight = footerRef.current.offsetHeight;
+        return footerHeight
       } catch(err){
         console.warn("_response view renderer")
       }
