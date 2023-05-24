@@ -6,7 +6,8 @@ import Crumbs from '../NavCrumbs/Crumbs';
 import Responses from '../Response/Response';
 import Pagination from '../Pagination/Pagination';
 import { initiateRequest } from '../../Functions/Functions';
-import PanelItemView from '../PanelView/panel.view';
+import { onLoader, commonLabel } from '../../Functions/CommonFunctions/common.view/common.view.functions'
+import CollectionView from '../PanelView/collection.view/collection.view';
 import Loader from '../Loader/loader.view';
 import { getStorage, setStorage } from '../../Storage/Storage';
 
@@ -50,6 +51,12 @@ const Home = (props) => {
       data: undefined,
       itemOnClick: _dummyFunction,
       panelHeight: 0
+    })
+    
+    // Side panel collection and collection item view model!
+    const [collectionModel, setCollectionModel] = useState({
+      data: undefined,
+      startLoader: true
     })
     
     function _dummyFunction(){
@@ -157,15 +164,18 @@ const Home = (props) => {
     
     // Show child view for the panel view!
     function _showChildView(){
-      if(!panelModel.enableLoader && panelModel.data !== undefined){
+      
+      if(collectionModel.data !== undefined && collectionModel.data.length === 0){
+        return _showCommonLabel();
+      }
+      
+      if(collectionModel.data !== undefined){
         return(
-          panelModel.data.map((options, key) => {
-            return(
-              <PanelItemView data = {options.storyName} objectId = {options._id} onClick = {(object_id) => panelModel.itemOnClick(object_id, options)} />
-            )
-          })
+          <CollectionView collectionData = {collectionModel} />
         )
-      } else {
+      }
+      
+      if(collectionModel.data == undefined && collectionModel.startLoader){
         return _showLoader();
       }
     }
@@ -174,12 +184,21 @@ const Home = (props) => {
     function _showLoader(){
       return(
         <div className = "loader-spinner" style = {{marginTop: (panelModel.panelHeight) / 2.2 + "px"}}> 
-            <Loader data = {panelModel.loaderStyle} />
+            {onLoader(panelModel.loaderStyle)}
+        </div>
+      )
+    }
+    
+    // Show common label!
+    function _showCommonLabel(){
+      return(
+        <div className = "text-center" style = {{marginTop: (panelModel.panelHeight) / 2.2 + "px"}}>
+          {commonLabel(mainLang.noHistory)}
         </div>
       )
     }
 
-    // Constructor!
+    // OnRender!
     useEffect(() => {
         updateHeight();
     }, [footer])
