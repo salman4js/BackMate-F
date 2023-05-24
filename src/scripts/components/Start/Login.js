@@ -11,11 +11,21 @@ const Login = () => {
     let navigate = useNavigate();
 
     // Error toast handler!
-    const [error, setError] = useState(false);
-    const [errortext, setErrortext] = useState();
-    const handleClose = () => {
-        setError(false);
-        setErrortext("")
+    const [toast, setToast] = useState({
+      error: false,
+      errorText: undefined,
+      alignment: undefined,
+      onHide: handleClose
+    });
+    
+    // Close the toast message!
+    function handleClose(){
+      setToast(prevState => ({...prevState, error: false, errorText: undefined}))
+    }
+    
+    // trigger the toast message!
+    function _triggerToast(value, message){
+      setToast(prevState => ({...prevState, error: value, errorText: message}))
     }
 
     // Input handler
@@ -53,8 +63,7 @@ const Login = () => {
             defaultStorage(defaultSet);
             navigate("/core", {replace:  true})
         } else {
-            setError(!error);
-            setErrortext(result.message);
+            _triggerToast(true, result.message);
         }
     }
 
@@ -89,11 +98,11 @@ const Login = () => {
                             <br />
                             <br />
                             {
-                                error === false ? (
+                                toast.error === false ? (
                                     <div>
                                     </div>
                                 ) : (
-                                    <Toast show = {error} message = {errortext} handleClose = {() => handleClose()} />
+                                    <Toast show = {toast.error} message = {toast.errorText} data = {toast} />
                                 )
                             }
                         </div>

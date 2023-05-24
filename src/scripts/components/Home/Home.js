@@ -5,7 +5,7 @@ import Request from '../Requests/Request';
 import Crumbs from '../NavCrumbs/Crumbs';
 import Responses from '../Response/Response';
 import Pagination from '../Pagination/Pagination';
-import { Handler } from '../../Functions/Functions';
+import { initiateRequest } from '../../Functions/Functions';
 import PanelItemView from '../PanelView/panel.view';
 import Loader from '../Loader/loader.view';
 import { getStorage, setStorage } from '../../Storage/Storage';
@@ -90,7 +90,7 @@ const Home = (props) => {
             username: username,
             password: password
         }
-        const result = await Handler(data);
+        const result = await initiateRequest(data);
         if (result.status === 200) {
             setResponse(result.data);
             setLoader(false);
