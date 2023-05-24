@@ -1,5 +1,8 @@
 const axios = require("axios");
+const brewDate = require('brew-date');
 import { readJson, extractExpected, paramsExtractor, responseHelpers, getCountCase, getObject, isValueCheck, checkEqual } from "./Automation/Automate";
+import { restResource } from './RestResources/rest.resource.js';
+import { getUserId } from './CommonFunctions/common.functions';
 
 // Response Array!
 var responseArr = [];
@@ -51,8 +54,34 @@ async function deleteResource(params){
     }
 }
 
+// Add API collection to the server for history!
+async function addCollection(params){
+  
+  var currentUserId = getUserId();
+  
+  // Form the neccessary options!
+  params['userId'] = currentUserId;
+  params['date'] = brewDate.getFullDate("dd/mm/yyyy");
+  
+  try{
+    const isAdded = await axios.post(restResource.addCollection, params);
+    return isAdded.data;
+  }catch(err){
+    if(err.response && err.response.status){
+      return err.response;
+    }
+  }
+}
+
 // API call handler functions!
-export async function Handler(params){
+export async function initiateRequest(params){
+  const isAdded = await addCollection(params); // Add the API params to the collection!
+  const response = await Handler(params);
+  return response;
+}
+
+// Call this function from the initiate request function!
+async function Handler(params){
     if(params.mode === 'GET'){
         const result = await Get(params);
         return result;

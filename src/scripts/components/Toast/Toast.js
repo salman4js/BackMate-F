@@ -24,12 +24,12 @@ const Toast = (props) => {
   
   return (
     <Modal show = {props.show} onHide={() => props.data.onHide()}>
-        <Modal.Body className = {props.data.alignment !== undefined ? props.data.alignment : "text-center"}>
+        <Modal.Body className = {props.data?.alignment !== undefined ? props.data.alignment : "text-center"}>
             {props.message}
-            {props.data && props.data.textarea.isRequired && 
-            <Textarea placeholder = {props.data.textarea.placeholder} value = {props.value} data = {props.node} error = {props.error}/>}
+            {props.data && props.data?.textarea?.isRequired && 
+            <Textarea placeholder = {props.data?.textarea?.placeholder} value = {props.value} data = {props.node} error = {props.error}/>}
         </Modal.Body>
-        {props.data && props.data.footer.isRequired && 
+        {props.data && props.data?.footer?.isRequired && 
           <Modal.Footer>
             {_showFooterButtons()}
           </Modal.Footer>
