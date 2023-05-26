@@ -6,6 +6,7 @@ import Crumbs from '../NavCrumbs/Crumbs';
 import Responses from '../Response/Response';
 import Pagination from '../Pagination/Pagination';
 import { initiateRequest } from '../../Functions/Functions';
+import { getCollection } from '../../Controller/appController';
 import { onLoader, commonLabel } from '../../Functions/CommonFunctions/common.view/common.view.functions'
 import CollectionView from '../PanelView/collection.view/collection.view';
 import Loader from '../Loader/loader.view';
@@ -48,20 +49,15 @@ const Home = (props) => {
       header: "API COLLECTIONS",
       enableLoader: false,
       loaderStyle: "black",
-      data: undefined,
-      itemOnClick: _dummyFunction,
       panelHeight: 0
     })
     
     // Side panel collection and collection item view model!
     const [collectionModel, setCollectionModel] = useState({
       data: undefined,
+      dates: [],
       startLoader: true
     })
-    
-    function _dummyFunction(){
-      console.log("Function!!")
-    }
     
     // Update side panel container height to determine loader place!!!
     function updatePanelHeight(wrapper, sidepanel){
@@ -118,6 +114,12 @@ const Home = (props) => {
             return;
         }
     }
+    
+    // Fetch collection for side panel view!
+    async function fetchCollection(){
+      const result = await getCollection();
+      console.log(result);
+    }
 
     // Get Function!
     function getFunction() {
@@ -169,7 +171,7 @@ const Home = (props) => {
         return _showCommonLabel();
       }
       
-      if(collectionModel.data !== undefined){
+      if(collectionModel.data == undefined){
         return(
           <CollectionView collectionData = {collectionModel} />
         )
@@ -201,6 +203,7 @@ const Home = (props) => {
     // OnRender!
     useEffect(() => {
         updateHeight();
+        fetchCollection();
     }, [footer])
 
     return (

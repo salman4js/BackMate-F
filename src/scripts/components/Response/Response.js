@@ -1,5 +1,5 @@
 import React, {useRef, useEffect, useState} from 'react';
-import Loader from '../Loader/loader.view';
+import { onLoader, commonLabel } from '../../Functions/CommonFunctions/common.view/common.view.functions'
 import ResponseController from './response.controller.view/response.controller.view'
 import { lang } from './lang';
 import './Response.css'
@@ -56,7 +56,7 @@ const Responses = (props) => {
         <div className = "footer response-space" ref = {footerRef} style={{height: controller.height}}>
             <div className = "result-section text-center lang" style = {{marginTop: calculateResponseSpaceHeight() / 4 + "px"}}>
                 <div className = "loader-spinner">
-                  <Loader />
+                  {onLoader()}
                 </div>
             </div>
         </div>
