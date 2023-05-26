@@ -5,7 +5,7 @@ import EditorWelcome from '../CodeEditor/WelcomeEditor/Editor';
 import ReportViewer from './report.viewer/report.viewer';
 import PanelView from '../PanelView/panel.view';
 import PanelItemView from '../PanelView/panel.item/panel.item.view';
-import Loader from '../Loader/loader.view';
+import { onLoader, commonLabel } from '../../Functions/CommonFunctions/common.view/common.view.functions'
 import {getAllReports} from '../../Controller/appController';
 
 const ReportsView = () => {
@@ -92,7 +92,7 @@ const ReportsView = () => {
   function _showLoader(){
     return(
       <div className = "loader-spinner" style = {{marginTop: (height) / 2.2 + "px"}}> 
-          <Loader data = {panelModel.loaderStyle} />
+          {onLoader(panelModel.loaderStyle)}
       </div>
     )
   }
