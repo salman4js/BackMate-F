@@ -1,4 +1,5 @@
 const axios = require("axios");
+const brewDate = require('brew-date');
 import { restResource } from '../Functions/RestResources/rest.resource';
 import { getUserId } from '../Functions/CommonFunctions/common.functions';
 
@@ -38,14 +39,13 @@ export async function getAllReports(){
 }
 
 // Add API collection to the server for history!
-export async function addCollection(){
+export async function addCollection(params){
   
-  var params = {};
   var currentUserId = getUserId();
   
   // Form the neccessary options!
   params['userId'] = currentUserId;
-  params['date'] = brewDate.getFullDate("dd/mm/yyyy");
+  params['date'] = brewDate.getFullDate("yyyy/mm/dd");
   
   try{
     const isAdded = await axios.post(restResource.addCollection, params);

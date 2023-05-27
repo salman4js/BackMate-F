@@ -49,15 +49,16 @@ const Home = (props) => {
       header: "API COLLECTIONS",
       enableLoader: false,
       loaderStyle: "black",
-      panelHeight: 0
+      panelHeight: 0,
+      data: [],
+      onLoader: _triggerLoader,
+      enableSubChildView: false
     })
     
-    // Side panel collection and collection item view model!
-    const [collectionModel, setCollectionModel] = useState({
-      data: undefined,
-      dates: [],
-      startLoader: true
-    })
+    // Function to trigger the collection panel loader!
+    function _triggerLoader(value){
+      setPanelModel(prevState => ({...prevState, enableLoader: value}))
+    }
     
     // Update side panel container height to determine loader place!!!
     function updatePanelHeight(wrapper, sidepanel){
@@ -117,8 +118,11 @@ const Home = (props) => {
     
     // Fetch collection for side panel view!
     async function fetchCollection(){
+      _triggerLoader(true);
       const result = await getCollection();
-      console.log(result);
+      if(result.status === 200){
+        setPanelModel(prevState => ({...prevState, data: result.data.message, enableLoader: false}))
+      }
     }
 
     // Get Function!
@@ -166,18 +170,21 @@ const Home = (props) => {
     
     // Show child view for the panel view!
     function _showChildView(){
-      
-      if(collectionModel.data !== undefined && collectionModel.data.length === 0){
+      if(panelModel.data !== undefined && panelModel.data.length === 0 && panelModel.enableLoader === false){
         return _showCommonLabel();
       }
       
-      if(collectionModel.data == undefined){
+      if(panelModel.enableLoader === false && panelModel.data !== undefined){
         return(
-          <CollectionView collectionData = {collectionModel} />
+          panelModel.data.map((options, key) => {
+            return(
+              <CollectionView data = {options}/>
+            )
+          })
         )
       }
       
-      if(collectionModel.data == undefined && collectionModel.startLoader){
+      if(panelModel.data.length === 0 && panelModel.enableLoader){
         return _showLoader();
       }
     }
