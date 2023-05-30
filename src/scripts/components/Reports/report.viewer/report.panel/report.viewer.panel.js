@@ -6,12 +6,11 @@ const ReportPanel = (props) => {
   
   // Shoe selected report story details!
   function _showReportData(){
-
     const elements = [];
     for (let key in props.data.objectData){
       if(props.data.objectData.hasOwnProperty(key)){
         var value = props.data.objectData[key];
-        if(key !== "_id" && key !== "__v" && key !== "user" && key !== "actualResult" && key !== "expectedResult"){
+        if(key !== "_id" && key !== "__v" && key !== "user" && key !== "actualResult" && key !== "expectedResult" && key !== "success"){
           elements.push(
             <div className = "report-viewer-result">
               <span className = "report-viewer-data">

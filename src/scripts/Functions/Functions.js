@@ -1,14 +1,15 @@
 const axios = require("axios");
 const brewDate = require('brew-date');
+const {getStorage, setStorage} = require("../Storage/Storage")
 import { readJson, extractExpected, paramsExtractor, responseHelpers, getCountCase, getObject, isValueCheck, checkEqual } from "./Automation/Automate";
 import { restResource } from './RestResources/rest.resource.js';
 import { addCollection } from '../Controller/appController'
 
 // Response Array!
-var responseArr = [];
+var responseArr = new Array();
 
 // Expected Value Array!
-var expectedValueArr = [];
+var expectedValueArr = new Array();
 
 // Failed Scenarios!
 var failedScenarios = {};
@@ -111,11 +112,15 @@ export function Automate(data){
       const automate = await Handler(params);
       const countCase = getCountCase(data);
       const propertyCheck = await getObject(automate.data, expectedValue);
+      
 
       if(propertyCheck.success){
         const valueCheckForResponse = isValueCheck(propertyCheck.respObj, responseArr, true);
         const valueCheckForExpected = isValueCheck(propertyCheck.expectedObj, expectedValueArr, false);
+
         const getFailed = checkEqual(responseArr, expectedValueArr); // If any!
+        
+        setStorage("expected-value", expectedValueArr); // Storing it incase if there are no failure in automation!
         
         // Once the automation gets completed, add those into failedScenarios Model!
         const failedCases = _populateModel(storyDetails, getFailed);
@@ -133,11 +138,12 @@ export function Automate(data){
 
 // Populate the failed scenario model!
 function _populateModel(details, failedCases){
-  failedScenarios['actualResult'] = failedCases[0].actualResult;
-  failedScenarios['expectedResult'] = failedCases[0].expectedResult;
+  failedScenarios['actualResult'] = failedCases[0]?.actualResult === undefined ? getStorage("expected-value") : failedCases[0].actualResult;
+  failedScenarios['expectedResult'] = failedCases[0]?.expectedResult === undefined ? getStorage("expected-value") : failedCases[0].expectedResult;
   failedScenarios['storyName'] = details.storyName;
   failedScenarios['apiName'] = details.apiName;
   failedScenarios['authorName'] = details.authorName;
   failedScenarios['scenarioName'] = details.scenarioName;
+  failedScenarios['isSuccess'] = failedCases[0]?.actualResult === undefined ? true : false;
   return failedScenarios;
 }

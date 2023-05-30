@@ -48,25 +48,36 @@ export function paramsExtractor(data) {
 
 // Used to read all the keys and value for the response and the expected value!
 export function responseHelpers(result, helperArr, resp) {
-   traverseJSON(result, helperArr, resp)
+    getProp(result, helperArr, resp)
 } 
 
-// Helper function for responseHelpers!
-function traverseJSON(obj, helperArr, resp) {
-    var newArr = new Array();
-    for (let key in obj) {
-        if (obj[key].constructor === ({}).constructor) {
-          const isIterable = checkArray(obj[key]);
-          isIterable ? traverseJSON(obj[key], helperArr, resp) : setValue(key, resp, helperArr, newArr)
-        } else {
-          setValue(key, resp, helperArr, newArr);
+
+function getProp(data, helperArr, resp){
+    data.map((options, key) => {
+        const newArr = new Array();
+        traverseJSON(options, newArr, helperArr, resp);
+        
+        if(newArr.length > 0){
+          helperArr.push(newArr);
         }
-    }
+    })
     
-    // When we find the value of the object, push that separate arrays into the helperArr!
-    if(newArr.length > 0){
-      helperArr.push(newArr);
-    }        
+}
+
+function traverseJSON(obj, newArr, helperArr, resp) {
+    if(!obj) return;
+    if (obj.constructor === ({}).constructor) {
+        Object.keys(obj).forEach((key,idx)=>{
+            setValue(key, resp, helperArr, newArr);
+            traverseJSON(obj[key], newArr, helperArr, resp)
+        }
+        );
+
+    } else if (Array.isArray(obj)) {
+        obj.forEach((item) => {
+            traverseJSON(item, newArr, helperArr, resp)
+        })
+    }
 }
 
 // Push value into checking array!
@@ -99,7 +110,7 @@ export async function getObject(response, expected){
     var responseValue = Object.keys(response);
     var expectedValue = Object.keys(expected);
     
-    assert.deepStrictEqual(responseValue.sort(), expectedValue.sort(), "Values doesn't match!");
+    assert.deepStrictEqual(responseValue.sort(), expectedValue.sort(), "Values doesn't match!");    
     return {success: true, respObj: respObj, expectedObj: expectedObj};
     
   } catch(err){
@@ -124,9 +135,9 @@ export function checkEqual(response, expected){
       }
 
       failedTest.push(failed);
-      
     }
   }
+
   return failedTest;
 }
 

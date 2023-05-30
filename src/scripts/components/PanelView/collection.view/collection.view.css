@@ -4,5 +4,7 @@
 }
 
 .collection-sub-child-view{
-  background: #f1f1f1
+  background: #f1f1f1;
+  padding-left: 14px;
+  font-size: 13px;
 }
