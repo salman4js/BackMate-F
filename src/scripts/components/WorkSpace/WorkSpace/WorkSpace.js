@@ -128,8 +128,7 @@ const WorkSpace = (props) => {
   // Update height for the code editor!
   function updateHeight(workSpaceRef, sideRef, footerRef, wrapperRef){
     controlHeight(footerRef) // Set the footer height to the state inorder to handle the height of the control center container!
-    console.log(sideRef.current.offsetHeight + wrapperRef.current.offsetHeight)
-    setHeight(sideRef.current.offsetHeight + wrapperRef.current.offsetHeight)
+    setHeight(sideRef.current.offsetHeight + 5)
   }
 
   // Calculate the height of the control center container
