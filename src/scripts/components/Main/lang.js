@@ -18,5 +18,7 @@ export const mainLang = {
     reports: "reports",
     logout: "Logout",
     currentDirectory: "current-directory",
-    noHistory: "No history to show!"
+    noHistory: "No history to show!",
+    editorLoading: "Please wait, Editor Loading!",
+    requestLoading: "Loading..."
 };

@@ -22,7 +22,7 @@ const CollectionView = (props) => {
   function _showSubChildView(){
     return(
       isExpanded && (
-        <CollectionPanelView data = {props.data.links}  />
+        <CollectionPanelView data = {props.data.links} subItemOnClick = {(status) => props.subItemOnClick(status)}  />
       )
     )
   }

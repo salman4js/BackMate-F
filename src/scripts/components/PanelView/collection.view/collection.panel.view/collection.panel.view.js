@@ -14,7 +14,7 @@ const CollectionPanelView = (props) => {
     return(
       props.data.map((options, key) => {
         return(
-          <div className = "collection-sub-child-view">
+          <div className = "collection-sub-child-view" onClick = {() => props.subItemOnClick(options)}>
             <Tippy content = {options.url}>
               <div className = "side-panel-items">
                 <span className = "brew-title-workspace side-align">
