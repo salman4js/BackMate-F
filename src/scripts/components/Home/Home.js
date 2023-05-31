@@ -1,22 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
+import './Home.css';
 import { mainLang } from '../Main/lang';
 import PanelView from '../PanelView/panel.view';
 import Request from '../Requests/Request';
 import Crumbs from '../NavCrumbs/Crumbs';
 import Responses from '../Response/Response';
 import Pagination from '../Pagination/Pagination';
+import EditorWelcome from '../CodeEditor/WelcomeEditor/Editor';
 import { initiateRequest } from '../../Functions/Functions';
 import { getCollection } from '../../Controller/appController';
 import { onLoader, commonLabel } from '../../Functions/CommonFunctions/common.view/common.view.functions'
 import CollectionView from '../PanelView/collection.view/collection.view';
 import Loader from '../Loader/loader.view';
-import { getStorage, setStorage } from '../../Storage/Storage';
-
+import { getStorage, setStorage, defaultStorage } from '../../Storage/Storage';
+// import useForceUpdate from '../hooks/ForceUpdate/force.update.render';
 
 const Home = (props) => {
 
     // Loader handler!
     const [loader, setLoader] = useState(false);
+    
+    // Component wise reload!
+    const [reload, setReload] = useState({
+      triggerReload: _triggerReload,
+      isReload: true
+    })
+    
+    // Trigger reloading!
+    function _triggerReload(value){
+      setReload(prevState => ({...prevState, isReload: value}))
+    }
 
     // Height calculation handler for the elements!
     const [request, setRequest] = useState();
@@ -30,7 +43,7 @@ const Home = (props) => {
 
     // Data handler for body container!
     // Input handler for the body container!
-    const [url, setUrl] = useState(getStorage("req-url"));
+    const [url, setUrl] = useState();
     const [mode, setMode] = useState();
     const [body, setBody] = useState("");
 
@@ -88,7 +101,7 @@ const Home = (props) => {
     const handleRequest = async (url, mode, body) => {
         setLoader(true);
         const data = {
-            url: url,
+            url: getStorage("req-url"),
             mode: mode,
             body: body,
             username: username,
@@ -121,13 +134,13 @@ const Home = (props) => {
       _triggerLoader(true);
       const result = await getCollection();
       if(result.status === 200){
-        setPanelModel(prevState => ({...prevState, data: result.data.message, enableLoader: false}))
+        setPanelModel(prevState => ({...prevState, data: result.data.message.reverse(), enableLoader: false}))
       }
     }
 
     // Get Function!
     function getFunction() {
-        const storage = localStorage.getItem(mainLang.crumb);
+        const storage = getStorage(mainLang.crumb);
         if (storage === mainLang.body || storage === mainLang.params || storage === mainLang.authorization) {
             handleRequest(url + key + values, mode, body);
         }
@@ -168,6 +181,25 @@ const Home = (props) => {
         })
     }
     
+    // Sub collection item on click function!
+    function subItemOnClick(status){
+      _triggerReload(false);
+      populateReqValue(status); // Populate the request value for persistent!
+      setTimeout(function(){ // Timeout needed to let the storage state changes and to re render the component!
+        _triggerReload(true);
+      }, 100)
+    }
+    
+    // Persist request values!
+    function populateReqValue(status){
+      // Club the data together!
+      const data = {
+        "body-code" : status.reqBody,
+        "req-url": status.url
+      }
+      defaultStorage(data); // Store the clubed data into the localstorage!
+    }
+    
     // Show child view for the panel view!
     function _showChildView(){
       if(panelModel.data !== undefined && panelModel.data.length === 0 && panelModel.enableLoader === false){
@@ -178,7 +210,7 @@ const Home = (props) => {
         return(
           panelModel.data.map((options, key) => {
             return(
-              <CollectionView data = {options}/>
+              <CollectionView data = {options} subItemOnClick = {(status) => subItemOnClick(status)}/>
             )
           })
         )
@@ -212,7 +244,7 @@ const Home = (props) => {
         updateHeight();
         fetchCollection();
     }, [footer])
-
+    
     return (
         <div className = "brew-container">
           <div className = "flex-1">
@@ -220,15 +252,27 @@ const Home = (props) => {
           </div>
           <div className = "flex-2">
             <div className = "home-container" style = {{paddingTop: "43px"}}>
-                <Request request={setRequest} url={(data) => updateUrl(data)} mode={setMode}
-                    options={mainLang.options} getFunction={() => getFunction()} params={key} valueUrl={url} valueParams={values} />
+                {
+                  reload.isReload ? (
+                    <Request request={setRequest} url={(data) => updateUrl(data)} mode={setMode}
+                    options={mainLang.options} getFunction={() => getFunction()} params={key} valueUrl={getStorage('req-url')} valueParams={values} />
+                  ) : (
+                    <Request request={setRequest} url={(data) => updateUrl(data)} mode={setMode}
+                    options={mainLang.options} getFunction={() => getFunction()} params={key} valueUrl={mainLang.requestLoading} valueParams={values} />
+                  )
+                }
                 <Pagination pagination={setPagination} catch={(item) => handleCatch(item)} />
                 {/* <Editor height = {height} data = {setData} /> */}
-                <Crumbs value={crumbs} height={height} data={setBody} keys={(data) => appendUrl(data)}
-                    values={(data) => appendUrlValue(data)}
-                    username={setUsername} password={setPassword} replaceValue={(key, value) => replaceValues(key, value)}
-                    storage = {"body-code"}
+                {reload.isReload ? (
+                    <Crumbs value={crumbs} height={height} data={setBody} keys={(data) => appendUrl(data)}
+                      values={(data) => appendUrlValue(data)}
+                      username={setUsername} password={setPassword} replaceValue={(key, value) => replaceValues(key, value)}
+                      storage = {"body-code"}
                     />
+                  ) : (
+                    <EditorWelcome height = {height} isReload = {false} message = {mainLang.editorLoading} />
+                  )
+                }
                 <Responses footer={setFooter} result={response} loader={loader} />
             </div>
           </div>

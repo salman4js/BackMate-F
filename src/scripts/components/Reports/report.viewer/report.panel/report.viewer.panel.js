@@ -50,7 +50,6 @@ const ReportPanel = (props) => {
     return elements
   }
   
-  
   return(
     <div className = "report-viewer-panel" style = {{height: props.data.height + "px"}}>
       <div className = "report-viewer-header text-center">

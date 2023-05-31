@@ -9,7 +9,7 @@ const Request = (props) => {
     const requestRef = useRef(null);
 
     const value = props.valueUrl;
-
+    
     function updateUrl(e){
         if(e.keyCode !== 8){
             props.url(e.target.value)

@@ -7,6 +7,7 @@ import PanelView from '../PanelView/panel.view';
 import PanelItemView from '../PanelView/panel.item/panel.item.view';
 import { onLoader, commonLabel } from '../../Functions/CommonFunctions/common.view/common.view.functions'
 import {getAllReports} from '../../Controller/appController';
+import {setStorage, getStorage} from '../../Storage/Storage';
 
 const ReportsView = () => {
   
@@ -53,7 +54,12 @@ const ReportsView = () => {
   function calculateHeight(wrapper, sidepanel){
     const calculatedHeight = wrapper.current.offsetHeight + sidepanel.current.offsetHeight
     setHeight(calculatedHeight);
-    setViewerData(prevState => ({...prevState, height: calculatedHeight}))
+    setViewerData(prevState => ({...prevState, height: calculatedHeight}));
+  }
+  
+  // Get the height of the container!
+  function getHeight(){
+    return viewerData.height;
   }
   
   // Get reports!
@@ -69,8 +75,21 @@ const ReportsView = () => {
   }
   
   // This function handle getting the specific report from the objectId from the panel.item.view
-  function _selectedObject(objectId, options){
+  function _selectedObject(objectId, options) {
+    // Form a object to persist the report value!
+    const data = {
+      height: viewerData.height,
+      leftViewerHeader: viewerData.leftViewerHeader,
+      rightViewerHeader: viewerData.rightViewerHeader,
+      id: objectId,
+      objectData: options,
+      expectedResultId : viewerData.expectedResultId,
+      actualResultId: viewerData.actualResultId
+    }
+
     setViewerData(prevState => ({...prevState, id: objectId, objectData: options}));
+    setStorage('report-content-id', data.id);
+    setStorage('report-content', JSON.stringify(data))
   }
   
   // Show child view for the panel view!
@@ -96,6 +115,16 @@ const ReportsView = () => {
       </div>
     )
   }
+  
+  // Check whether the value is persisted or not!
+  function isValuePersisted(){
+    var contentId = getStorage('report-content-id');
+    if(contentId !== undefined && contentId !== null){
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   // Get current report of the logged in user!
   useLayoutEffect(() => {
@@ -109,8 +138,8 @@ const ReportsView = () => {
       </div>
       <div className = "flex-2">
         <div className = "container-header">
-          {viewerData.id !== undefined ? (
-            <ReportViewer viewerData = {viewerData} />
+          {isValuePersisted() ? (
+            <ReportViewer viewerData = {viewerData} getHeight = {() => getHeight()} />
           ) : (
             <EditorWelcome message = {reportLang.editorPreview} isReload = {false} height = {height} />
           )
