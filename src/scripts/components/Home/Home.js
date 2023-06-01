@@ -104,7 +104,7 @@ const Home = (props) => {
         const data = {
             url: getStorage("req-url"),
             mode: mode,
-            body: body,
+            body: JSON.parse(body),
             username: username,
             password: password
         }
