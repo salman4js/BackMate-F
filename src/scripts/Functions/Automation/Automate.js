@@ -36,9 +36,11 @@ export function paramsExtractor(data) {
     try {
         const url = data.url;
         const method = data.method;
+        const body = data.body;
         const params = {
             url: url,
-            mode: method
+            mode: method,
+            body: body
         }
         return params;
     } catch (err) {

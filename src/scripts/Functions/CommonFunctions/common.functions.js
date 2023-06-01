@@ -33,6 +33,15 @@ export function getUserId(){
   return getStorage("userId");
 }
 
+// Get storage values based on the components! --> Later change it to retrieve c
+// omponent based storage data by passing aruguments@!
+export function getPersistedValues(){
+  var reqBody = JSON.parse(getStorage('body-code'));
+  var reqMethod = getStorage('req-method');
+  var reqUrl = getStorage('req-url');
+  return {reqBody, reqMethod, reqUrl}
+}
+
 // DOM refresh!
 export function refreshPage(){
   window.location.reload(true);

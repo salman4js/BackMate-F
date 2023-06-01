@@ -9,7 +9,8 @@ import Pagination from '../Pagination/Pagination';
 import EditorWelcome from '../CodeEditor/WelcomeEditor/Editor';
 import { initiateRequest } from '../../Functions/Functions';
 import { getCollection } from '../../Controller/appController';
-import { onLoader, commonLabel } from '../../Functions/CommonFunctions/common.view/common.view.functions'
+import { onLoader, commonLabel } from '../../Functions/CommonFunctions/common.view/common.view.functions';
+import { getPersistedValues } from '../../Functions/CommonFunctions/common.functions';
 import CollectionView from '../PanelView/collection.view/collection.view';
 import Loader from '../Loader/loader.view';
 import { getStorage, setStorage, defaultStorage } from '../../Storage/Storage';
@@ -249,6 +250,14 @@ const Home = (props) => {
         return mainLang.requestLoading
       }
     }
+    
+    // Set default values (persisted value) when the component load for the first time!~
+    function setDefaultValues(){
+      var data = getPersistedValues();
+      setUrl(data.reqUrl);
+      setBody(data.reqBody);
+      setMode(data.reqMethod)
+    }
 
     // OnRender!
     useEffect(() => {
@@ -259,7 +268,7 @@ const Home = (props) => {
     // Whenever the state gets changes, add the value to the storage!
     useEffect(() => {
       _triggerReload(false);
-      setStorage('req-url', url);
+      setDefaultValues();
       _triggerReload(true);
     }, [url])
     
