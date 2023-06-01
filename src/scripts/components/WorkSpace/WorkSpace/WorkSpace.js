@@ -121,6 +121,7 @@ const WorkSpace = (props) => {
     try{
       fs.writeFileSync(getStorage('wdf'), value);
     } catch(err){
+      console.warn("Error occured while editing", err); // Remove this once the intermittent bug has been resolved.
       console.error("Error occured in file saving!", err);
     }
   }
