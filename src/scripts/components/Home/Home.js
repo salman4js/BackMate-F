@@ -195,7 +195,8 @@ const Home = (props) => {
       // Club the data together!
       const data = {
         "body-code" : status.reqBody,
-        "req-url": status.url
+        "req-url": status.url,
+        "req-method": status.method
       }
       defaultStorage(data); // Store the clubed data into the localstorage!
       setUrl(status.url); // Update the state here, instead of reloading the component
