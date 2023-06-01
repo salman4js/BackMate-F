@@ -43,7 +43,7 @@ const Home = (props) => {
 
     // Data handler for body container!
     // Input handler for the body container!
-    const [url, setUrl] = useState();
+    const [url, setUrl] = useState(getStorage('req-url'));
     const [mode, setMode] = useState();
     const [body, setBody] = useState("");
 
@@ -198,6 +198,7 @@ const Home = (props) => {
         "req-url": status.url
       }
       defaultStorage(data); // Store the clubed data into the localstorage!
+      setUrl(status.url); // Update the state here, instead of reloading the component
     }
     
     // Show child view for the panel view!
@@ -238,12 +239,28 @@ const Home = (props) => {
         </div>
       )
     }
+    
+    // Get value for the input text area field box!
+    function getValue(){
+      if(reload.isReload){
+        return getStorage('req-url');
+      } else {
+        return mainLang.requestLoading
+      }
+    }
 
     // OnRender!
     useEffect(() => {
         updateHeight();
         fetchCollection();
     }, [footer])
+    
+    // Whenever the state gets changes, add the value to the storage!
+    useEffect(() => {
+      _triggerReload(false);
+      setStorage('req-url', url);
+      _triggerReload(true);
+    }, [url])
     
     return (
         <div className = "brew-container">
@@ -252,15 +269,10 @@ const Home = (props) => {
           </div>
           <div className = "flex-2">
             <div className = "home-container" style = {{paddingTop: "43px"}}>
-                {
-                  reload.isReload ? (
-                    <Request request={setRequest} url={(data) => updateUrl(data)} mode={setMode}
-                    options={mainLang.options} getFunction={() => getFunction()} params={key} valueUrl={getStorage('req-url')} valueParams={values} />
-                  ) : (
-                    <Request request={setRequest} url={(data) => updateUrl(data)} mode={setMode}
-                    options={mainLang.options} getFunction={() => getFunction()} params={key} valueUrl={mainLang.requestLoading} valueParams={values} />
-                  )
-                }
+            
+                <Request request={setRequest} url={(data) => updateUrl(data)} mode={setMode}
+                options={mainLang.options} getFunction={() => getFunction()} params={key} valueUrl={getValue()} valueParams={values} />
+                
                 <Pagination pagination={setPagination} catch={(item) => handleCatch(item)} />
                 {/* <Editor height = {height} data = {setData} /> */}
                 {reload.isReload ? (
