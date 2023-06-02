@@ -29,16 +29,25 @@ const Editor = (props) => {
     // Changes to make this component re-usable for the editor workspace!
     // Instanting storage variable!
     const storage = props.storage;
+    
+    // Determins if to parse the coming value or not!
+    function getEditorValue(){ // Check this condition later and reduce it as it makes no sense!
+      if(code.length > 0 && props.parse_it){
+        return code
+      } else if(code.length == 0 && props.parse_it) {
+        return code;
+      }
+    }
 
     // Editor instance!
-    const [code, setCode] = useState(JSON.stringify(getStorage(storage)));
+    const [code, setCode] = useState(getStorage(storage));
 
     if (props.height !== undefined) {
 
         return (
             <div>
                 <CodeMirror
-                    value={JSON.parse(code)}
+                    value={getEditorValue()}
                     height={props.height + "px"}
                     theme={dracula}
                     extensions={[javascript()]}

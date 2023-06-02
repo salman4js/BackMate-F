@@ -45,7 +45,7 @@ export async function addCollection(params){
   
   // Form the neccessary options!
   params['userId'] = currentUserId;
-  params['date'] = brewDate.getFullDate("yyyy/mm/dd");
+  params['date'] = brewDate.getFullDate("dd/mmm");
   
   try{
     const isAdded = await axios.post(restResource.addCollection, params);

@@ -100,11 +100,12 @@ const Home = (props) => {
 
     // Request handler!
     const handleRequest = async (url, mode, body) => {
+        const bodyValue = typeof(body) === "object" ? body : JSON.parse(body)
         setLoader(true);
         const data = {
             url: getStorage("req-url"),
             mode: mode,
-            body: JSON.parse(body),
+            body: bodyValue,
             username: username,
             password: password
         }
