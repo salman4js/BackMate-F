@@ -60,7 +60,8 @@ function getProp(data, helperArr, resp){
         traverseJSON(options, newArr, helperArr, resp);
         
         if(newArr.length > 0){
-          helperArr.push(newArr);
+          var loopResult = [...new Set(newArr)]; // Added to remove the duplicate value in case of array of multiple objects in the response!
+          helperArr.push(loopResult);
         }
     })
     

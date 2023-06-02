@@ -19,7 +19,7 @@ const Crumbs = (props) => {
   
     if(props.value === paginationOptions.body){
         return(
-            <Editor height = {props.height} data = {(data) => handleEditorData(data)} storage = {props.storage} />
+            <Editor height = {props.height} data = {(data) => handleEditorData(data)} storage = {props.storage} parse_it = {true} />
         )
     } else if(props.value === paginationOptions.params){
         return(
