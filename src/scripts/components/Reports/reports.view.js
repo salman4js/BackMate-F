@@ -37,8 +37,14 @@ const ReportsView = () => {
     id: undefined,
     objectData: undefined,
     expectedResultId : "left-side-viewer-panel",
-    actualResultId: "right-side-viewer-panel"
+    actualResultId: "right-side-viewer-panel",
+    reload: true
   })
+  
+  // Trigger report view reloading!
+  function _triggerReload(value){
+    setViewerData(prevState => ({...prevState, reload: value}));
+  }
   
   // Trigger loader method!
   function _triggerPanelLoader(value){
@@ -76,6 +82,7 @@ const ReportsView = () => {
   
   // This function handle getting the specific report from the objectId from the panel.item.view
   function _selectedObject(objectId, options) {
+    _triggerReload(false);
     // Form a object to persist the report value!
     const data = {
       height: viewerData.height,
@@ -89,7 +96,10 @@ const ReportsView = () => {
 
     setViewerData(prevState => ({...prevState, id: objectId, objectData: options}));
     setStorage('report-content-id', data.id);
-    setStorage('report-content', JSON.stringify(data))
+    setStorage('report-content', JSON.stringify(data));
+    setTimeout(function(){
+      _triggerReload(true)
+    }, 100)
   }
   
   // Show child view for the panel view!
@@ -138,12 +148,16 @@ const ReportsView = () => {
       </div>
       <div className = "flex-2">
         <div className = "container-header">
-          {isValuePersisted() ? (
-            <ReportViewer viewerData = {viewerData} getHeight = {() => getHeight()} />
-          ) : (
-            <EditorWelcome message = {reportLang.editorPreview} isReload = {false} height = {height} />
-          )
-        }
+          {viewerData.reload ? (
+            isValuePersisted() ? (
+              <ReportViewer viewerData = {viewerData} getHeight = {() => getHeight()} />
+                ) : (
+              <EditorWelcome message = {reportLang.editorPreview} isReload = {false} height = {height} />
+                )
+            ) : (
+              <EditorWelcome message = {reportLang.editorPreview} isReload = {false} height = {height} />
+            )
+          }
         </div>
       </div>
     </div>

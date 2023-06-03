@@ -115,8 +115,8 @@ export function Automate(data){
       
 
       if(propertyCheck.success){
-        const valueCheckForResponse = isValueCheck(propertyCheck.respObj, responseArr, true);
-        const valueCheckForExpected = isValueCheck(propertyCheck.expectedObj, expectedValueArr, false);
+        const valueCheckForResponse = await isValueCheck(propertyCheck.respObj, responseArr, true);
+        const valueCheckForExpected = await isValueCheck(propertyCheck.expectedObj, expectedValueArr, false);
 
         const getFailed = checkEqual(responseArr, expectedValueArr); // If any!
         
