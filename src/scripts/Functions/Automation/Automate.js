@@ -50,21 +50,27 @@ export function paramsExtractor(data) {
 
 // Used to read all the keys and value for the response and the expected value!
 export function responseHelpers(result, helperArr, resp) {
-    getProp(result, helperArr, resp)
+    return new Promise((resolve, reject) => {
+      getProp(result, helperArr, resp).then(function(){
+        resolve();
+      })
+    })
 } 
 
 
 function getProp(data, helperArr, resp){
-    data.map((options, key) => {
-        const newArr = new Array();
-        traverseJSON(options, newArr, helperArr, resp);
-        
-        if(newArr.length > 0){
-          var loopResult = [...new Set(newArr)]; // Added to remove the duplicate value in case of array of multiple objects in the response!
-          helperArr.push(loopResult);
-        }
+    return new Promise((resolve, reject) => {
+      data.map((options, key) => {
+          const newArr = new Array();
+          traverseJSON(options, newArr, helperArr, resp);
+          
+          if(newArr.length > 0){
+            var loopResult = [...new Set(newArr)]; // Added to remove the duplicate value in case of array of multiple objects in the response!
+            helperArr.push(loopResult);
+          }
+      })
+      resolve();
     })
-    
 }
 
 function traverseJSON(obj, newArr, helperArr, resp) {
@@ -123,7 +129,10 @@ export async function getObject(response, expected){
 
 // Equal value for objects check!
 export function isValueCheck(value, helperArr, resp){
-  responseHelpers(value, helperArr, resp)
+  return new Promise((resolve, reject) => {
+    responseHelpers(value, helperArr, resp)
+    resolve();
+  })
 }
 
 // Check properties of the object value in the response!

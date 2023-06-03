@@ -22,7 +22,7 @@ const Request = (props) => {
       if(storageMethod !== null){
         return storageMethod;
       } else {
-        return "Choose..."
+        return mainLang.choose
       }
     }
     

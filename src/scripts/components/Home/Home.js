@@ -117,6 +117,8 @@ const Home = (props) => {
             setResponse(result);
             setLoader(false);
         }
+        
+        fetchCollection(); // Call the function again here, to get the latest collections!
     }
 
     // Update height of the code editor!
