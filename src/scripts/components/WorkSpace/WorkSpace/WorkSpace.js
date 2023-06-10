@@ -139,6 +139,7 @@ const WorkSpace = (props) => {
 
   // Control Center Code
   async function triggerAutomate(){
+    
     // Call the automation process!
     const result = await Automate(getStorage('wdf'));
     setStorage("automatedFailedCases", JSON.stringify(result));

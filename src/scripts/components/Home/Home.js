@@ -97,10 +97,20 @@ const Home = (props) => {
             return newValue;
         })
     }
+    
+    // Get body value in all possible scenarios!
+    function getBodyValue(value){
+      if(typeof(value) === "object"){
+        return body;
+      } else {
+        const result = value.length > 0 ? JSON.parse(value) : value;
+        return result;
+      }
+    }
 
     // Request handler!
     const handleRequest = async (url, mode, body) => {
-        const bodyValue = typeof(body) === "object" ? body : JSON.parse(body)
+        const bodyValue = getBodyValue(body);
         setLoader(true);
         const data = {
             url: getStorage("req-url"),
@@ -118,7 +128,7 @@ const Home = (props) => {
             setLoader(false);
         }
         
-        fetchCollection(); // Call the function again here, to get the latest collections!
+        fetchCollection(); // Call the function again here, to get the latest collection!
     }
 
     // Update height of the code editor!
