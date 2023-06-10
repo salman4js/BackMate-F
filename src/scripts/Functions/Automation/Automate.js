@@ -53,6 +53,8 @@ export function responseHelpers(result, helperArr, resp) {
     return new Promise((resolve, reject) => {
       getProp(result, helperArr, resp).then(function(){
         resolve();
+      }).catch(function(err){
+        reject(err);
       })
     })
 } 
@@ -130,8 +132,11 @@ export async function getObject(response, expected){
 // Equal value for objects check!
 export function isValueCheck(value, helperArr, resp){
   return new Promise((resolve, reject) => {
-    responseHelpers(value, helperArr, resp)
-    resolve();
+    responseHelpers(value, helperArr, resp).then(function(){
+      resolve();
+    }).catch(function(err){
+      reject(err);
+    })
   })
 }
 

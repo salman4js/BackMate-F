@@ -40,7 +40,7 @@ const Request = (props) => {
     return (
         <div className="input-group-prepend" ref={requestRef}>
             <select class="form-control" style={{ width: '120px' }} onChange={(e) => setMode(e.target.value)}>
-                <option selected value="0">{getItem()}</option>
+                <option selected value={getItem()}>{getItem()}</option>
                 {
                     props.options.map((item, key) => {
                         return (
