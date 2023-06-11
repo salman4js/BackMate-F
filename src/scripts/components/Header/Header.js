@@ -1,7 +1,11 @@
 import React, {useEffect, useRef} from 'react';
 import './Header.css';
+import ProgressPanel from '../progresspanel/progresspanel.view';
+import { useSelector, useDispatch } from 'react-redux';
+import { globalMessageShow } from '../../stateManagement/actions/progress.panel.actions';
 import { headerLang } from './lang';
 import { mainLang } from '../Main/lang';
+import { progressPanel } from '../Main/lang';
 import {Link, useNavigate} from 'react-router-dom';
 import { clearStorage, getStorage, setStorage } from '../../Storage/Storage';
 
@@ -9,6 +13,10 @@ const Header = (props) => {
 
     // Initializing navigate route!
     let navigate = useNavigate();
+    
+    // Global state management!
+    const jobTracker = useSelector(state => state.jobTracker);
+    const dispatch = useDispatch();
 
     // Height calculation handler for the element!
     const headerRef = useRef(null);
@@ -31,6 +39,11 @@ const Header = (props) => {
         // Navigate to the login route!
         navigate("/", {replace: true});
     }
+    
+    // Get progress panel position!
+    function getProgressPanelPos(){
+      return headerRef.current.offsetWidth / 3;
+    }
 
     // Constructor!
     useEffect(() => {
@@ -50,9 +63,16 @@ const Header = (props) => {
                     })
                 }
             </div>
+            
             <div className = "header-right">
                 <Link to = {'/'} className = "brew-header-title" onClick={() => handleLogout()}>{mainLang.logout}</Link>
             </div>
+            
+            { /* Progress panel when jobTracker state gets true */ }
+            {jobTracker && (
+              <ProgressPanel message = {progressPanel.runningAutomation} position = {getProgressPanelPos()} />
+            )}
+            
         </div>
     )
 }
