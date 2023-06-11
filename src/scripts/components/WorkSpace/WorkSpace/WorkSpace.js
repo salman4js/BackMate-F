@@ -17,12 +17,20 @@ const pathModule = window.require('path');
 // Importing Automation functions
 import { Automate } from '../../../Functions/Functions';
 
+// Importing progress panel global state management!
+import { useSelector, useDispatch } from 'react-redux';
+import { createGlobalMessage, killGlobalMessage } from '../../../stateManagement/actions/progress.panel.actions';
+
 
 const WorkSpace = (props) => {
 
   // Handle content for the workpanel!
   const [content, setContent] = useState(); 
   const [value, setValue] = useState();
+  
+  // Global state management!
+  const jobTracker = useSelector(state => state.jobTracker);
+  const dispatch = useDispatch();
 
   // Git Branch state handler
   const [branch, setBranch] = useState();
@@ -139,7 +147,7 @@ const WorkSpace = (props) => {
 
   // Control Center Code
   async function triggerAutomate(){
-    
+    dispatch(createGlobalMessage()) // Call the progress panel
     // Call the automation process!
     const result = await Automate(getStorage('wdf'));
     setStorage("automatedFailedCases", JSON.stringify(result));
@@ -186,6 +194,9 @@ const WorkSpace = (props) => {
   
   // show custom dialog!
   function _showCustomDialog(){
+    
+    dispatch(killGlobalMessage()) // Kill the progress panel!
+    
     setShowCustomDialog(prevState => ({
       ...prevState, 
       show: true, 

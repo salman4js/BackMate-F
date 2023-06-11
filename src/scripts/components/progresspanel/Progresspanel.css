@@ -1,0 +1,14 @@
+.progresspanel-view {
+  background-color: white;
+  width: 620px;
+  max-width: 900px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  box-shadow: 0 2px 0px 0px white, 0 -2px 0px 0px white, 2px 0 8px -4px rgb(0,0,0), -2px 0 8px -2px rgb(0,0,0);
+}
+
+.progresspanel-message {
+  color: black;
+}

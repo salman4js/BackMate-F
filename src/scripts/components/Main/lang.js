@@ -23,3 +23,7 @@ export const mainLang = {
     editorLoading: "Please wait, Editor Loading!",
     requestLoading: "Loading..."
 };
+
+export const progressPanel = {
+  runningAutomation: "Automation is in progress...."
+}
