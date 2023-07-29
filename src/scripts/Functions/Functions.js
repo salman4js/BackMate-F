@@ -64,7 +64,6 @@ export async function initiateRequest(params){
 
 // Call this function from the initiate request function!
 async function Handler(params){
-    console.log("Params", params)
     if(params.mode === 'GET'){
         const result = await Get(params);
         return result;

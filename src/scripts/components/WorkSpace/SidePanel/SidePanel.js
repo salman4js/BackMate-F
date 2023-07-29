@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
 import { workLang } from '../WorkSpace/lang';
 import { setStorage, getStorage } from '../../../Storage/Storage';
 import { handlePathSep, getPathSep } from '../../../Functions/CommonFunctions/common.functions.js';
+import { onLoader } from '../../../Functions/CommonFunctions/common.view/common.view.functions'
 import FooterBtn from '../FooterBtn/FooterBtn'
 import './SidePanel.css';
 import FileItems from './src/FileItems';
@@ -138,8 +139,9 @@ const SidePanel = (props, ref) => {
   function passContent(wd, data){
     // Implemented fail safe method as a part of rendering the welcome editor screen when no panel header file is in open state!
     try{
+      const fileExtension = data.slice((data.lastIndexOf(".") - 1 >>> 0) + 2);
       const fileContent = fs.readFileSync(pathModule.join(wd, data)).toString();
-      props.fileContent(fileContent);
+      props.fileContent(fileContent, fileExtension);
     } catch(err){
       props.fileContent(undefined);
     }
@@ -271,6 +273,32 @@ const SidePanel = (props, ref) => {
       fileCreation();
     }
   }
+  
+  // Render panel child view!
+  function showChildView(){
+    var loaderOptions = {color: "black"}
+    if(data.length !== 0){
+      return(
+        <div className = "files">
+          {
+            data.map((item, key) => {
+              return (
+                <FileItems name={item.name} isDirectory={item.directory} navigation={(data) => handleNavigation(data)}
+                  openFile={(data) => openFile(wd ,data)}
+                />
+              )
+            })
+          }
+        </div>
+      )
+    } else {
+      return(
+        <div className = "workspace-loader">
+          {onLoader(loaderOptions)}
+        </div>
+      )
+    }
+  }
 
   // Referencing openFile function to the parent component
   // to enable the panel header to handle open file functions!
@@ -313,17 +341,7 @@ const SidePanel = (props, ref) => {
           </span>
         </div>
         <div className="sidebar" ref={sideRef}>
-          <div className="files">
-            {
-              data.map((item, key) => {
-                return (
-                  <FileItems name={item.name} isDirectory={item.directory} navigation={(data) => handleNavigation(data)}
-                    openFile={(data) => openFile(wd ,data)}
-                  />
-                )
-              })
-            }
-          </div>
+          {showChildView()}
           <FooterBtn workName={workLang.back} handleAction={() => handleBack()} footerHeight={(data) => updateHeight(data)} />
         </div>
       </div>

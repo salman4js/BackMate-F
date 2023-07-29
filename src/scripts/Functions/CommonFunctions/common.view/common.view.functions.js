@@ -1,14 +1,14 @@
 import React from 'react';
 import './common.view.functions.css';
+import { getInlineStyle } from '../common.functions';
 import Loader from '../../../components/Loader/loader.view';
 
-
-// Common UI functions!
-
 // Spinner!
-export function onLoader(data){
+export function onLoader(loaderOptions){
   return(
-    <Loader data = {data} />
+    <div className = "loader-spinner" style = {getInlineStyle(loaderOptions)}>
+      <Loader data = {loaderOptions} />
+    </div>
   )
 }
 

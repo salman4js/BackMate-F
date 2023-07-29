@@ -62,7 +62,7 @@ const Home = (props) => {
     const [panelModel, setPanelModel] = useState({
       header: "API COLLECTIONS",
       enableLoader: false,
-      loaderStyle: "black",
+      loaderColor: "black",
       panelHeight: 0,
       data: [],
       onLoader: _triggerLoader,
@@ -239,11 +239,11 @@ const Home = (props) => {
     
     // Show loader for the panel view!
     function _showLoader(){
-      return(
-        <div className = "loader-spinner" style = {{marginTop: (panelModel.panelHeight) / 2.2 + "px"}}> 
-            {onLoader(panelModel.loaderStyle)}
-        </div>
-      )
+      var loaderOptions = {
+        color: panelModel.loaderColor,
+        marginTop: panelModel.panelHeight / 2.2
+      }
+      return onLoader(loaderOptions)
     }
     
     // Show common label!

@@ -24,7 +24,7 @@ const ReportsView = () => {
   const [panelModel, setPanelModel] = useState({
     header: "PERSONAL REPORTS",
     enableLoader: false,
-    loaderStyle: "black",
+    loaderColor: "black",
     data: undefined,
     itemOnClick: _selectedObject,
   })
@@ -119,11 +119,8 @@ const ReportsView = () => {
   
   // Show loader for the panel view!
   function _showLoader(){
-    return(
-      <div className = "loader-spinner" style = {{marginTop: (height) / 2.2 + "px"}}> 
-          {onLoader(panelModel.loaderStyle)}
-      </div>
-    )
+    var loaderOptions = {color: panelModel.loaderColor, marginTop: (height) / 2.2}
+    return onLoader(loaderOptions)
   }
   
   // Check whether the value is persisted or not!

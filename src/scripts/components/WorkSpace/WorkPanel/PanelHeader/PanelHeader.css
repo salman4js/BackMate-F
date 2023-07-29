@@ -2,7 +2,8 @@
     padding: 2.5px;
     display: flex;
     align-items: center;
-    width: auto;
+    width: 180px;
+    height: 28px;
     white-space: nowrap;
 }
 
@@ -10,9 +11,11 @@
     padding: 2.5px;
     display: flex;
     align-items: center;
-    width: auto;
+    width: 180px;
+    height: 28px;
     white-space: nowrap;
     background-color: rgb(58, 62, 70);
+    border-left: 3px solid #3268a8;
 }
 
 .panel-header-name{
@@ -31,6 +34,7 @@
 }
 
 .close-panel{
-    padding-top: 5px
+  padding-top: 5px;
+  margin-left: auto
 }
 
