@@ -19,13 +19,14 @@ import { Automate } from '../../../Functions/Functions';
 
 // Importing progress panel global state management!
 import { useSelector, useDispatch } from 'react-redux';
-import { createGlobalMessage, killGlobalMessage } from '../../../stateManagement/actions/progress.panel.actions';
+import { createGlobalMessage, killGlobalMessage, updateGlobalMessage } from '../../../stateManagement/actions/progress.panel.actions';
 
 
 const WorkSpace = (props) => {
 
   // Handle content for the workpanel!
   const [content, setContent] = useState(); 
+  const [fileExtension, setFileExtension] = useState();
   const [value, setValue] = useState();
   
   // Global state management!
@@ -95,8 +96,9 @@ const WorkSpace = (props) => {
   const [footerHeight, setFooterHeight] = useState();
 
   // Handle the file content to the editor!
-  function handleContent(data) {
+  function handleContent(data, extension) {
     setContent(data); // For working around with the content, if not usable remove this later!
+    setFileExtension(extension);
     setClick(!click);
 
     // Setting the editor value to the storage for value persistant!
@@ -147,25 +149,30 @@ const WorkSpace = (props) => {
 
   // Control Center Code
   async function triggerAutomate(){
-    dispatch(createGlobalMessage()) // Call the progress panel
+    const options = {message: workLang.runningAutomation, progressStatus: 'initiating'}
+    progressPanelController(options); // Call the progress panel
     // Call the automation process!
     const result = await Automate(getStorage('wdf'));
     setStorage("automatedFailedCases", JSON.stringify(result));
-    // call the custom dialog!
-    _showCustomDialog();
+    // When the automation completed, trigger the report save function!
+    _saveReport();
   }
   
   // Save the generated report!
   async function _saveReport(){
+    const options = {message: workLang.savingReport, progressStatus: 'initiating'}
+    progressPanelController(options);
     const generatedReport = JSON.parse(getStorage("automatedFailedCases"));
     // Add user id to the generated report!
     generatedReport['userId'] = getUserId();
     const saveResult = await saveReport(generatedReport);
 
     if(saveResult.status == 200){
-        toastSave(workLang.successAlert);
+        options.message = workLang.reportSaved; options.progressStatus = 'completed'; options.closeOperation = 'Close'
+        progressPanelController(options);
     } else {
-        toastSave(workLang.errorAlert);
+        options.message = workLang.reportSaved; options.progressStatus = 'completed';
+        progressPanelController(options);
     }
   }
   
@@ -194,8 +201,6 @@ const WorkSpace = (props) => {
   
   // show custom dialog!
   function _showCustomDialog(){
-    
-    dispatch(killGlobalMessage()) // Kill the progress panel!
     
     setShowCustomDialog(prevState => ({
       ...prevState, 
@@ -245,6 +250,22 @@ const WorkSpace = (props) => {
       setContent(editorValue);
     } 
   }
+  
+  // Update progress panel!
+  function progressPanelController(options){
+    if(options.progressStatus === 'initiating'){
+      dispatch(createGlobalMessage(options))
+    }
+    
+    if(options.progressStatus === 'completed'){
+      dispatch(updateGlobalMessage(options))
+    }
+  }
+  
+  // check the selected file is json extension!
+  function isJSONFormat(){
+    return fileExtension === "json" ? true : false;
+  }
 
   // Get the git branch
   useEffect(() => {
@@ -255,7 +276,7 @@ const WorkSpace = (props) => {
   return (
     <div className="brew-container">
       <div className="flex-1">
-        <SidePanel ref = {ref} fileContent={(data) => handleContent(data)} height = {(x,y,z,a) => updateHeight(x,y,z,a)} 
+        <SidePanel ref = {ref} fileContent={(data, extension) => handleContent(data, extension)} height = {(x,y,z,a) => updateHeight(x,y,z,a)} 
         openFile = {setPanelHeader} getPanelHeader = {() => getPanelHeader()} />
       </div>
       <div className="flex-2">
@@ -270,7 +291,7 @@ const WorkSpace = (props) => {
             <EditorWelcome message = {workLang.preview} isReload = {false} height = {height} />
           )
         }
-        <Control height = {footerHeight} triggerAutomate = {() => triggerAutomate()} branch = {branch} />
+        <Control height = {footerHeight} triggerAutomate = {() => triggerAutomate()} branch = {branch} isJSONFormat = {() => isJSONFormat()} />
       </div>
       {showCustomDialog.show && (
         <CustomDialog model = {showCustomDialog} />

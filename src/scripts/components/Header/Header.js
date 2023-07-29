@@ -1,11 +1,10 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './Header.css';
 import ProgressPanel from '../progresspanel/progresspanel.view';
 import { useSelector, useDispatch } from 'react-redux';
 import { globalMessageShow } from '../../stateManagement/actions/progress.panel.actions';
 import { headerLang } from './lang';
 import { mainLang } from '../Main/lang';
-import { progressPanel } from '../Main/lang';
 import {Link, useNavigate} from 'react-router-dom';
 import { clearStorage, getStorage, setStorage } from '../../Storage/Storage';
 
@@ -69,8 +68,8 @@ const Header = (props) => {
             </div>
             
             { /* Progress panel when jobTracker state gets true */ }
-            {jobTracker && (
-              <ProgressPanel message = {progressPanel.runningAutomation} position = {getProgressPanelPos()} />
+            {jobTracker.status && (
+              <ProgressPanel data = {jobTracker} position = {() => getProgressPanelPos()} />
             )}
             
         </div>

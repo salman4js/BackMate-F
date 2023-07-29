@@ -1,8 +1,17 @@
 import React from 'react';
+import _ from "lodash";
 import {reportLang} from '../../lang/lang'
 import './report.viewer.panel.css';
 
 const ReportPanel = (props) => {
+  
+  // Get color based on the automation result!
+  function getValue(){
+    const isEqual =_.isEqual(props.data.objectData.expectedResult, props.data.objectData.actualResult);
+    return {
+      backgroundColor: isEqual ? "green" : "red"
+    }
+  }
   
   // Shoe selected report story details!
   function _showReportData(){
@@ -27,7 +36,7 @@ const ReportPanel = (props) => {
   
   // Show selected report result details!
   function _showResultData(){
-    var resultPanel = props.id === "left-side-viewer-panel" ? "expectedResult" : "actualResult"
+    var resultPanel = props.id === "left-side-viewer-panel" ? "expectedResult" : "actualResult";
     const elements = [];
     for (let key in props.data.objectData){
       if(props.data.objectData.hasOwnProperty(key)){
@@ -67,7 +76,7 @@ const ReportPanel = (props) => {
           <div className = "report-viewer-data" style = {{fontWeight: "bold"}}>
               {reportLang.resultHeader}
           </div>
-          <div id = {props.id}>
+          <div id = {props.id} style = {getValue()}>
               {_showResultData()}
           </div>
       </div>

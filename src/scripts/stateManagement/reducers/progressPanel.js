@@ -1,7 +1,9 @@
 const jobTrackerReducer = (state, action) => {
   switch(action.type){
     case 'SHOW':
-      return true;
+      return action;
+    case 'UPDATE':
+    return action;
     case 'KILL':
       return false;
     default: 

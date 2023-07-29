@@ -3,6 +3,14 @@ const { execSync } = require('child_process');
 const {getStorage, setStorage, defaultStorage} = require('../../Storage/Storage')
 
 
+// Get inline style for the inline style in JSX!
+export function getInlineStyle(options){
+  return{
+    marginLeft: options?.marginLeft + "px",
+    marginTop: options?.marginTop + "px"
+  }
+}
+
 // Handle path separation for cross platforms
 export function handlePathSep(value){
     const separator = pathModule.sep;

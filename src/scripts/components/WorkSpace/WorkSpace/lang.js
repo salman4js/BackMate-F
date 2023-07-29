@@ -11,5 +11,9 @@ export const workLang = {
     saveReport: "Save Report",
     content: "Automation success, Do you want to save this report?",
     successAlert: "Report saved successfully!",
-    errorAlert: "Internal error occured."
+    errorAlert: "Internal error occured.",
+    runningAutomation: "Automation is in progress...",
+    savingReport: "Automation completed, saving the report!",
+    reportSaved: "Report saved successfully!",
+    error: 'Some internal error occured'
 }
