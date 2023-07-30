@@ -39,40 +39,6 @@ const WorkSpace = (props) => {
   // SidePanel component reference!
   const ref = useRef(null);
   
-  // Custom Dialog State Handler!
-  const [showCustomDialog, setShowCustomDialog] = useState({
-    show: false,
-    centered: true,
-    header: {
-      enableHeading: false,
-      heading: undefined,
-      className: undefined
-    },
-    subHeading: {
-      enableSubheading: false,
-      subHeading: undefined,
-    },
-    content: {
-      enableContent: false,
-      content: undefined,
-      className: undefined
-    },
-    enableFooterButtons: false,
-    buttons: [
-      {
-        id: "Save",
-        variant: "primary",
-        onClick: _saveReport
-      },
-      {
-        id: "Close",
-        variant: "secondary",
-        onClick: _hideCustomDialog
-      }
-    ],
-    onHide: _hideCustomDialog
-  })
-  
   // Toast state handler!
   const [toast, setToast] = useState({
     show: false,
@@ -166,67 +132,15 @@ const WorkSpace = (props) => {
     // Add user id to the generated report!
     generatedReport['userId'] = getUserId();
     const saveResult = await saveReport(generatedReport);
-
     if(saveResult.status == 200){
         options.message = workLang.reportSaved; options.progressStatus = 'completed'; options.closeOperation = 'Close'
         progressPanelController(options);
     } else {
-        options.message = workLang.reportSaved; options.progressStatus = 'completed';
+        options.message = workLang.error; options.progressStatus = 'failed'; options.closeOperation = 'Close'
         progressPanelController(options);
     }
   }
-  
-  // Save Report alert message to the user through toast!
-  function toastSave(message){
-    setShowCustomDialog(prevState => ({
-      ...prevState, 
-      show: true, 
-      centered: false,
-      header: {
-        ...prevState.header,
-        enableHeading: true, 
-        heading: message,
-        className: "text-center" 
-      },
-      subHeading: {
-        enableSubheading: false,
-      },
-      content: {
-        enableContent: false, 
-        content: undefined,
-      },
-      enableFooterButtons: false
-    }))
-  }
-  
-  // show custom dialog!
-  function _showCustomDialog(){
-    
-    setShowCustomDialog(prevState => ({
-      ...prevState, 
-      show: true, 
-      centered: true,
-      header: {
-        ...prevState.header,
-        enableHeading:true, 
-        heading: workLang.saveReport
-      },
-      subHeading: {
-        enableSubheading: true,
-      },
-      content: {
-        enableContent: true, 
-        content: workLang.content
-      },
-      enableFooterButtons: true
-    }))
-  }
-  
-  // Hide Custom Dialog!
-  function _hideCustomDialog(){
-    setShowCustomDialog(prevState => ({...prevState, show: false}))
-  }
-  
+
   // Git branch handler!
   function getGitBranch(){
     const branch = gitBranch();
@@ -257,7 +171,7 @@ const WorkSpace = (props) => {
       dispatch(createGlobalMessage(options))
     }
     
-    if(options.progressStatus === 'completed'){
+    if(options.progressStatus === 'completed' || options.progressStatus === 'failed'){
       dispatch(updateGlobalMessage(options))
     }
   }
@@ -293,9 +207,6 @@ const WorkSpace = (props) => {
         }
         <Control height = {footerHeight} triggerAutomate = {() => triggerAutomate()} branch = {branch} isJSONFormat = {() => isJSONFormat()} />
       </div>
-      {showCustomDialog.show && (
-        <CustomDialog model = {showCustomDialog} />
-      )}
     </div>
   )
 }

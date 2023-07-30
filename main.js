@@ -1,4 +1,4 @@
-const {app, BrowserWindow, ipcMain, Notification} = require('electron');
+const {app, BrowserWindow, ipcMain, Notification, dialog} = require('electron');
 const path = require('path');
 
 const isDev = !app.isPackaged;
@@ -28,9 +28,28 @@ if(isDev){
     })    
 }
 
-
+// Send desktop notification by this event!
 ipcMain.on('notify', (_, message) => {
     new Notification({title: 'Notification', body: message}).show();
+})
+
+// Open the file explorer by this event!
+ipcMain.on('select-folder', (event) => {
+  const window = BrowserWindow.getFocusedWindow();
+  
+  dialog.showOpenDialog(window, {
+    properties: ['openDirectory'],
+  })
+  .then(result => {
+      if (!result.canceled && result.filePaths.length > 0) {
+        const folderPath = result.filePaths[0];
+        // Send the folderPath back to the renderer process
+        event.reply('selected-folder', folderPath);
+      }
+  })
+  .catch(err => {
+    // Error handling!
+  })
 })
 
 

@@ -25,7 +25,7 @@ const PanelView = (props) => {
               {props.panelData.header}
             </span>
           </div>
-          <div className = "files">
+          <div className = "sidepanel-files">
             {props.showChildView()}
           </div>
         </div>

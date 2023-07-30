@@ -35,10 +35,10 @@ const CollectionView = (props) => {
   }
   
   return(
-    <div>
+    <>
       {_showChildView()}
       {_showSubChildView()}
-    </div>
+    </>
   )
 }
 

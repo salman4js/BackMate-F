@@ -15,5 +15,8 @@ export const workLang = {
     runningAutomation: "Automation is in progress...",
     savingReport: "Automation completed, saving the report!",
     reportSaved: "Report saved successfully!",
-    error: 'Some internal error occured'
+    error: 'Some internal error occured',
+    noFiles: "No folders and files",
+    setDirectory: "Your project is currently empty!!",
+    addFolders: "Add Folders"
 }

@@ -36,8 +36,8 @@ const PanelHeader = (props) => {
     return (
         <div className="panel-header-src">
             <div className={highlight ? "panel-header-content-highlight" : "panel-header-content text-center"} 
-            onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={() => props.handleFileOpen(props.pathWithDir)}>
-                <span className="panel-header-name">
+            onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+                <span className="panel-header-name" onClick={() => props.handleFileOpen(props.pathWithDir)}>
                     {props.fileName}
                 </span>
                 <span className="close-panel" onClick={() => props.handleClosePanel(props.pathWithDir)} style = {{display: isHovered ? "block" : 'none'}}>

@@ -1,0 +1,29 @@
+.modal-assist{
+  background-color: white;
+  overflow: hidden;
+  position:absolute;
+  top:0px;
+  right:0px;
+  bottom:0px;
+  left:0px;
+  box-shadow: 0 2px 0px 0px white, 0 -2px 0px 0px white, 2px 0 8px -4px rgb(0,0,0), -2px 0 8px -2px rgb(0,0,0);
+  z-index: 9999;
+}
+
+.modal-assist-wrapper{
+  
+}
+
+.modal-assist-header{
+  color: black;
+}
+
+.modal-assist-header-rightside-view{
+  float: right;
+  margin-right: 12px;
+  cursor: pointer
+}
+
+.modal-assist-view-header-line{
+  border:0.5px solid rgba(225, 223, 223, 0.816);
+}
