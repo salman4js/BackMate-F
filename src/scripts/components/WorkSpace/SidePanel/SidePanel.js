@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
+const { ipcRenderer } = window.require('electron');
 import { workLang } from '../WorkSpace/lang';
 import { setStorage, getStorage } from '../../../Storage/Storage';
 import { handlePathSep, getPathSep } from '../../../Functions/CommonFunctions/common.functions.js';
-import { onLoader } from '../../../Functions/CommonFunctions/common.view/common.view.functions'
+import { onLoader, commonLabel } from '../../../Functions/CommonFunctions/common.view/common.view.functions';
+import ModalAssist from '../../modal.assist/modal.assist.view';
 import FooterBtn from '../FooterBtn/FooterBtn'
 import './SidePanel.css';
 import FileItems from './src/FileItems';
@@ -27,6 +29,45 @@ const SidePanel = (props, ref) => {
 
   // Toast handler!
   const [toastShow, setToastShow] = useState(false);
+  
+  // Custom modal state handler!
+  const [modalAssist, setModalAssist] = useState({
+    show: false,
+    header: "Select Folders and Files to Automate",
+    _showHeaderChildView: _showHeaderChildView,
+    height: undefined,
+    style: {
+      fontWeight: "bold",
+      marginLeft: "60px",
+      marginRight: "60px",
+      marginTop: "60px",
+      marginBottom: "60px",
+      overflow: "hidden"
+    }
+  });
+  
+  // Show header child view for modal assist!
+  function _showHeaderChildView(){
+    return(
+      <span onClick = {() => _triggerModalAssist(false)}>
+        <svg width="26" height="26" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
+          <path fill="black" stroke="#000000" stroke-linecap="round" stroke-linejoin="round" d="m15.5 15.5l-10-10zm0-10l-10 10"/>
+        </svg>
+      </span>
+    )
+  }
+  
+  // Function to trigger modal assist dialog!
+  function _triggerModalAssist(action){
+    setModalAssist(prevState => ({...prevState, show: action}));
+  }
+  
+  // Function to show the modal assist dialog!
+  function showModalAssistDialog(){
+    return(
+      <ModalAssist data = {modalAssist} />
+    )
+  }
   
   // Toast config!
   const toastConfig = {
@@ -54,36 +95,43 @@ const SidePanel = (props, ref) => {
   const [file, setFile] = useState(false);
   const [error, setError] = useState();
 
-  // Get the current path of the working directory!;
-  if (getStorage("wd") == null || undefined) {
-    const currentPath = process.cwd();
-    const path = handlePathSep(currentPath);
-    setStorage("wd", process.cwd());
-    setValue(path);
+  // Get the user specified working directory!
+  function getWorkingDirectory(){
+    var workingDir;
+    // Get the current path of the working directory!;
+    if (getStorage("wd", true) !== null) {
+      workingDir = getStorage('wd', true);
+      const path = handlePathSep(workingDir);
+      setValue(path);
+    } else {
+      
+    }
+    return workingDir;
   }
-  var wd = getStorage("wd");
 
   // Files and Folders state handler!
   const [data, setData] = useState([]);
 
   // Handle the data in the directory!
   function getData(path) {
-    const data = fs.readdirSync(path)
-      .map(file => {
-        const stats = fs.statSync(pathModule.join(path, file))
-        return {
-          name: file,
-          directory: stats.isDirectory()
-        }
-      })
-      .sort((a, b) => {
-        if (a.directory === b.directory) {
-          return a.name.localeCompare(b.name)
-        }
-        return a.directory ? -1 : 1
-      })
+    if(path){
+      const data = fs.readdirSync(path)
+        .map(file => {
+          const stats = fs.statSync(pathModule.join(path, file))
+          return {
+            name: file,
+            directory: stats.isDirectory()
+          }
+        })
+        .sort((a, b) => {
+          if (a.directory === b.directory) {
+            return a.name.localeCompare(b.name)
+          }
+          return a.directory ? -1 : 1
+        })
 
-    setData(data);
+      setData(data);
+    } else { setData(path) }
   }
 
   // Root Directory!
@@ -96,8 +144,8 @@ const SidePanel = (props, ref) => {
   // Handle folders navigation!
   function handleNavigation(names) {
     // Assigning the new path to data state to handle navigation!
+    var wd = getStorage('wd', true);
     const path = pathModule.join(wd, names);
-    
     const newPath =  handlePathSep(path); // Handles path separator for cross platforms!
     
     getData(newPath);
@@ -107,6 +155,8 @@ const SidePanel = (props, ref) => {
 
   // Handle Folders back operation!
   function handleBack() {
+    var wd = getStorage('wdf'); // getting the current path to navigate one step back1
+    // If we use getStorage('wd') that will get the user out of the user specified directory!
     const path = pathModule.dirname(wd);
     
     const newPath = handlePathSep(path); // Handle the path separator for all platforms when navigating back...
@@ -117,8 +167,9 @@ const SidePanel = (props, ref) => {
   }
 
   // Handle open file operation!
-  function openFile(wd,data) {
+  function openFile(data) {
     // Set the path of the opened file to the local storage!
+    var wd = getStorage('wd', true);
     setStorage('wdf', pathModule.join(wd, data));
     const pathWithDir = pathModule.join(wd, data);
     // Set the opened files in the local storage for editor persitant!
@@ -275,16 +326,25 @@ const SidePanel = (props, ref) => {
   }
   
   // Render panel child view!
-  function showChildView(){
-    var loaderOptions = {color: "black"}
-    if(data.length !== 0){
+  function childView(){
+    if(data !== undefined){
+      return contentChildView();
+    } else {
+      return setDirectoryDialog()
+    }
+  }
+  
+  // Render side panel content child view!
+  function contentChildView(){
+    var loaderOptions = {color: "black"};
+    if(data && data.length !== 0){
       return(
         <div className = "files">
           {
             data.map((item, key) => {
               return (
                 <FileItems name={item.name} isDirectory={item.directory} navigation={(data) => handleNavigation(data)}
-                  openFile={(data) => openFile(wd ,data)}
+                  openFile={(data) => openFile(data)}
                 />
               )
             })
@@ -294,12 +354,37 @@ const SidePanel = (props, ref) => {
     } else {
       return(
         <div className = "workspace-loader">
-          {onLoader(loaderOptions)}
+          {commonLabel(workLang.noFiles)}
         </div>
       )
     }
   }
-
+  
+  // Set the directory dialog to let the user to define the project folder!
+  function setDirectoryDialog(){
+    return(
+      <div className="no-directory">
+        {commonLabel(workLang.setDirectory)}
+        <div className = "text-center btn-primary" onClick = {() => getWorkingDirectoryPath()}>
+          {workLang.addFolders}
+        </div>
+      </div>
+    )
+  }
+  
+  // Get working directory from the main process!
+  function getWorkingDirectoryPath(){
+    ipcRenderer.send('select-folder');
+  }
+  
+  // Listen for the event 'selected-folder' from the main process
+  // to get the user specified working directory!
+  ipcRenderer.on('selected-folder', (event, folderPath) => {
+    setStorage('wd', folderPath, true);
+    getData(folderPath)
+  }) 
+  
+  
   // Referencing openFile function to the parent component
   // to enable the panel header to handle open file functions!
   useImperativeHandle(ref, () => ({
@@ -315,8 +400,10 @@ const SidePanel = (props, ref) => {
 
   // Constructor - Get all the files and folders in working directory before the component renders!
   useEffect(() => {
+    // Get the user specified working directory!
+    const workingDir = getWorkingDirectory()
     // Getting the data's from the path directory!
-    getData(wd);
+    getData(workingDir);
     panelHeader();
   }, [])
 
@@ -326,6 +413,11 @@ const SidePanel = (props, ref) => {
         <div className="workspace-title" ref={workSpaceRef}>
           <span className="explorer">
             {workLang.explorer}
+          </span>
+          <span className = "trigger-multilevel-automation" onClick = {() => _triggerModalAssist(true)}>
+            <svg width="22" height="22" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+              <path fill="white" d="M16 27c-3.6 0-7.1-1.8-9.2-5H12v-2H4v8h2v-3.7c2.5 3 6.1 4.7 10 4.7v-2zm15-4v-2h-2.1c-.1-.6-.4-1.2-.7-1.8l1.5-1.5l-1.4-1.4l-1.5 1.5c-.5-.3-1.1-.6-1.8-.7V15h-2v2.1c-.6.1-1.2.4-1.8.7l-1.5-1.5l-1.4 1.4l1.5 1.5c-.3.5-.6 1.1-.7 1.8H17v2h2.1c.1.6.4 1.2.7 1.8l-1.5 1.5l1.4 1.4l1.5-1.5c.5.3 1.1.6 1.8.7V29h2v-2.1c.6-.1 1.2-.4 1.8-.7l1.5 1.5l1.4-1.4l-1.5-1.5c.3-.5.6-1.1.7-1.8H31zm-7 2c-1.7 0-3-1.3-3-3s1.3-3 3-3s3 1.3 3 3s-1.3 3-3 3zm-4-15h5.2C21.9 4.9 15.1 3.5 10 6.8c-3.1 2-5 5.5-5 9.2H3C3 8.8 8.8 3 16 3c3.9 0 7.5 1.7 10 4.7V4h2v8h-8v-2z"/>
+            </svg>
           </span>
           <span className="new-folder" onClick={() => handleToast("folder")}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="26" fill="currentColor" class="bi bi-folder-plus" viewBox="0 0 16 16">
@@ -341,7 +433,7 @@ const SidePanel = (props, ref) => {
           </span>
         </div>
         <div className="sidebar" ref={sideRef}>
-          {showChildView()}
+          {childView()}
           <FooterBtn workName={workLang.back} handleAction={() => handleBack()} footerHeight={(data) => updateHeight(data)} />
         </div>
       </div>
@@ -354,6 +446,11 @@ const SidePanel = (props, ref) => {
           null
         )
       }
+      
+      { /* Modal Assist Dialog &*/}
+      {modalAssist.show && (
+        showModalAssistDialog()
+      )}
     </div>
   )
 

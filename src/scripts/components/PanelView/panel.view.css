@@ -26,3 +26,17 @@
   padding: 10px;
   cursor: pointer;
 }
+
+.sidepanel-files{
+  background: #f1f1f1;
+  position: absolute;
+  left: 0;
+  width: 300px;
+  height: calc(100% - 30px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sidepanel-files div:hover{
+  background-color: #ddd;
+}

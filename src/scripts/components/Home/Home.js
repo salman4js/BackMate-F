@@ -82,7 +82,7 @@ const Home = (props) => {
 
     // Pagination Child container catch handler!
     //const defaultCrumb = "Body";
-    const crumbsView = localStorage.getItem(mainLang.crumb);
+    const crumbsView = getStorage(mainLang.crumb);
     const [crumbs, setCrumbs] = useState(crumbsView);
     const handleCatch = (val) => {
         localStorage.setItem(mainLang.crumb, val);
